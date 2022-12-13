@@ -1,3 +1,8 @@
+package helper
+
+import Constants
+import Constants.SCREEN_SHOT_HEIGHT
+import Constants.SCREEN_SHOT_WIDTH
 import blood_web.Node
 import java.awt.Rectangle
 import java.awt.Robot
@@ -10,8 +15,8 @@ import javax.swing.JFileChooser
 
 class ClickHelper(
     private val robot: Robot,
-    private val delayBetweenPerksSelection: Long = 100,
-    private val perkSelectionDuration: Long = 700,
+    private val delayBetweenPerksSelection: Long,
+    private val perkSelectionDuration: Long,
 ) {
 
     fun performClickOnPerk(
@@ -31,9 +36,7 @@ class ClickHelper(
     }
 
     fun performClickOnCenterOfBloodWeb() = with(robot) {
-        //center of bloodweb
-        //todo move constants into separate file
-        mouseMove(678, 575)
+        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y_START)
         Thread.sleep(delayBetweenPerksSelection)
         mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(perkSelectionDuration)
@@ -56,8 +59,8 @@ class ClickHelper(
     fun takeScreenShot(
         x: Int = 0,
         y: Int = 0,
-        width: Int = 1200,
-        height: Int = 1000,
+        width: Int = SCREEN_SHOT_WIDTH,
+        height: Int = SCREEN_SHOT_HEIGHT,
     ): BufferedImage {
         val rect = Rectangle(x, y, width, height)
         return robot.createScreenCapture(rect)
@@ -65,11 +68,10 @@ class ClickHelper(
 
     fun saveScreenShot(
         screenShot: BufferedImage,
-        fileName: String = "BloodWebScreenShot.png"
+        fileName: String = Constants.DEFAULT_LOG_FILE_NAME
     ) {
-        //todo save into other directory
         val docsDirectory = JFileChooser().fileSystemView.defaultDirectory.toString()
-        val fileSeparator = System.getProperty("file.separator")
+        val fileSeparator = System.getProperty(Constants.FILE_SEPARATOR_PROPERTY)
         val absoluteFilePath = docsDirectory + fileSeparator + fileName
         val file = File(absoluteFilePath)
         ImageIO.write(screenShot, "png", file)

@@ -1,4 +1,4 @@
-class CommandProcessor {
+class CommandInterpreter {
 
     fun processStringCommand(commandLine: String): Command? {
         println("inputted line: $commandLine")

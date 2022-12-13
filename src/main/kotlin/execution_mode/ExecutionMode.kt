@@ -1,9 +1,12 @@
 package execution_mode
 
 import BloodWeb
-import ClickHelper
+import helper.ClickHelper
 import Command
-import logs.TextFileHelper
+import Constants.IN_BETWEEN_MOVEMENT_DURATION
+import Constants.NEW_LEVEL_ANIMATION_DURATION
+import Constants.PERK_SELECTION_ANIMATION_DURATION
+import helper.TextFileHelper
 import java.awt.Robot
 
 sealed class ExecutionMode(
@@ -48,9 +51,9 @@ sealed class ExecutionMode(
     companion object {
         fun fromCommand(
             command: Command,
-            delayNewLevelAnimation: Long = 5500,
-            perkSelectionDuration: Long = 800,
-            movementDuration: Long = 300,
+            delayNewLevelAnimation: Long = NEW_LEVEL_ANIMATION_DURATION,
+            perkSelectionDuration: Long = PERK_SELECTION_ANIMATION_DURATION,
+            movementDuration: Long = IN_BETWEEN_MOVEMENT_DURATION,
         ): ExecutionMode {
             return when (command.mode) {
                 1 -> SimpleExecutionMode(

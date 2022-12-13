@@ -1,3 +1,5 @@
+package blood_web
+
 import java.awt.Point
 
 //positions of top-center point of each possible perk

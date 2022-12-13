@@ -1,5 +1,7 @@
+import Constants.BLOOD_WEB_CENTER_X
 import blood_web.ColorRanges
 import blood_web.Node
+import blood_web.Presets
 import blood_web.isInRange
 import java.awt.Color
 import java.awt.Point
@@ -62,22 +64,14 @@ class BloodWeb {
      * If not - return false
      * */
     fun checkPrestigeUpgrade(bufferedImage: BufferedImage): Boolean {
-        bloodWebCenterY.forEach {
+        Constants.BLOOD_WEB_CENTER_Y_RANGE.forEach {
             val centerColor = checkPointColor(
                 bufferedImage = bufferedImage,
-                point = Point(bloodWebCenterX, it)
+                point = Point(BLOOD_WEB_CENTER_X, it)
             )
             println(centerColor)
             if (centerColor.isInRange(ColorRanges.WHITE)) return true
         }
         return false
-    }
-
-    companion object {
-        //resolution 1920*1080
-        //center coordinates to check for prestige upgrades
-        const val bloodWebCenterX = 678
-        val bloodWebCenterY = 575..589
-        val whiteColorDbd = Color(253, 253, 253)
     }
 }

@@ -41,8 +41,6 @@ class SimpleExecutionMode(
         if (takeScreenShots)
             clickHelper.saveScreenShot(
                 screenShot = bloodWebScreenShot,
-                //todo do smt so it doesn't override if needed
-                fileName = "BloodWebScreenShot.png"
             )
 
         bloodWeb.checkAvailablePerks(
