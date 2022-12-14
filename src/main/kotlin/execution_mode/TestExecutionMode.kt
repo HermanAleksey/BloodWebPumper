@@ -1,6 +1,8 @@
 package execution_mode
 
-class TestExecutionMode : ExecutionMode(0, 0, 0) {
+import detectors.TestDetector
+
+class TestExecutionMode : ExecutionMode(TestDetector(), 0, 0, 0) {
 
     override fun pumpBloodWeb() {
         fileHelper.appendFileLine("Running TextExecutionMode")

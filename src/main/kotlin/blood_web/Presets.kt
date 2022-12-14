@@ -1,9 +1,11 @@
 package blood_web
 
 import java.awt.Point
+import javax.swing.text.Position
 
 //positions of top-center point of each possible perk
 class Presets {
+
     val innerPoints = arrayOf(
         Point(677, 422),//1
         Point(783, 483),//2

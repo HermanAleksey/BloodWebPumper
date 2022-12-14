@@ -1,15 +1,18 @@
 package execution_mode
 
-import BloodWeb
+import blood_web.BloodWeb
 import helper.ClickHelper
-import Command
 import Constants.IN_BETWEEN_MOVEMENT_DURATION
 import Constants.NEW_LEVEL_ANIMATION_DURATION
 import Constants.PERK_SELECTION_ANIMATION_DURATION
+import detectors.Detector
+import detectors.SimpleDetector
+import helper.Command
 import helper.TextFileHelper
 import java.awt.Robot
 
 sealed class ExecutionMode(
+    protected val detector: Detector,
     protected val delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
@@ -22,7 +25,6 @@ sealed class ExecutionMode(
         delayBetweenPerksSelection = movementDuration,
     )
     protected val fileHelper = TextFileHelper()
-    protected val bloodWeb = BloodWeb()
 
     private lateinit var executionThread: Thread
 
@@ -60,7 +62,8 @@ sealed class ExecutionMode(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,
-                    movementDuration = movementDuration
+                    movementDuration = movementDuration,
+                    detector = SimpleDetector()
                 )
                 else -> TestExecutionMode()
             }
