@@ -1,15 +1,23 @@
 import launch_mode.AppLauncher
 import launch_mode.ConsoleLauncher
+import launch_mode.TestLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = ConsoleLauncher()
+    val appLauncher: AppLauncher = TestLauncher()
     appLauncher.run()
+}
+private fun turnOffLogs() {
+    val logger: Logger = Logger.getLogger(GlobalScreen::class.java.getPackage().name)
+    logger.level = Level.OFF
+    for (handler in Logger.getLogger("").handlers) handler.level = Level.OFF
+}
 
-    //experiments with text recognition
+//tesseract implementation
+//experiments with text recognition
 //    val bw = blood_web.BloodWeb()
 //    val bfIm: BufferedImage = ImageIO.read(File("bw_center.png"))
 //    println(bw.checkPrestigeUpgrade(bfIm))
@@ -26,9 +34,3 @@ fun main() {
 //    } catch (e: TesseractException) {
 //        System.err.println(e.message)
 //    }
-}
-private fun turnOffLogs() {
-    val logger: Logger = Logger.getLogger(GlobalScreen::class.java.getPackage().name)
-    logger.level = Level.OFF
-    for (handler in Logger.getLogger("").handlers) handler.level = Level.OFF
-}
