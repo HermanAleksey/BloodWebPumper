@@ -1,4 +1,4 @@
-package launch_modes
+package launch_mode
 
 import CommandInterpreter
 import Constants.CLOSE_PROGRAM_KEY

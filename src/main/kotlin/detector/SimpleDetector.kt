@@ -1,4 +1,4 @@
-package detectors
+package detector
 
 import Constants.BLOOD_WEB_CENTER_X
 import blood_web.ColorRanges
@@ -21,7 +21,6 @@ class SimpleDetector : Detector {
                 bufferedImage = bufferedImage,
                 point = Point(BLOOD_WEB_CENTER_X, it)
             )
-            println(centerColor)
             if (centerColor.isInRange(ColorRanges.WHITE)) return true
         }
         return false

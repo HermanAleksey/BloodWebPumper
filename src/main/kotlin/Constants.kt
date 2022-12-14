@@ -11,6 +11,9 @@ object Constants {
     const val NEW_LEVEL_ANIMATION_DURATION: Long = 5500
     const val PERK_SELECTION_ANIMATION_DURATION: Long = 800
     const val IN_BETWEEN_MOVEMENT_DURATION: Long = 100
+    const val PRESTIGE_LEVEL_UP_DURATION: Long = 2000
+    const val PRESTIGE_REWARD_FADE_IN_DURATION: Long = 1000
+    const val PRESTIGE_REWARD_FADE_OUT_DURATION: Long = 1000
 
     const val DEFAULT_LOG_FILE_NAME = "BloodWebScreenShot.png"
     const val FILE_SEPARATOR_PROPERTY = "file.separator"

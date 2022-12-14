@@ -1,5 +1,5 @@
-import launch_modes.AppLauncher
-import launch_modes.ConsoleLauncher
+import launch_mode.AppLauncher
+import launch_mode.ConsoleLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger

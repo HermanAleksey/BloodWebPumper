@@ -3,32 +3,35 @@ package execution_mode
 import blood_web.BloodWeb
 import blood_web.Node
 import blood_web.Presets
-import detectors.Detector
+import detector.Detector
 import java.awt.image.BufferedImage
 
 class SimpleExecutionMode(
     delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
+    prestigeLevelUpDuration: Long,
     detector: Detector,
     private val levels: Int
 ) : ExecutionMode(
     delayNewLevelAnimation = delayNewLevelAnimation,
     perkSelectionDuration = perkSelectionDuration,
     movementDuration = movementDuration,
+    prestigeLevelUpDuration = prestigeLevelUpDuration,
     detector = detector
 ) {
 
     private val takeScreenShots = false
 
     override fun pumpBloodWeb() {
-        fileHelper.appendFileLine("Running SimpleExecutionMode")
+        println("Running SimpleExecutionMode")
         for (currentLevel in 1..levels) {
+            println("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             Thread.sleep(delayNewLevelAnimation)
             clickHelper.moveOutCursor()
         }
-        fileHelper.appendFileLine("SimpleExecutionMode completed")
+        println("SimpleExecutionMode completed")
     }
 
     private fun pumpOneBloodWebLevel() {
@@ -36,7 +39,7 @@ class SimpleExecutionMode(
         val isPrestigeLevel = detector.analyzeCenterOfBloodWeb(bloodWebScreenShot)
 
         if (isPrestigeLevel) {
-            clickHelper.performClickOnCenterOfBloodWeb()
+            clickHelper.upgradeAndSkipPrestigeLevel()
         } else {
             BloodWeb.BloodWebCircle.values().forEach {
                 pumpOneCircleOfBloodWeb(it)

@@ -1,6 +1,8 @@
 package helper
 
 import Constants
+import Constants.PRESTIGE_REWARD_FADE_IN_DURATION
+import Constants.PRESTIGE_REWARD_FADE_OUT_DURATION
 import Constants.SCREEN_SHOT_HEIGHT
 import Constants.SCREEN_SHOT_WIDTH
 import blood_web.Node
@@ -17,6 +19,7 @@ class ClickHelper(
     private val robot: Robot,
     private val delayBetweenPerksSelection: Long,
     private val perkSelectionDuration: Long,
+    private val prestigeLevelUpDuration: Long,
 ) {
 
     fun performClickOnPerk(
@@ -30,16 +33,30 @@ class ClickHelper(
         mouseRelease(mask)
 
         //await in corner
-        Thread.sleep(delayBetweenPerksSelection / 2)
         moveOutCursor()
-        Thread.sleep(delayBetweenPerksSelection / 2)
+        Thread.sleep(delayBetweenPerksSelection)
     }
 
-    fun performClickOnCenterOfBloodWeb() = with(robot) {
+    fun upgradeAndSkipPrestigeLevel() {
+        upgradePrestigeLevel()
+        //todo think about displaying prestige rewards. Perhaps the are displayed only on 1-3 prestige
+        Thread.sleep(PRESTIGE_REWARD_FADE_IN_DURATION)
+        skipPrestigeRewardsPopUp()
+        //awaiting fade animation
+        Thread.sleep(PRESTIGE_REWARD_FADE_OUT_DURATION)
+    }
+
+    fun upgradePrestigeLevel() = with(robot) {
         mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y_START)
         Thread.sleep(delayBetweenPerksSelection)
         mousePress(InputEvent.BUTTON1_DOWN_MASK)
-        Thread.sleep(perkSelectionDuration)
+        Thread.sleep(prestigeLevelUpDuration)
+        mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+    }
+
+    fun skipPrestigeRewardsPopUp() = with(robot) {
+        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y_START)
+        mousePress(InputEvent.BUTTON1_DOWN_MASK)
         mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
 

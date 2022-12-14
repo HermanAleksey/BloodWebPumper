@@ -1,4 +1,4 @@
-package detectors
+package detector
 
 import blood_web.Node
 import java.awt.Point
