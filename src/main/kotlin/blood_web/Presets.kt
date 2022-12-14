@@ -33,7 +33,7 @@ class Presets {
     val outerPoints = arrayOf(
         Point(677, 192),//1
         Point(859, 239),//2
-        Point(990, 376),//3
+        Point(990, 371),//3
         Point(1040, 546),//4
         Point(989, 719),//5
         Point(856, 850),//6
