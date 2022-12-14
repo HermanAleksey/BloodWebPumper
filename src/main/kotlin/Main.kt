@@ -1,12 +1,13 @@
 import launch_modes.AppLauncher
 import launch_modes.ConsoleLauncher
+import launch_modes.JavaFxLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = ConsoleLauncher()
+    val appLauncher: AppLauncher = JavaFxLauncher()
     appLauncher.run()
 
     //experiments with text recognition
