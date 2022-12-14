@@ -1,4 +1,4 @@
-package launch_modes
+package launch_mode
 
 import javafx.application.Application
 import javafx.fxml.FXMLLoader.load

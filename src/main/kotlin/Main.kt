@@ -1,17 +1,16 @@
-import launch_modes.AppLauncher
-import launch_modes.ConsoleLauncher
-import launch_modes.JavaFxLauncher
+import launch_mode.AppLauncher
+import launch_mode.ConsoleLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = JavaFxLauncher()
+    val appLauncher: AppLauncher = ConsoleLauncher()
     appLauncher.run()
 
     //experiments with text recognition
-//    val bw = BloodWeb()
+//    val bw = blood_web.BloodWeb()
 //    val bfIm: BufferedImage = ImageIO.read(File("bw_center.png"))
 //    println(bw.checkPrestigeUpgrade(bfIm))
 

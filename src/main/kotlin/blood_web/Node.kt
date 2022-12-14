@@ -3,7 +3,7 @@ package blood_web
 import java.awt.Point
 
 data class Node(
-    val position: Int = -1,
+    val orderedNumber: OrderedNumber,
     val size: Int = 76,
     val topCenterCoord: Point,
 ) {
@@ -15,8 +15,13 @@ data class Node(
     )
 
     override fun toString(): String {
-        return "Node(position:$position, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}))"
+        return "Node(orderedNumber:$orderedNumber, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}))"
     }
+
+    data class OrderedNumber(
+        val circle: BloodWeb.BloodWebCircle,
+        val position: Int,
+    )
 
     enum class State {
         AVAILABLE,

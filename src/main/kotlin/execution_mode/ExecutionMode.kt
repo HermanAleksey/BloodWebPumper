@@ -1,18 +1,22 @@
 package execution_mode
 
-import BloodWeb
 import helper.ClickHelper
-import Command
 import Constants.IN_BETWEEN_MOVEMENT_DURATION
 import Constants.NEW_LEVEL_ANIMATION_DURATION
 import Constants.PERK_SELECTION_ANIMATION_DURATION
+import Constants.PRESTIGE_LEVEL_UP_DURATION
+import detector.Detector
+import detector.SimpleDetector
+import helper.Command
 import helper.TextFileHelper
 import java.awt.Robot
 
 sealed class ExecutionMode(
+    protected val detector: Detector,
     protected val delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
+    prestigeLevelUpDuration: Long,
 ) {
 
     private val robot = Robot()
@@ -20,9 +24,9 @@ sealed class ExecutionMode(
         robot = robot,
         perkSelectionDuration = perkSelectionDuration,
         delayBetweenPerksSelection = movementDuration,
+        prestigeLevelUpDuration = prestigeLevelUpDuration
     )
     protected val fileHelper = TextFileHelper()
-    protected val bloodWeb = BloodWeb()
 
     private lateinit var executionThread: Thread
 
@@ -54,13 +58,16 @@ sealed class ExecutionMode(
             delayNewLevelAnimation: Long = NEW_LEVEL_ANIMATION_DURATION,
             perkSelectionDuration: Long = PERK_SELECTION_ANIMATION_DURATION,
             movementDuration: Long = IN_BETWEEN_MOVEMENT_DURATION,
+            prestigeLevelUpDuration: Long = PRESTIGE_LEVEL_UP_DURATION,
         ): ExecutionMode {
             return when (command.mode) {
                 1 -> SimpleExecutionMode(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,
-                    movementDuration = movementDuration
+                    movementDuration = movementDuration,
+                    prestigeLevelUpDuration = prestigeLevelUpDuration,
+                    detector = SimpleDetector(),
                 )
                 else -> TestExecutionMode()
             }

@@ -1,3 +1,5 @@
+import helper.Command
+
 class CommandInterpreter {
 
     fun processStringCommand(commandLine: String): Command? {
@@ -32,8 +34,3 @@ class CommandInterpreter {
         const val LEVELS_KEY = 'L'
     }
 }
-
-class Command(
-    val mode: Int,
-    val levels: Int,
-)
