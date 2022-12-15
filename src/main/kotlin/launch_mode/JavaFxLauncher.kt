@@ -6,8 +6,9 @@ import execution_mode.ExecutionMode
 import helper.Command
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.control.RadioButton
+import javafx.scene.image.Image
 import javafx.stage.Stage
 import launch_mode.controllers.MainController
 import org.jnativehook.GlobalScreen
@@ -19,38 +20,20 @@ import org.jnativehook.keyboard.NativeKeyListener
 class JavaFxLauncher : AppLauncher, Application() {
 
     override fun run() {
-        Application.launch();
+        launch()
     }
 
     override fun start(stage: Stage) {
-
-        val layout = "/scenes/main.fxml"
-
         val fxmlLoader = FXMLLoader()
-        val scene: Scene = Scene(fxmlLoader.load<Parent?>(javaClass.getResource(layout).openStream()))
+        val scene = Scene(fxmlLoader.load(javaClass.getResource("/scenes/main.fxml")!!.openStream()))
         val mainController: MainController = fxmlLoader.getController() as MainController
-        stage?.scene = scene
+        stage.scene = scene
 
-        stage.title = "Testing UI for BP"
+        stage.title = "Bloodweb autoleveling"
         stage.isResizable = false
+        stage.icons.add(Image(javaClass.getResourceAsStream("/scenes/drawables/bubba.jpg")))
 
         stage.show()
-
-
-//        scene.onKeyPressed = object : EventHandler {
-//            fun handle(event: KeyEvent) {
-//                when (event.getCode()) {
-//                    UP -> goNorth = true
-//                    DOWN -> goSouth = true
-//                    LEFT -> goWest = true
-//                    RIGHT -> goEast = true
-//                    SHIFT -> running = true
-//                }
-//            }
-//
-//
-//        }
-
 
         try {
             GlobalScreen.registerNativeHook()
@@ -61,8 +44,17 @@ class JavaFxLauncher : AppLauncher, Application() {
                 override fun nativeKeyReleased(nativeEvent: NativeKeyEvent) {
                     val keyText: String = NativeKeyEvent.getKeyText(nativeEvent.keyCode)
                     if (keyText == EXECUTOR_KEY) {
-                        val command = Command(1, mainController.levelsTextField.text.toInt())
-                        command?.let {
+
+                        val mode: Int = when ((mainController.runningModeGroup.selectedToggle as? RadioButton)?.id) {
+                            mainController.rbModeTest.id -> 0
+                            mainController.rbModeSimple.id -> 1
+                            mainController.rbModeEco.id -> 2
+                            mainController.rbModeNonEco.id -> 3
+                            else -> 0
+                        }
+
+                        val command = Command(mode, mainController.levelsTextField.text.toInt())
+                        command.let {
                             executor = ExecutionMode.fromCommand(command = it)
                             executor?.run()
                         }
@@ -82,6 +74,5 @@ class JavaFxLauncher : AppLauncher, Application() {
     override fun stop() {
         GlobalScreen.unregisterNativeHook()
         println("Stage is closing")
-        // Save file
     }
 }

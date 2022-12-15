@@ -7,24 +7,26 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="launch_mode.controllers.MainController">
    <children>
-      <TextArea fx:id="textAreaLogs" layoutX="23.0" layoutY="40.0" prefHeight="555.0" prefWidth="440.0" text="as&#10;asd&#10;&#10;asd&#10;as&#10;d&#10;sda&#10;sda&#10;s&#10;da&#10;sad&#10;sda&#10;dsa&#10;&#10;asd&#10;dsa&#10;dsa&#10;s&#10;ad&#10;asd&#10;sda&#10;&#10;ads&#10;asd&#10;sad&#10;sda&#10;&#10;sda&#10;sda&#10;sd&#10;sda&#10;dsa&#10;&#10;sad&#10;sda&#10;sda&#10;sda&#10;&#10;sd&#10;sad&#10;sda" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      <ImageView fx:id="imageBgRight" fitHeight="594.0" fitWidth="350.0" layoutX="443.0" layoutY="3.0" opacity="0.5" pickOnBounds="true" preserveRatio="true" />
+      <TextArea fx:id="textAreaLogs" editable="false" layoutX="3.0" layoutY="14.0" opacity="0.75" prefHeight="555.0" prefWidth="440.0" text="as&#10;asd&#10;&#10;asd&#10;as&#10;d&#10;sda&#10;sda&#10;s&#10;da&#10;sad&#10;sda&#10;dsa&#10;&#10;asd&#10;dsa&#10;dsa&#10;s&#10;ad&#10;asd&#10;sda&#10;&#10;ads&#10;asd&#10;sad&#10;sda&#10;&#10;sda&#10;sda&#10;sd&#10;sda&#10;dsa&#10;&#10;sad&#10;sda&#10;sda&#10;sda&#10;&#10;sd&#10;sad&#10;sda" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="14.0" />
       <Group layoutX="467.0" layoutY="28.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d169713c" height="71.0" stroke="BLACK" strokeType="INSIDE" width="302.0" />
             <RadioButton fx:id="rbModeTest" layoutX="15.0" layoutY="27.0" mnemonicParsing="false" selected="true" text="test">
                <toggleGroup>
-                  <ToggleGroup fx:id="runnigMod" />
+                  <ToggleGroup fx:id="runningModeGroup" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rbModeSimple" layoutX="69.0" layoutY="27.0" mnemonicParsing="false" text="simple-dimple" toggleGroup="$runnigMod" />
-            <RadioButton fx:id="rbModeEco" layoutX="177.0" layoutY="27.0" mnemonicParsing="false" text="eco" toggleGroup="$runnigMod" />
-            <RadioButton fx:id="rbModeNoneco" layoutX="230.0" layoutY="27.0" mnemonicParsing="false" text="ne-eco" toggleGroup="$runnigMod" />
+            <RadioButton fx:id="rbModeSimple" layoutX="69.0" layoutY="27.0" mnemonicParsing="false" text="simple-dimple" toggleGroup="$runningModeGroup" />
+            <RadioButton fx:id="rbModeEco" layoutX="177.0" layoutY="27.0" mnemonicParsing="false" text="eco" toggleGroup="$runningModeGroup" />
+            <RadioButton fx:id="rbModeNonEco" layoutX="230.0" layoutY="27.0" mnemonicParsing="false" text="ne-eco" toggleGroup="$runningModeGroup" />
          </children>
       </Group>
       <Group layoutX="467.0" layoutY="121.0">
@@ -37,6 +39,6 @@
       <Text layoutX="467.0" layoutY="254.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Старт: F4" wrappingWidth="251.13671875" />
       <Text layoutX="467.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Стоп: F5" wrappingWidth="251.13671875" />
       <Button fx:id="btnRefresh" layoutX="14.0" layoutY="579.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="40.0" text="↻" AnchorPane.bottomAnchor="5.0" />
-      <Button fx:id="btnDelete" layoutX="71.0" layoutY="579.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="40.0" text="🗑" AnchorPane.bottomAnchor="5.0" />
+      <Button fx:id="btnDelete" layoutX="71.0" layoutY="579.0" mnemonicParsing="false" onAction="#deleteLogs" prefHeight="16.0" prefWidth="40.0" text="🗑" AnchorPane.bottomAnchor="5.0" />
    </children>
 </AnchorPane>
