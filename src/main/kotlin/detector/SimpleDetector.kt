@@ -44,7 +44,7 @@ class SimpleDetector : Detector {
     private fun checkColorState(
         color: Color
     ): Node.State {
-        val isAvailable = color.isInRange(ColorRanges.AVAILABLE_PERK_BORDER)
+        val isAvailable = color.isInRange(ColorRanges.AVAILABLE_NODE)
 
         return if (isAvailable) Node.State.AVAILABLE
         else Node.State.EMPTY

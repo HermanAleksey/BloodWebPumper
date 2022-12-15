@@ -1,5 +1,6 @@
 package launch_mode
 
+import blood_web.ColorRanges
 import org.opencv.core.*
 import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgcodecs.Imgcodecs.imread
@@ -36,82 +37,84 @@ class TestLauncher : AppLauncher {
 
     private fun colorRanges() {
 
-        val testFilePath = "img_2.png"
-        val file = File(testFilePath)
+        val qualities = arrayOf("brown", "yellow", "green", "purple", "red", "event")
+        val states = arrayOf("available", "locked", "taken", "unavailable")
 
-        //my initial image preview
-        file.convertIntoBufferImage()
+        states.forEach {
+            val filePath = "resources/nodes/event/$it.png"
+            println(checkNodeState(filePath))
+        }
 
+//        qualities.forEach {
+//            println("start with: $it")
+//            val colorRange = ColorRanges.BROWN
+//            val filePath =  "resources/nodes/$it/${states[0]}.png"
+//            getPixelsOfColorAmount(filePath = filePath, colorRanges = colorRange)
+//        }
+    }
+
+    //todo все цвета можно получать за один проход цикла.
+    private fun checkNodeState(filePath: String): String {
+        val colorDistribution = getPixelsOfColorAmount(filePath)
+        if (colorDistribution.availablePx > 400) return "available"
+        if (colorDistribution.lockedPx > 600) return "locked"
+        if (colorDistribution.boughtPx > 600) return "bought"
+        return "unavailable"
+    }
+
+    class ColorDistribution(
+        val availablePx: Int,
+        val lockedPx: Int,
+        val boughtPx: Int,
+        //unavailable px can't be counted
+    )
+
+    private fun getPixelsOfColorAmount(filePath: String): ColorDistribution {
         // parsing file image into OpenCV Mat
-        val openCVImage = imread(testFilePath)
-        openCVImage.convertIntoBufferImage()
+        val openCVImage = imread(filePath)
 
+        val imageSize = openCVImage.rows() * openCVImage.cols()
+        var availablePx = 0
+        var lockedPx = 0
+        var boughtPx = 0
 
-        var color_range1_counter = 0
-        var color_range2_counter = 0
-        println(openCVImage.rows())
-        println(openCVImage.cols())
         val colorToAmountMap = hashMapOf<String, Int>()
         for (i in 0 until openCVImage.rows()) {
             for (j in 0 until openCVImage.cols()) {
-                val hsv: DoubleArray = openCVImage.get(i, j)
-                val hsvName = "${hsv[0]} ${hsv[1]} ${hsv[2]}"
-                val repeatedTimes = colorToAmountMap[hsvName] ?: 0
-                colorToAmountMap[hsvName] = repeatedTimes + 1
+                //perhaps it's BGR, not HSV
+                val bgrColor: DoubleArray = openCVImage.get(i, j)
+                val colorName = "${bgrColor[0]} ${bgrColor[1]} ${bgrColor[2]}"
+                val repeatedTimes = colorToAmountMap[colorName] ?: 0
+                colorToAmountMap[colorName] = repeatedTimes + 1
 
-                if (hsv[0] > 0 && hsv[0] < 255 && hsv[1] > 0 && hsv[1] < 255 && hsv[2] > 0 && hsv[2] < 255) color_range1_counter++
-                if (hsv[0] > 10 && hsv[0] < 20 && hsv[1] > 100 && hsv[1] < 255 && hsv[2] > 20 && hsv[2] < 200) color_range2_counter++
+                when {
+                    ColorRanges.AVAILABLE_NODE.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> availablePx++
+
+                    ColorRanges.LOCKED_NODE.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> lockedPx++
+
+                    ColorRanges.BOUGHT_NODE.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> boughtPx++
+                }
             }
         }
-        println("color_range1_counter:$color_range1_counter     color_range2_counter:$color_range2_counter")
-        println(colorToAmountMap)
+        val filteredByColorsPercentageMap =
+            colorToAmountMap.filter { it.value > imageSize * 0.01 }//only colors, that take more than 5% of photo
+        println("different colors amount: ${colorToAmountMap.size} after 1% filter = [${filteredByColorsPercentageMap.size}]")
 
-        println(colorToAmountMap.sortByValue())
-
-//
-//        /**
-//         * The Mat class of OpenCV library is used to store the values of an image.
-//         * It represents an n-dimensional array and is used to store image data of
-//         * grayscale or color images, voxel volumes, vector fields, point clouds,
-//         * tensors, histograms, etc. This class comprises of two data parts: the header and a pointer.
-//         */
-//        val hsvImage = Mat()
-//        val color_range1 = Mat()
-//        val color_range2 = Mat()
-//
-//        /**
-//         * Scalar used to set BGR values - Blue = a, Green = b and Red = c
-//         */
-//        Imgproc.cvtColor(openCVImage, hsvImage, Imgproc.COLOR_RGB2HSV)
-//        Core.inRange(hsvImage, Scalar(25.0, 52.0, 72.0), Scalar(102.0, 255.0, 255.0), color_range1) // Green
-//        Core.inRange(hsvImage, Scalar(10.0, 100.0, 20.0), Scalar(20.0, 255.0, 200.0), color_range2) // Brown
-//
-//        // I have the Green and Brown mask in color_range1 and color_range2 respectively.
-//        // Now what
-//        color_range1.release()
-//        color_range2.release()
-//        hsvImage.release()
-//        openCVImage.release()
-//
-//        var color_range1_counter = 0;
-//        var color_range2_counter = 0;
-//        var iterationsAmount = 0
-//
-//        for (i in 1..hsvImage.rows()) {
-//            for (j in 1..hsvImage.cols()) {
-//                iterationsAmount++
-//                val hsv = hsvImage.get(i, j)
-//                if (hsv[0] > 25 && hsv[0] < 102 && hsv[1] > 52 && hsv[1] < 255 && hsv[2] > 72 && hsv[2] < 255)
-//                    color_range1_counter++
-//
-//                if (hsv[0] > 10 && hsv[0] < 20 && hsv[1] > 100 && hsv[1] < 255 && hsv[2] > 20 && hsv[2] < 200)
-//                    color_range2_counter++
-//
-//            }
-//        }
-////        val percentage = color_range1_counter /(color_range1_counter + color_range2_counter)
-//        println("color_range1_counter:$color_range1_counter, color_range2_counter:$color_range2_counter")
-//        println("iterationsAmount:$iterationsAmount")
+        return ColorDistribution(
+            availablePx, lockedPx, boughtPx
+        )
     }
 
     private fun Mat.convertIntoBufferImage() {
@@ -137,7 +140,7 @@ class TestLauncher : AppLauncher {
         println(newImage)
     }
 
-    private fun Map<String, Int>.sortByValue(): Map<String,Int>{
+    private fun Map<String, Int>.sortByValue(): Map<String, Int> {
         val list = mutableListOf<Int>()
         for (entry in this.entries) {
             list.add(entry.value)
