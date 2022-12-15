@@ -1,11 +1,8 @@
 package launch_mode.controllers;
 
-import javafx.beans.value.ObservableValue
 import javafx.fxml.FXML
-import javafx.scene.control.RadioButton
-import javafx.scene.control.TextField
-import javafx.scene.control.Toggle
-import javafx.scene.control.ToggleGroup
+import javafx.scene.control.*
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 
 
@@ -18,21 +15,17 @@ public class MainController {
     lateinit var rbModeEco: RadioButton
     lateinit var rbModeNonEco: RadioButton
     lateinit var runningModeGroup: ToggleGroup
-    lateinit var imageBgRight: ImageView
+    lateinit var textAreaLogs: TextArea
+    lateinit var wholesomeBubbaImage: ImageView
+    lateinit var wholesomeStalkImage: ImageView
 
-
-    fun changed(changed: ObservableValue<out Toggle?>?, oldValue: Toggle?, newValue: Toggle) {
-
-        // получаем выбранный элемент RadioButton
-        val selectedBtn = newValue as RadioButton
-        println("Selected: " + selectedBtn.text)
+    fun initialize(){
+        wholesomeBubbaImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/bubba standing.png"))
+        wholesomeStalkImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/stalk.png"))
     }
 
-    fun stop(event: javafx.event.ActionEvent) {
-        //TODO stop logic
-    }
 
     fun deleteLogs(event: javafx.event.ActionEvent){
-        println("Selected: " + runningModeGroup.selectedToggle.toString())
+//        println("Selected: " + runningModeGroup.selectedToggle.toString())
     }
 }

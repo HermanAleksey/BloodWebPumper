@@ -27,11 +27,15 @@ class JavaFxLauncher : AppLauncher, Application() {
         val fxmlLoader = FXMLLoader()
         val scene = Scene(fxmlLoader.load(javaClass.getResource("/scenes/main.fxml")!!.openStream()))
         val mainController: MainController = fxmlLoader.getController() as MainController
+
+        scene.stylesheets.add("/style.css")
         stage.scene = scene
 
         stage.title = "Bloodweb autoleveling"
         stage.isResizable = false
         stage.icons.add(Image(javaClass.getResourceAsStream("/scenes/drawables/bubba.jpg")))
+
+//        mainController.textAreaLogs.sty
 
         stage.show()
 
