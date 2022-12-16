@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.6.20"
     id("java")
+    `java-library`
 }
 
 group = "com.justparokq"
@@ -14,9 +15,9 @@ repositories {
 
 dependencies {
     implementation("com.1stleg:jnativehook:2.1.0")
-//    implementation("net.sourceforge.tess4j:tess4j:5.4.0")
-    implementation("org.openpnp:opencv:4.5.5-1")
     implementation("org.apache.commons:commons-math3:3.6.1")
+
+    implementation(files("X:/OpenCV/opencv/build/java/opencv-460.jar"))
 }
 
 tasks.test {
