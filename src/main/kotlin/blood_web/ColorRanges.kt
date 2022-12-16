@@ -49,17 +49,61 @@ enum class ColorRanges(
         maxBlue = 63,
     ),
 
-    //todo don't work
+    //todo don't work; use else branch is option
     BROWN(
-        minRed = 68,
-        maxRed = 74,
-        minGreen = 52,
-        maxGreen = 65,
-        minBlue = 42,
-        maxBlue = 52,
+        minRed = 0,
+        maxRed = 0,
+        minGreen = 0,
+        maxGreen = 0,
+        minBlue = 0,
+        maxBlue = 0,
     ),
 
+    YELLOW(
+        minRed = 80,
+        maxRed = 120,
+        minGreen = 60,
+        maxGreen = 120,
+        minBlue = 25,
+        maxBlue = 40,
+    ),
 
+    GREEN(
+        minRed = 13,
+        maxRed = 25,
+        minGreen = 50,
+        maxGreen = 75,
+        minBlue = 14,
+        maxBlue = 24,
+    ),
+
+    //locked = 40-44,18-25,48-52
+    PURPLE(
+        minRed = 50,
+        maxRed = 70,
+        minGreen = 20,
+        maxGreen = 35,
+        minBlue = 70,
+        maxBlue = 100,
+    ),
+
+    RED(
+        minRed = 70,
+        maxRed = 170,
+        minGreen = 10,
+        maxGreen = 25,
+        minBlue = 25,
+        maxBlue = 61,
+    ),
+
+    EVENT(
+        minRed = 0,
+        maxRed = 0,
+        minGreen = 0,
+        maxGreen = 0,
+        minBlue = 0,
+        maxBlue = 0,
+    ),
 
     WHITE(
         minRed = 245,

@@ -16,23 +16,7 @@ class TestLauncher : AppLauncher {
 
     override fun run() {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//        doTestLaunch()
         colorRanges()
-    }
-
-    private fun doTestLaunch() {
-        println("Welcome to OpenCV " + Core.VERSION)
-        val m = Mat(5, 10, CvType.CV_8UC1, Scalar(0.0))
-        println("OpenCV Mat: $m")
-        val mr1 = m.row(1)
-        mr1.setTo(Scalar(1.0))
-        val mc5 = m.col(5)
-        mc5.setTo(Scalar(5.0))
-        println(
-            """OpenCV Mat data:
-                    ${m.dump()}
-                    """.trimIndent()
-        )
     }
 
     private fun colorRanges() {
@@ -41,33 +25,55 @@ class TestLauncher : AppLauncher {
         val states = arrayOf("available", "locked", "taken", "unavailable")
 
         states.forEach {
-            val filePath = "resources/nodes/event/$it.png"
+            val filePath = "resources/nodes/brown/$it.png"
             println(checkNodeState(filePath))
         }
-
-//        qualities.forEach {
-//            println("start with: $it")
-//            val colorRange = ColorRanges.BROWN
-//            val filePath =  "resources/nodes/$it/${states[0]}.png"
-//            getPixelsOfColorAmount(filePath = filePath, colorRanges = colorRange)
-//        }
     }
 
     //todo все цвета можно получать за один проход цикла.
     private fun checkNodeState(filePath: String): String {
-        val colorDistribution = getPixelsOfColorAmount(filePath)
-        if (colorDistribution.availablePx > 400) return "available"
-        if (colorDistribution.lockedPx > 600) return "locked"
-        if (colorDistribution.boughtPx > 600) return "bought"
-        return "unavailable"
+        getPixelsOfColorAmount(filePath).apply {
+            val state = when {
+                state.availablePx > 400 -> "available"
+                state.lockedPx > 600 -> "locked"
+                state.boughtPx > 600 -> "bought"
+                else -> "unavailable"
+            }
+            val quality = when {
+                quality.redPx > 200 -> "red"
+                quality.purplePx > 80 -> "purple"
+                quality.greenPx > 100 -> "green"
+                quality.yellowPx > 200 -> "yellow"
+//                quality.brownPx > 0 -> "brown"
+                else -> "brown"
+            }
+
+            println(this.quality)
+            return "state:$state quality:$quality"
+        }
     }
 
-    class ColorDistribution(
-        val availablePx: Int,
-        val lockedPx: Int,
-        val boughtPx: Int,
-        //unavailable px can't be counted
-    )
+    data class ColorDistribution(
+        val state: State,
+        val quality: Quality,
+    ) {
+        data class State(
+            val availablePx: Int,
+            val lockedPx: Int,
+            val boughtPx: Int,
+            //unavailable px can't be counted
+        )
+
+        data class Quality(
+            val brownPx: Int,
+            val yellowPx: Int,
+            val greenPx: Int,
+            val purplePx: Int,
+            val redPx: Int,
+            //todo perhaps do event as brown
+//            val eventPx: Int,
+        )
+    }
 
     private fun getPixelsOfColorAmount(filePath: String): ColorDistribution {
         // parsing file image into OpenCV Mat
@@ -77,6 +83,13 @@ class TestLauncher : AppLauncher {
         var availablePx = 0
         var lockedPx = 0
         var boughtPx = 0
+
+        var brownPx = 0
+        var yellowPx = 0
+        var greenPx = 0
+        var purplePx = 0
+        var redPx = 0
+        var eventPx = 0
 
         val colorToAmountMap = hashMapOf<String, Int>()
         for (i in 0 until openCVImage.rows()) {
@@ -105,6 +118,42 @@ class TestLauncher : AppLauncher {
                         green = bgrColor[1].toInt(),
                         blue = bgrColor[0].toInt()
                     ) -> boughtPx++
+
+                    ColorRanges.RED.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> redPx++
+
+                    ColorRanges.PURPLE.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> purplePx++
+
+                    ColorRanges.GREEN.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> greenPx++
+
+                    ColorRanges.YELLOW.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> yellowPx++
+
+                    ColorRanges.BROWN.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> brownPx++
+
+                    ColorRanges.EVENT.isColorInRange(
+                        red = bgrColor[2].toInt(),
+                        green = bgrColor[1].toInt(),
+                        blue = bgrColor[0].toInt()
+                    ) -> eventPx++
                 }
             }
         }
@@ -113,7 +162,12 @@ class TestLauncher : AppLauncher {
         println("different colors amount: ${colorToAmountMap.size} after 1% filter = [${filteredByColorsPercentageMap.size}]")
 
         return ColorDistribution(
-            availablePx, lockedPx, boughtPx
+            ColorDistribution.State(
+                availablePx, lockedPx, boughtPx
+            ),
+            ColorDistribution.Quality(
+                brownPx, yellowPx, greenPx, purplePx, redPx
+            )
         )
     }
 
