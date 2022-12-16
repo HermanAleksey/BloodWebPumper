@@ -20,7 +20,7 @@ public class MainController {
     lateinit var wholesomeStalkImage: ImageView
 
     fun initialize(){
-        wholesomeBubbaImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/bubba standing.png"))
+        wholesomeBubbaImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/bubba_run.gif"))
         wholesomeStalkImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/stalk.png"))
     }
 
