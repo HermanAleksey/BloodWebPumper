@@ -25,7 +25,17 @@ data class Node(
 
     enum class State {
         AVAILABLE,
-        INACTIVE,
+        UNAVAILABLE,
+        LOCKED,
+        BOUGHT,
         EMPTY
+    }
+
+    enum class Quality {
+        IRIDESCENT,
+        PURPLE,
+        GREEN,
+        YELLOW,
+        BROWN, //also event ones
     }
 }

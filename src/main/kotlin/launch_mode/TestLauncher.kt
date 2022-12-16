@@ -1,21 +1,21 @@
 package launch_mode
 
 import blood_web.ColorRanges
-import org.opencv.core.*
-import org.opencv.imgcodecs.Imgcodecs
-import org.opencv.imgcodecs.Imgcodecs.imread
+import helper.convertIntoBufferImage
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import java.awt.Color
 import java.awt.image.BufferedImage
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.InputStream
-import java.util.*
-import javax.imageio.ImageIO
 
 
 class TestLauncher : AppLauncher {
 
-    override fun run() {
+    init {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    }
+
+    override fun run() {
         colorRanges()
     }
 
@@ -25,14 +25,19 @@ class TestLauncher : AppLauncher {
         val states = arrayOf("available", "locked", "taken", "unavailable")
 
         states.forEach {
-            val filePath = "resources/nodes/brown/$it.png"
-            println(checkNodeState(filePath))
+            val filePath = "resources/nodes/yellow/$it.png"
+            val file = File(filePath)
+            println(checkNodeState(file.convertIntoBufferImage()))
         }
     }
 
-    //todo все цвета можно получать за один проход цикла.
-    private fun checkNodeState(filePath: String): String {
-        getPixelsOfColorAmount(filePath).apply {
+    private fun checkNodeState(bufferedImage: BufferedImage): String {
+
+        // Fill Matrix with image values
+//        val pixels: ByteArray? = (bufferedImage.raster.dataBuffer as DataBufferByte).data
+//        val mat =  Mat(bufferedImage.height, bufferedImage.width, CvType.CV_8UC3)
+//        mat.put(0, 0, pixels);
+        getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
                 state.availablePx > 400 -> "available"
                 state.lockedPx > 600 -> "locked"
@@ -53,6 +58,7 @@ class TestLauncher : AppLauncher {
         }
     }
 
+    //how are colors distributed on image
     data class ColorDistribution(
         val state: State,
         val quality: Quality,
@@ -75,11 +81,7 @@ class TestLauncher : AppLauncher {
         )
     }
 
-    private fun getPixelsOfColorAmount(filePath: String): ColorDistribution {
-        // parsing file image into OpenCV Mat
-        val openCVImage = imread(filePath)
-
-        val imageSize = openCVImage.rows() * openCVImage.cols()
+    private fun getPixelsOfColorAmount(bufferedImage: BufferedImage): ColorDistribution {
         var availablePx = 0
         var lockedPx = 0
         var boughtPx = 0
@@ -92,10 +94,100 @@ class TestLauncher : AppLauncher {
         var eventPx = 0
 
         val colorToAmountMap = hashMapOf<String, Int>()
-        for (i in 0 until openCVImage.rows()) {
-            for (j in 0 until openCVImage.cols()) {
+        for (i in 0 until bufferedImage.width) {
+            for (j in 0 until bufferedImage.height) {
                 //perhaps it's BGR, not HSV
-                val bgrColor: DoubleArray = openCVImage.get(i, j)
+                val rgbColor: Int = bufferedImage.getRGB(i, j)
+                val colorName = "$rgbColor"
+                val repeatedTimes = colorToAmountMap[colorName] ?: 0
+                colorToAmountMap[colorName] = repeatedTimes + 1
+                val color = Color(rgbColor)
+
+                when {
+                    ColorRanges.AVAILABLE_NODE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> availablePx++
+
+                    ColorRanges.LOCKED_NODE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> lockedPx++
+
+                    ColorRanges.BOUGHT_NODE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> boughtPx++
+
+                    ColorRanges.RED.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> redPx++
+
+                    ColorRanges.PURPLE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> purplePx++
+
+                    ColorRanges.GREEN.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> greenPx++
+
+                    ColorRanges.YELLOW.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> yellowPx++
+
+                    ColorRanges.BROWN.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> brownPx++
+
+                    ColorRanges.EVENT.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> eventPx++
+                }
+            }
+        }
+
+        return ColorDistribution(
+            ColorDistribution.State(
+                availablePx, lockedPx, boughtPx
+            ),
+            ColorDistribution.Quality(
+                brownPx, yellowPx, greenPx, purplePx, redPx
+            )
+        )
+    }
+
+    private fun getPixelsOfColorAmount(nodeImageMat: Mat): ColorDistribution {
+        var availablePx = 0
+        var lockedPx = 0
+        var boughtPx = 0
+
+        var brownPx = 0
+        var yellowPx = 0
+        var greenPx = 0
+        var purplePx = 0
+        var redPx = 0
+        var eventPx = 0
+
+        val colorToAmountMap = hashMapOf<String, Int>()
+        for (i in 0 until nodeImageMat.rows()) {
+            for (j in 0 until nodeImageMat.cols()) {
+                //perhaps it's BGR, not HSV
+                val bgrColor: DoubleArray = nodeImageMat.get(i, j)
                 val colorName = "${bgrColor[0]} ${bgrColor[1]} ${bgrColor[2]}"
                 val repeatedTimes = colorToAmountMap[colorName] ?: 0
                 colorToAmountMap[colorName] = repeatedTimes + 1
@@ -157,9 +249,6 @@ class TestLauncher : AppLauncher {
                 }
             }
         }
-        val filteredByColorsPercentageMap =
-            colorToAmountMap.filter { it.value > imageSize * 0.01 }//only colors, that take more than 5% of photo
-        println("different colors amount: ${colorToAmountMap.size} after 1% filter = [${filteredByColorsPercentageMap.size}]")
 
         return ColorDistribution(
             ColorDistribution.State(
@@ -169,45 +258,5 @@ class TestLauncher : AppLauncher {
                 brownPx, yellowPx, greenPx, purplePx, redPx
             )
         )
-    }
-
-    private fun Mat.convertIntoBufferImage() {
-        //Encoding the image
-        val matOfByte = MatOfByte()
-        Imgcodecs.imencode(".png", this, matOfByte)
-        //Storing the encoded Mat in a byte array
-        val byteArray: ByteArray = matOfByte.toArray()
-        //Preparing the Buffered Image
-        val inputStream: InputStream = ByteArrayInputStream(byteArray)
-        val bufferImage: BufferedImage = ImageIO.read(inputStream)
-        println(bufferImage)
-    }
-
-    private fun File.convertIntoBufferImage() {
-        val myInitialImage: BufferedImage = ImageIO.read(this)
-        val newImage = BufferedImage(
-            myInitialImage.width, myInitialImage.height, BufferedImage.TYPE_INT_ARGB
-        )
-        val g = newImage.createGraphics()
-        g.drawImage(myInitialImage, 0, 0, null)
-        g.dispose()
-        println(newImage)
-    }
-
-    private fun Map<String, Int>.sortByValue(): Map<String, Int> {
-        val list = mutableListOf<Int>()
-        for (entry in this.entries) {
-            list.add(entry.value)
-        }
-        list.sort()
-        val sortedMap: LinkedHashMap<String, Int> = LinkedHashMap()
-        for (num in list) {
-            for (entry in this.entries) {
-                if (entry.value == num) {
-                    sortedMap[entry.key] = num
-                }
-            }
-        }
-        return sortedMap
     }
 }
