@@ -62,7 +62,7 @@ sealed class ExecutionMode(
             prestigeLevelUpDuration: Long = PRESTIGE_LEVEL_UP_DURATION,
         ): ExecutionMode {
             return when (command.mode) {
-                1 -> SimpleExecutionMode(
+                Command.Mode.SIMPLE -> SimpleExecutionMode(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,

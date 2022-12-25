@@ -17,8 +17,11 @@ class CommandInterpreter {
 
         //if input is correct
         return if (modeStr.isNumeric() && levelStr.isNumeric()) {
-            val mode = modeStr.toInt()
             val level = levelStr.toInt()
+            val mode = Command.Mode.values().find {
+                it.number == modeStr.toInt()
+            } ?: Command.Mode.TEST
+
             Command(mode, level)
         } else null
     }
@@ -31,6 +34,5 @@ class CommandInterpreter {
     companion object {
         const val END_OF_COMMAND_SYMBOL = 'F'
         const val MODE_KEY = 'M'
-        const val LEVELS_KEY = 'L'
     }
 }

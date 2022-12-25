@@ -70,7 +70,7 @@ class JavaFxLauncher : AppLauncher, Application() {
                             EXECUTOR_KEY -> {
                                 //if we already have one executor running - we don't want to launch another one
                                 if (executor != null) return
-                                val mode: Int =
+                                val modeNumber: Int =
                                     when ((mainController.runningModeGroup.selectedToggle as? RadioButton)?.id) {
                                         mainController.rbModeTest.id -> 0
                                         mainController.rbModeSimple.id -> 1
@@ -78,6 +78,9 @@ class JavaFxLauncher : AppLauncher, Application() {
                                         mainController.rbModeNonEco.id -> 3
                                         else -> 0
                                     }
+                                val mode = Command.Mode.values().find {
+                                    it.number == modeNumber
+                                } ?: Command.Mode.TEST
 
                                 Command(mode, mainController.levelsTextField.text.toInt()).let {
                                     executor = ExecutionMode.fromCommand(command = it)
