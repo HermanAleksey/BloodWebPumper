@@ -10,7 +10,7 @@ import javafx.scene.Scene
 import javafx.scene.control.RadioButton
 import javafx.scene.image.Image
 import javafx.stage.Stage
-import launch_mode.controllers.MainController
+import controller.MainController
 import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
@@ -25,19 +25,19 @@ class JavaFxLauncher : AppLauncher, Application() {
 
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader()
-        val scene = Scene(fxmlLoader.load(javaClass.getResource("/scenes/main.fxml")!!.openStream()))
+        val mainScene = Scene(fxmlLoader.load(javaClass.getResource("/scenes/main.fxml")!!.openStream()))
         val mainController: MainController = fxmlLoader.getController() as MainController
 
-        scene.stylesheets.add("/style.css")
-        stage.scene = scene
+        mainScene.stylesheets.add("/style.css")
 
-        stage.title = "Bloodweb autoleveling"
-        stage.isResizable = false
-        stage.icons.add(Image(javaClass.getResourceAsStream("/scenes/drawables/bubba.jpg")))
+        stage.apply {
+            scene = mainScene
+            title = "Bloodweb autoleveling"
+            isResizable = false
+            icons.add(Image(javaClass.getResourceAsStream("/scenes/drawables/bubba.jpg")))
 
-//        mainController.textAreaLogs.sty
-
-        stage.show()
+            show()
+        }
 
         try {
             GlobalScreen.registerNativeHook()

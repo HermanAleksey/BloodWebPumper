@@ -1,4 +1,4 @@
-import helper.Command
+package helper
 
 class CommandInterpreter {
 

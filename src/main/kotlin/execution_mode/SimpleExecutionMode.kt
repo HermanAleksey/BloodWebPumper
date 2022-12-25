@@ -70,7 +70,8 @@ class SimpleExecutionMode(
     //If perk available - add it into array
     //return array of available perks
     private fun checkAvailablePerks(
-        circle: BloodWeb.BloodWebCircle, bufferedImage: BufferedImage
+        circle: BloodWeb.BloodWebCircle,
+        bufferedImage: BufferedImage
     ): List<Node> {
         val presets = when (circle) {
             BloodWeb.BloodWebCircle.INNER -> Presets().innerPoints

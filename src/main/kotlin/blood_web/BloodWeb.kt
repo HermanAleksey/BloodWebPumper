@@ -4,6 +4,5 @@ class BloodWeb {
     enum class BloodWebCircle {
         INNER, SECONDARY, OUTER
     }
-
-
+    
 }
