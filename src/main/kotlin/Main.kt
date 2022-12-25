@@ -1,19 +1,19 @@
 import launch_mode.AppLauncher
 import launch_mode.ConsoleLauncher
+import launch_mode.JavaFxLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = ConsoleLauncher()
+    val appLauncher: AppLauncher = JavaFxLauncher()
     appLauncher.run()
 
     //experiments with text recognition
 //    val bw = blood_web.BloodWeb()
 //    val bfIm: BufferedImage = ImageIO.read(File("bw_center.png"))
 //    println(bw.checkPrestigeUpgrade(bfIm))
-
 //    val imageFile = File("BloodWebScreenShot.png")
 //    val instance: ITesseract = Tesseract() // JNA Interface Mapping
 //
