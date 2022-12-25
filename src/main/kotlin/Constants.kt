@@ -3,6 +3,7 @@ object Constants {
     const val STOP_KEY = "F5"
     const val CLOSE_PROGRAM_KEY = "F5F5"
 
+    const val NODE_SIZE_PX = 79
     const val BLOOD_WEB_CENTER_X = 678
     const val BLOOD_WEB_CENTER_Y_START = 575
     const val BLOOD_WEB_CENTER_Y_END = 589

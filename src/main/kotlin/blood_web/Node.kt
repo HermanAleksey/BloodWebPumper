@@ -1,17 +1,20 @@
 package blood_web
 
+import Constants.NODE_SIZE_PX
 import java.awt.Point
 
 data class Node(
     val orderedNumber: OrderedNumber,
-    val size: Int = 76,
     val topCenterCoord: Point,
+
+    var state: State? = null,
+    var quality: Quality? = null,
 ) {
     val topLeftCoords: Point = Point(
-        topCenterCoord.x - size / 2, topCenterCoord.y
+        topCenterCoord.x - NODE_SIZE_PX / 2, topCenterCoord.y
     )
     val centerCoords: Point = Point(
-        topCenterCoord.x, topCenterCoord.y + size / 2
+        topCenterCoord.x, topCenterCoord.y + NODE_SIZE_PX / 2
     )
 
     override fun toString(): String {
