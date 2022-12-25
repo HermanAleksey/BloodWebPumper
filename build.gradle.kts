@@ -5,7 +5,6 @@ plugins {
     id ("java")
     id ("application")
     id ("org.openjfx.javafxplugin") version "0.0.13"
-//    id("org.openjfx.javafxplugin") version "0.0.8"
 }
 
 
@@ -18,6 +17,8 @@ repositories {
 
 dependencies {
     implementation("com.1stleg:jnativehook:2.1.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.6.4")
 //    implementation("net.sourceforge.tess4j:tess4j:5.4.0")
 }
 

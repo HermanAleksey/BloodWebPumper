@@ -19,13 +19,18 @@ class MainController {
     lateinit var wholesomeBubbaImage: ImageView
     lateinit var wholesomeStalkImage: ImageView
 
-    fun initialize(){
+    fun initialize() {
+        textAreaLogs.text = ""
         wholesomeBubbaImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/bubba_run.gif"))
         wholesomeStalkImage.image = Image(javaClass.getResourceAsStream("/scenes/drawables/stalk.png"))
     }
 
 
-    fun deleteLogs(event: javafx.event.ActionEvent){
-//        println("Selected: " + runningModeGroup.selectedToggle.toString())
+    fun deleteLogs(event: javafx.event.ActionEvent) {
+        textAreaLogs.text = ""
+    }
+
+    fun appendLogText(text: String) {
+        textAreaLogs.appendText("$text\n")
     }
 }
