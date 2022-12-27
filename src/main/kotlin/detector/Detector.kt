@@ -1,15 +1,14 @@
 package detector
 
 import blood_web.Node
-import java.awt.Point
 import java.awt.image.BufferedImage
 
 interface Detector {
 
     /**
-     * @return [Node] of Node in given [nodePoint]
+     * Takes [node] and apple [Node.State] and [Node.Quality] params to it
      * */
-    fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node
+    fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage)
 
     /**
      * @return true if center - is prestige level

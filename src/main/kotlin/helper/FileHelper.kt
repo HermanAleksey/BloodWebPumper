@@ -1,25 +1,8 @@
 package helper
 
-import org.opencv.core.Mat
-import org.opencv.core.MatOfByte
-import org.opencv.imgcodecs.Imgcodecs
 import java.awt.image.BufferedImage
-import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.InputStream
-import java.util.LinkedHashMap
 import javax.imageio.ImageIO
-
-fun Mat.convertIntoBufferImage(): BufferedImage {
-    //Encoding the image
-    val matOfByte = MatOfByte()
-    Imgcodecs.imencode(".png", this, matOfByte)
-    //Storing the encoded Mat in a byte array
-    val byteArray: ByteArray = matOfByte.toArray()
-    //Preparing the Buffered Image
-    val inputStream: InputStream = ByteArrayInputStream(byteArray)
-    return ImageIO.read(inputStream)
-}
 
 fun File.convertIntoBufferImage(): BufferedImage {
     val myInitialImage: BufferedImage = ImageIO.read(this)

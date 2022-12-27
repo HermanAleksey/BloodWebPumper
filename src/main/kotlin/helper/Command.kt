@@ -6,6 +6,6 @@ class Command(
     val levels: Int,
 ) {
     enum class Mode(val number: Int) {
-        TEST(0), SIMPLE(1)
+        TEST(0), SIMPLE(1), CHEAPEST_FIRST(2)
     }
 }

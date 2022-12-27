@@ -22,8 +22,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.6.4")
 //    implementation("net.sourceforge.tess4j:tess4j:5.4.0")
     implementation("org.apache.commons:commons-math3:3.6.1")
-
-//    implementation(files("X:/OpenCV/opencv/build/java/opencv-460.jar"))
 }
 
 javafx {

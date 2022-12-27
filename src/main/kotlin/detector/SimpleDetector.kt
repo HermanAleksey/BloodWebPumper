@@ -8,13 +8,13 @@ import java.awt.Color
 import java.awt.Point
 import java.awt.image.BufferedImage
 
+//TODO Delete this detector
+@Deprecated(message = "This detector is deprecated, since ranges for states are out of date")
 class SimpleDetector : Detector {
 
-    override fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node {
-        val colorOfPoint = getPointColor(bufferedImage, nodePoint.centerCoords)
-        return nodePoint.apply {
-            state = checkColorState(colorOfPoint)
-        }
+    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) {
+        val colorOfPoint = getPointColor(bufferedImage, node.centerCoords)
+        node.state = checkColorState(colorOfPoint)
     }
 
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {

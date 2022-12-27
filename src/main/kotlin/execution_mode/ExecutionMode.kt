@@ -4,6 +4,7 @@ import Constants.IN_BETWEEN_MOVEMENT_DURATION
 import Constants.NEW_LEVEL_ANIMATION_DURATION
 import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
+import detector.AdvancedDetector
 import detector.Detector
 import detector.SimpleDetector
 import helper.ClickHelper
@@ -69,6 +70,14 @@ sealed class ExecutionMode(
                     movementDuration = movementDuration,
                     prestigeLevelUpDuration = prestigeLevelUpDuration,
                     detector = SimpleDetector(),
+                )
+                Command.Mode.CHEAPEST_FIRST -> SecondGraderExecutor(
+                    levels = command.levels,
+                    delayNewLevelAnimation = delayNewLevelAnimation,
+                    perkSelectionDuration = perkSelectionDuration,
+                    movementDuration = movementDuration,
+                    prestigeLevelUpDuration = prestigeLevelUpDuration,
+                    detector = AdvancedDetector(),
                 )
                 else -> TestExecutionMode()
             }

@@ -10,6 +10,7 @@ import executionLogs
 import kotlinx.coroutines.delay
 import java.awt.image.BufferedImage
 
+
 class SimpleExecutionMode(
     delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
@@ -29,12 +30,15 @@ class SimpleExecutionMode(
 
     override suspend fun pumpBloodWeb() {
         println("Running SimpleExecutionMode")
+        executionLogs.emit("Running SimpleExecutionMode")
         for (currentLevel in 1..levels) {
+            executionLogs.emit("Pumping level #$currentLevel")
             println("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
             clickHelper.moveOutCursor()
         }
+        executionLogs.emit("SimpleExecutionMode completed")
         println("SimpleExecutionMode completed")
     }
 
@@ -86,11 +90,11 @@ class SimpleExecutionMode(
         val availableNodes = mutableListOf<Node>()
 
         presets.forEach { point ->
-            val initialNode = point.parseIntoNode()
-            detector.analyzeSingleNode(initialNode, bufferedImage).let { processedNode ->
-                if (processedNode.state == Node.State.AVAILABLE)
+            val node = point.parseIntoNode()
+            detector.processNodeStateQuality(node, bufferedImage).let {
+                if (node.state == Node.State.AVAILABLE)
                     availableNodes.add(
-                        processedNode
+                        node
                     )
             }
         }

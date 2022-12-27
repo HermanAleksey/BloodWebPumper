@@ -17,7 +17,7 @@ class SecondGraderExecutor(
     detector = detector
 ) {
 
-    override fun pumpBloodWeb() {
+    override suspend fun pumpBloodWeb() {
         TODO("Not yet implemented")
     }
 }

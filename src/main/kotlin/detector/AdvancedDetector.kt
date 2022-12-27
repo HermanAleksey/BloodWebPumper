@@ -2,9 +2,7 @@ package detector
 
 import blood_web.ColorRanges
 import blood_web.Node
-import helper.convertIntoBufferImage
 import java.awt.Color
-import java.awt.Point
 import java.awt.image.BufferedImage
 import java.io.File
 
@@ -32,14 +30,13 @@ class AdvancedDetector : Detector{
         )
     }
 
-    override fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node {
+    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) {
         val filePath = "resources/nodes/yellow/available.png"
         val file = File(filePath)
 //        println(checkNodeState(file.convertIntoBufferImage()))
 
 
         TODO("Not yet implemented")
-        return nodePoint
     }
 
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
