@@ -62,14 +62,16 @@ class SimpleExecutionMode(
                 screenShot = bloodWebScreenShot,
             )
 
-        checkAvailablePerks(
+        checkPerksInCircle(
             circle = circle,
             bloodWebScreenShot
         ).let {
             executionLogs.emit("Circle:$circle \n$it")
             println("Circle:$circle \n$it")
 
-            it.forEach { perk ->
+            it.filter { node ->
+                node.state == Node.State.AVAILABLE
+            }.forEach { perk ->
                 clickHelper.performClickOnPerk(perk)
             }
         }
@@ -78,7 +80,7 @@ class SimpleExecutionMode(
     //goes through all positions of item in [circle] of bloodWeb
     //If perk available - add it into array
     //return array of available perks
-    private fun checkAvailablePerks(
+    private fun checkPerksInCircle(
         circle: BloodWeb.BloodWebCircle,
         bufferedImage: BufferedImage
     ): List<Node> {
@@ -92,10 +94,9 @@ class SimpleExecutionMode(
         presets.forEach { point ->
             val node = point.parseIntoNode()
             detector.processNodeStateQuality(node, bufferedImage).let {
-                if (node.state == Node.State.AVAILABLE)
-                    availableNodes.add(
-                        node
-                    )
+                availableNodes.add(
+                    node
+                )
             }
         }
         return availableNodes

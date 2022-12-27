@@ -10,15 +10,15 @@ data class Node(
     var state: State? = null,
     var quality: Quality? = null,
 ) {
-    val topLeftCoords: Point = Point(
+    val topLeftCoordinates: Point = Point(
         topCenterCoord.x - NODE_SIZE_PX / 2, topCenterCoord.y
     )
-    val centerCoords: Point = Point(
+    val centerCoordinates: Point = Point(
         topCenterCoord.x, topCenterCoord.y + NODE_SIZE_PX / 2
     )
 
     override fun toString(): String {
-        return "Node(orderedNumber:$orderedNumber, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}))"
+        return "Node(orderedNumber:$orderedNumber, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}), state=$state, quality=$quality)"
     }
 
     data class OrderedNumber(

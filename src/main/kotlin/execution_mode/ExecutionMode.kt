@@ -69,7 +69,7 @@ sealed class ExecutionMode(
                     perkSelectionDuration = perkSelectionDuration,
                     movementDuration = movementDuration,
                     prestigeLevelUpDuration = prestigeLevelUpDuration,
-                    detector = SimpleDetector(),
+                    detector = AdvancedDetector(),
                 )
                 Command.Mode.CHEAPEST_FIRST -> SecondGraderExecutor(
                     levels = command.levels,

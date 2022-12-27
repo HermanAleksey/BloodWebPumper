@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage
 class SimpleDetector : Detector {
 
     override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) {
-        val colorOfPoint = getPointColor(bufferedImage, node.centerCoords)
+        val colorOfPoint = getPointColor(bufferedImage, node.centerCoordinates)
         node.state = checkColorState(colorOfPoint)
     }
 

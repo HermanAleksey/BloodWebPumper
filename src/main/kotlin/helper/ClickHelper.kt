@@ -26,7 +26,7 @@ class ClickHelper(
         node: Node,
         mask: Int = InputEvent.BUTTON1_DOWN_MASK,
     ) = with(robot) {
-        mouseMove(node.centerCoords.x, node.centerCoords.y)
+        mouseMove(node.centerCoordinates.x, node.centerCoordinates.y)
         Thread.sleep(delayBetweenPerksSelection)
         mousePress(mask)
         Thread.sleep(perkSelectionDuration)

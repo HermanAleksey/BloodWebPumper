@@ -1,12 +1,12 @@
 package detector
 
+import Constants.NODE_SIZE_PX
 import blood_web.ColorRanges
 import blood_web.Node
 import java.awt.Color
 import java.awt.image.BufferedImage
-import java.io.File
 
-class AdvancedDetector : Detector{
+class AdvancedDetector : Detector {
 
     data class ColorDistribution(
         val state: State,
@@ -30,26 +30,24 @@ class AdvancedDetector : Detector{
         )
     }
 
-    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) {
-        val filePath = "resources/nodes/yellow/available.png"
-        val file = File(filePath)
-//        println(checkNodeState(file.convertIntoBufferImage()))
-
-
-        TODO("Not yet implemented")
+    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) = with(node){
+        val nodeBufferedImage = bufferedImage.getSubimage(
+            topLeftCoordinates.x,
+            topLeftCoordinates.y,
+            NODE_SIZE_PX,
+            NODE_SIZE_PX
+        )
+        checkNodeState(node, nodeBufferedImage)
+        println(node)
     }
 
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
+        return false
         TODO("Not yet implemented")
     }
 
     //fills info about node state and quality, if possible
-    private fun checkNodeState(node: Node, bufferedImage: BufferedImage): Node {
-
-        // Fill Matrix with image values
-//        val pixels: ByteArray? = (bufferedImage.raster.dataBuffer as DataBufferByte).data
-//        val mat =  Mat(bufferedImage.height, bufferedImage.width, CvType.CV_8UC3)
-//        mat.put(0, 0, pixels);
+    private fun checkNodeState(node: Node, bufferedImage: BufferedImage) {
         getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
                 state.availablePx > 400 -> Node.State.AVAILABLE
@@ -67,7 +65,8 @@ class AdvancedDetector : Detector{
             }
 
             println(this.quality)
-            return node.apply {
+
+            node.apply {
                 this.state = state
                 this.quality = quality
             }
