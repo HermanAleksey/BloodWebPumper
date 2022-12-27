@@ -40,7 +40,7 @@ class Presets {
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 8) to Point(497, 852),
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 9) to Point(366, 719),
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 10) to Point(317, 545),
-        Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 11) to Point(496, 245),
+        Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 11) to Point(367, 371),
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 12) to Point(497, 240),
     )
 }

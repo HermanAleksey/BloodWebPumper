@@ -1,14 +1,17 @@
 package execution_mode
 
-import helper.ClickHelper
 import Constants.IN_BETWEEN_MOVEMENT_DURATION
 import Constants.NEW_LEVEL_ANIMATION_DURATION
 import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
 import detector.Detector
 import detector.SimpleDetector
+import helper.ClickHelper
 import helper.Command
-import helper.TextFileHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.awt.Robot
 
 sealed class ExecutionMode(
@@ -26,13 +29,12 @@ sealed class ExecutionMode(
         delayBetweenPerksSelection = movementDuration,
         prestigeLevelUpDuration = prestigeLevelUpDuration
     )
-    protected val fileHelper = TextFileHelper()
 
-    private lateinit var executionThread: Thread
+    private var executionScope = CoroutineScope(Dispatchers.Main)
 
     fun stop() {
         try {
-            executionThread.stop()
+            executionScope.cancel()
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
@@ -40,17 +42,16 @@ sealed class ExecutionMode(
 
     fun run() {
         try {
-            executionThread = Thread {
+            executionScope.launch {
                 pumpBloodWeb()
             }
-            executionThread.start()
         } catch (e: java.lang.Exception) {
-            executionThread.stop()
+            executionScope.cancel()
             e.printStackTrace()
         }
     }
 
-    abstract fun pumpBloodWeb()
+    abstract suspend fun pumpBloodWeb()
 
     companion object {
         fun fromCommand(
@@ -61,7 +62,7 @@ sealed class ExecutionMode(
             prestigeLevelUpDuration: Long = PRESTIGE_LEVEL_UP_DURATION,
         ): ExecutionMode {
             return when (command.mode) {
-                1 -> SimpleExecutionMode(
+                Command.Mode.SIMPLE -> SimpleExecutionMode(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,

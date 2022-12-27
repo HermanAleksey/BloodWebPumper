@@ -1,6 +1,6 @@
 package launch_mode
 
-import CommandInterpreter
+import helper.CommandInterpreter
 import Constants.CLOSE_PROGRAM_KEY
 import Constants.EXECUTOR_KEY
 import Constants.STOP_KEY

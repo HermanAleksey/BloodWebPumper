@@ -5,5 +5,4 @@ class BloodWeb {
         INNER, SECONDARY, OUTER
     }
 
-
 }
