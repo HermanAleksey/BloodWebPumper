@@ -10,9 +10,11 @@ import java.awt.image.BufferedImage
 
 class SimpleDetector : Detector {
 
-    override fun analyzeSingleNode(nodePoint: Point, bufferedImage: BufferedImage): Node.State {
-        val colorOfPoint = getPointColor(bufferedImage, nodePoint)
-        return checkColorState(colorOfPoint)
+    override fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node {
+        val colorOfPoint = getPointColor(bufferedImage, nodePoint.centerCoords)
+        return nodePoint.apply {
+            state = checkColorState(colorOfPoint)
+        }
     }
 
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {

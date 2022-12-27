@@ -16,13 +16,13 @@ class TestLauncher : AppLauncher {
     override fun run() {
         val detector = AdvancedDetector()
 
-        val filePath = "resources/nodes/yellow/$it.png"
-        val file = File(filePath)
-        val bi = file.convertIntoBufferImage()
-        val node = detector.analyzeSingleNode(
-            nodePoint = Point(),
-            bufferedImage = bi,
-        )
+//        val filePath = "resources/nodes/yellow/$it.png"
+//        val file = File(filePath)
+//        val bi = file.convertIntoBufferImage()
+//        val node = detector.analyzeSingleNode(
+//            nodePoint = Point(),
+//            bufferedImage = bi,
+//        )
         colorRanges()
     }
 
@@ -34,7 +34,7 @@ class TestLauncher : AppLauncher {
         states.forEach {
             val filePath = "resources/nodes/yellow/$it.png"
             val file = File(filePath)
-            println(checkNodeState(file.convertIntoBufferImage()))
+//            println(checkNodeState(file.convertIntoBufferImage()))
         }
     }
 }

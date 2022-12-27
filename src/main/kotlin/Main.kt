@@ -1,5 +1,6 @@
 import launch_mode.AppLauncher
 import launch_mode.ConsoleLauncher
+import launch_mode.JavaFxLauncher
 import launch_mode.TestLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
@@ -7,7 +8,7 @@ import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = TestLauncher()
+    val appLauncher: AppLauncher = JavaFxLauncher()
     appLauncher.run()
 }
 private fun turnOffLogs() {

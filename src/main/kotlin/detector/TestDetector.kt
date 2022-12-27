@@ -5,7 +5,7 @@ import java.awt.Point
 import java.awt.image.BufferedImage
 
 class TestDetector: Detector {
-    override fun analyzeSingleNode(nodePoint: Point, bufferedImage: BufferedImage): Node.State? {
+    override fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node {
         TODO("Not yet implemented")
     }
 

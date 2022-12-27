@@ -32,12 +32,14 @@ class AdvancedDetector : Detector{
         )
     }
 
-    override fun analyzeSingleNode(nodePoint: Point, bufferedImage: BufferedImage): Node.State? {
-        val filePath = "resources/nodes/yellow/$it.png"
+    override fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node {
+        val filePath = "resources/nodes/yellow/available.png"
         val file = File(filePath)
-        println(checkNodeState(file.convertIntoBufferImage()))
-        TODO("Not yet implemented")
+//        println(checkNodeState(file.convertIntoBufferImage()))
 
+
+        TODO("Not yet implemented")
+        return nodePoint
     }
 
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {

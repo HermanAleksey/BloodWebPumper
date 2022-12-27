@@ -42,3 +42,10 @@ data class Node(
         BROWN, //also event ones
     }
 }
+
+fun Pair<Node.OrderedNumber, Point>.parseIntoNode()= Node(
+    orderedNumber = this.first,
+    topCenterCoord = this.second,
+    state = null,
+    quality = null
+)

@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage
 interface Detector {
 
     /**
-     * @return [Node.State] of Node in given [nodePoint]
+     * @return [Node] of Node in given [nodePoint]
      * */
-    fun analyzeSingleNode(nodePoint: Point, bufferedImage: BufferedImage): Node.State?
+    fun analyzeSingleNode(nodePoint: Node, bufferedImage: BufferedImage): Node
 
     /**
      * @return true if center - is prestige level

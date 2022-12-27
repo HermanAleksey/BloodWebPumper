@@ -3,6 +3,7 @@ package execution_mode
 import blood_web.BloodWeb
 import blood_web.Node
 import blood_web.Presets
+import blood_web.parseIntoNode
 import detector.Detector
 import java.awt.image.BufferedImage
 
@@ -79,14 +80,12 @@ class SimpleExecutionMode(
         }
         val availableNodes = mutableListOf<Node>()
 
-        presets.forEachIndexed { position, point ->
-            detector.analyzeSingleNode(point, bufferedImage)?.let { nodeState ->
-                if (nodeState == Node.State.AVAILABLE)
+        presets.forEach { point ->
+            val initialNode = point.parseIntoNode()
+            detector.analyzeSingleNode(initialNode, bufferedImage).let { processedNode ->
+                if (processedNode.state == Node.State.AVAILABLE)
                     availableNodes.add(
-                        Node(
-                            orderedNumber = Node.OrderedNumber(circle, position),
-                            topCenterCoord = point
-                        )
+                        processedNode
                     )
             }
         }
