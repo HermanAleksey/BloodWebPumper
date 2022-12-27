@@ -8,29 +8,7 @@ import java.awt.image.BufferedImage
 
 class AdvancedDetector : Detector {
 
-    data class ColorDistribution(
-        val state: State,
-        val quality: Quality,
-    ) {
-        data class State(
-            val availablePx: Int,
-            val lockedPx: Int,
-            val boughtPx: Int,
-            //unavailable px can't be counted
-        )
-
-        data class Quality(
-            val brownPx: Int,
-            val yellowPx: Int,
-            val greenPx: Int,
-            val purplePx: Int,
-            val redPx: Int,
-            //todo perhaps do event as brown
-//            val eventPx: Int,
-        )
-    }
-
-    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) = with(node){
+    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) = with(node) {
         val nodeBufferedImage = bufferedImage.getSubimage(
             topLeftCoordinates.x,
             topLeftCoordinates.y,
@@ -164,4 +142,26 @@ class AdvancedDetector : Detector {
         )
     }
 
+
+    private data class ColorDistribution(
+        val state: State,
+        val quality: Quality,
+    ) {
+        data class State(
+            val availablePx: Int,
+            val lockedPx: Int,
+            val boughtPx: Int,
+            //unavailable px can't be counted
+        )
+
+        data class Quality(
+            val brownPx: Int,
+            val yellowPx: Int,
+            val greenPx: Int,
+            val purplePx: Int,
+            val redPx: Int,
+            //todo perhaps do event as brown
+//            val eventPx: Int,
+        )
+    }
 }

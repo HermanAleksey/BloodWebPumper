@@ -21,6 +21,8 @@ data class Node(
         return "Node(orderedNumber:$orderedNumber, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}), state=$state, quality=$quality)"
     }
 
+    fun toLogString() = "Node(orderedNumber:$orderedNumber, state=$state, quality=$quality)"
+
     data class OrderedNumber(
         val circle: BloodWeb.BloodWebCircle,
         val position: Int,

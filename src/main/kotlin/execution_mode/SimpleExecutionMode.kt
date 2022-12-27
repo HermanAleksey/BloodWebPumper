@@ -29,17 +29,14 @@ class SimpleExecutionMode(
     private val takeScreenShots = false
 
     override suspend fun pumpBloodWeb() {
-        println("Running SimpleExecutionMode")
         executionLogs.emit("Running SimpleExecutionMode")
         for (currentLevel in 1..levels) {
             executionLogs.emit("Pumping level #$currentLevel")
-            println("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
             clickHelper.moveOutCursor()
         }
         executionLogs.emit("SimpleExecutionMode completed")
-        println("SimpleExecutionMode completed")
     }
 
     private fun pumpOneBloodWebLevel() {
@@ -65,11 +62,15 @@ class SimpleExecutionMode(
         checkPerksInCircle(
             circle = circle,
             bloodWebScreenShot
-        ).let {
-            executionLogs.emit("Circle:$circle \n$it")
-            println("Circle:$circle \n$it")
+        ).let { nodes ->
+            with(executionLogs) {
+                emit("Pumping $circle")
+                nodes.forEach {
+                    emit(it.toLogString())
+                }
+            }
 
-            it.filter { node ->
+            nodes.filter { node ->
                 node.state == Node.State.AVAILABLE
             }.forEach { perk ->
                 clickHelper.performClickOnPerk(perk)
