@@ -17,7 +17,7 @@
    <children>
       <ImageView fx:id="wholesomeBubbaImage" fitHeight="548.0" fitWidth="404.0" layoutX="12.0" layoutY="10.0" opacity="0.99" pickOnBounds="true">
       </ImageView>
-      <TextArea fx:id="textAreaLogs" editable="false" layoutX="-6.0" layoutY="10.0" prefHeight="555.0" prefWidth="440.0" text="as&#10;asdasdasdsdadsasdadsadsasdaasdasddsasdadsasdasdasdadsadsadsasdasdadsadsadsadsadsa&#10;&#10;asd&#10;as&#10;d&#10;sda&#10;sda&#10;s&#10;da&#10;sad&#10;sda&#10;dsa&#10;&#10;asd&#10;dsaasdasdasdsdadsasdadsadsasdaasdasddsasdadsasdasdasdadsadsadsasdasdadsadsadsadsadsa&#10;dsa&#10;s&#10;ad&#10;asd&#10;sda&#10;&#10;ads&#10;asd&#10;sad&#10;sda&#10;&#10;sda&#10;sda&#10;sd&#10;sda&#10;dsa&#10;&#10;sad&#10;sda&#10;sda&#10;sda&#10;&#10;sd&#10;sad&#10;sda" wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="-6.0" AnchorPane.topAnchor="10.0" />
+      <TextArea fx:id="textAreaLogs" editable="false" layoutX="-6.0" layoutY="10.0" prefHeight="555.0" prefWidth="440.0" text="" wrapText="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="-6.0" AnchorPane.topAnchor="10.0" />
       <Button fx:id="btnRefresh" layoutX="14.0" layoutY="579.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="40.0" text="↻" AnchorPane.bottomAnchor="5.0" />
       <Button fx:id="btnDelete" layoutX="71.0" layoutY="579.0" mnemonicParsing="false" onAction="#deleteLogs" prefHeight="16.0" prefWidth="40.0" text="🗑" AnchorPane.bottomAnchor="5.0" />
       <Group layoutX="466.0" layoutY="28.0">

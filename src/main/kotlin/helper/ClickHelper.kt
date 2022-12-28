@@ -56,8 +56,12 @@ class ClickHelper(
 
     fun skipPrestigeRewardsPopUp() = with(robot) {
         mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y)
+        Thread.sleep(delayBetweenPerksSelection)
         mousePress(InputEvent.BUTTON1_DOWN_MASK)
+        Thread.sleep(delayBetweenPerksSelection)
         mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
+        moveOutCursor()
+        Thread.sleep(delayBetweenPerksSelection)
     }
 
     fun performClick(

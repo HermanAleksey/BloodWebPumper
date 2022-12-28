@@ -5,9 +5,9 @@ import blood_web.Node
 import blood_web.Presets
 import blood_web.parseIntoNode
 import detector.Detector
-import kotlinx.coroutines.runBlocking
-import executionLogs
+import helper.sendLog
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.awt.image.BufferedImage
 
 
@@ -29,30 +29,37 @@ class SimpleExecutionMode(
     private val takeScreenShots = false
 
     override suspend fun pumpBloodWeb() {
-        executionLogs.emit("Running SimpleExecutionMode")
+        sendLog("Running SimpleExecutionMode")
         for (currentLevel in 1..levels) {
-            executionLogs.emit("Pumping level #$currentLevel")
+            sendLog("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
             clickHelper.moveOutCursor()
         }
-        executionLogs.emit("SimpleExecutionMode completed")
+        sendLog("SimpleExecutionMode completed")
     }
 
-    private fun pumpOneBloodWebLevel() {
+    private suspend fun pumpOneBloodWebLevel() {
         val bloodWebScreenShot = clickHelper.takeScreenShot()
         val isPrestigeLevel = detector.analyzeCenterOfBloodWeb(bloodWebScreenShot)
+        sendLog("Is prestige level: $isPrestigeLevel")
 
         if (isPrestigeLevel) {
             clickHelper.upgradeAndSkipPrestigeLevel()
         } else {
-            BloodWeb.BloodWebCircle.values().forEach {
-                pumpOneCircleOfBloodWeb(it)
+            val isSkipableNotification = detector.checkSkipableNotification(bloodWebScreenShot)
+            sendLog("IsSkipableNotification: $isSkipableNotification")
+            if (isSkipableNotification)
+                clickHelper.skipPrestigeRewardsPopUp()
+            else {
+                BloodWeb.BloodWebCircle.values().forEach {
+                    pumpOneCircleOfBloodWeb(it)
+                }
             }
         }
     }
 
-    private fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) = runBlocking {
+    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) = runBlocking {
         val bloodWebScreenShot = clickHelper.takeScreenShot()
         if (takeScreenShots)
             clickHelper.saveScreenShot(
@@ -63,11 +70,9 @@ class SimpleExecutionMode(
             circle = circle,
             bloodWebScreenShot
         ).let { nodes ->
-            with(executionLogs) {
-                emit("Pumping $circle")
-                nodes.forEach {
-                    emit(it.toLogString())
-                }
+            sendLog("Pumping $circle")
+            nodes.forEach {
+                sendLog(it.toLogString())
             }
 
             nodes.filter { node ->
