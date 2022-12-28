@@ -5,9 +5,7 @@ object Constants {
 
     const val NODE_SIZE_PX = 79
     const val BLOOD_WEB_CENTER_X = 678
-    const val BLOOD_WEB_CENTER_Y_START = 575
-    const val BLOOD_WEB_CENTER_Y_END = 589
-    val BLOOD_WEB_CENTER_Y_RANGE = BLOOD_WEB_CENTER_Y_START..BLOOD_WEB_CENTER_Y_END
+    const val BLOOD_WEB_CENTER_Y = 583
 
     const val NEW_LEVEL_ANIMATION_DURATION: Long = 5500
     const val PERK_SELECTION_ANIMATION_DURATION: Long = 800

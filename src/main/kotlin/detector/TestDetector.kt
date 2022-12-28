@@ -12,4 +12,8 @@ class TestDetector: Detector {
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
         TODO("Not yet implemented")
     }
+
+    override fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean {
+        TODO("Not yet implemented")
+    }
 }

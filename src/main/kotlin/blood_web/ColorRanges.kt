@@ -21,6 +21,15 @@ enum class ColorRanges(
         maxBlue = 10,
     ),
 
+    PRESTIGE_WHITE(
+        minRed = 240,
+        maxRed = 255,
+        minGreen = 240,
+        maxGreen = 255,
+        minBlue = 240,
+        maxBlue = 255,
+    ),
+
     AVAILABLE_NODE(
         minRed = 120,
         maxRed = 156,

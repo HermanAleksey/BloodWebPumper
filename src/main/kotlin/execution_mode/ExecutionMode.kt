@@ -6,7 +6,6 @@ import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
 import detector.AdvancedDetector
 import detector.Detector
-import detector.SimpleDetector
 import helper.ClickHelper
 import helper.Command
 import kotlinx.coroutines.CoroutineScope

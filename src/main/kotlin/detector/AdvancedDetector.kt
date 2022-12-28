@@ -1,12 +1,11 @@
 package detector
 
+import Constants
 import Constants.NODE_SIZE_PX
 import blood_web.ColorRanges
 import blood_web.Node
 import java.awt.Color
 import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
 
 
 class AdvancedDetector : Detector {
@@ -22,21 +21,19 @@ class AdvancedDetector : Detector {
         println(node)
     }
 
-    var i = 0
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
-        i++
-//        bufferedImage.getSubimage()
-        //check for skipable notification
+        val centerNodeImage = bufferedImage.getSubimage(
+            Constants.BLOOD_WEB_CENTER_X - NODE_SIZE_PX / 2,
+            Constants.BLOOD_WEB_CENTER_Y - NODE_SIZE_PX / 2,
+            NODE_SIZE_PX,
+            NODE_SIZE_PX,
+        )
+        val whitePrestigePx = getPixelsOfColorAmount(centerNodeImage).state.prestigeWhitePx
 
-        println("TEAGG $i: ${getPixelsOfColorAmount(bufferedImage)}")
 
-
-        return false
-        TODO("Not yet implemented")
+        return (whitePrestigePx > 150)
     }
 
-    //@return true if screen has skipable notification (lvl 0,5,10, prestige 1,2,3)
-    //@return false otherwise
     override fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean {
         val notificationRedPx = getPixelsOfColorAmount(bufferedImage).state.notificationRedPx
         return (notificationRedPx > 20_000)
@@ -83,6 +80,7 @@ class AdvancedDetector : Detector {
         var eventPx = 0
 
         var notificationRedPx = 0
+        var prestigeWhite = 0
 
         val colorToAmountMap = hashMapOf<String, Int>()
         for (i in 0 until bufferedImage.width) {
@@ -154,13 +152,19 @@ class AdvancedDetector : Detector {
                         green = color.green,
                         blue = color.blue
                     ) -> notificationRedPx++
+
+                    ColorRanges.PRESTIGE_WHITE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> prestigeWhite++
                 }
             }
         }
 
         return ColorDistribution(
             ColorDistribution.State(
-                availablePx, lockedPx, boughtPx, notificationRedPx
+                availablePx, lockedPx, boughtPx, notificationRedPx, prestigeWhite
             ),
             ColorDistribution.Quality(
                 brownPx, yellowPx, greenPx, purplePx, redPx
@@ -180,6 +184,7 @@ class AdvancedDetector : Detector {
             //unavailable px can't be counted
 
             val notificationRedPx: Int,
+            val prestigeWhitePx: Int,
         )
 
         data class Quality(

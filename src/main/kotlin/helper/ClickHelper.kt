@@ -47,7 +47,7 @@ class ClickHelper(
     }
 
     fun upgradePrestigeLevel() = with(robot) {
-        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y_START)
+        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y)
         Thread.sleep(delayBetweenPerksSelection)
         mousePress(InputEvent.BUTTON1_DOWN_MASK)
         Thread.sleep(prestigeLevelUpDuration)
@@ -55,7 +55,7 @@ class ClickHelper(
     }
 
     fun skipPrestigeRewardsPopUp() = with(robot) {
-        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y_START)
+        mouseMove(Constants.BLOOD_WEB_CENTER_X, Constants.BLOOD_WEB_CENTER_Y)
         mousePress(InputEvent.BUTTON1_DOWN_MASK)
         mouseRelease(InputEvent.BUTTON1_DOWN_MASK)
     }
