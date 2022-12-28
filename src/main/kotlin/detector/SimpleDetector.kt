@@ -28,6 +28,10 @@ class SimpleDetector : Detector {
         return false
     }
 
+    override fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean {
+        TODO("Not yet implemented")
+    }
+
     //returns RGB of point
     private fun checkPointColor(
         bufferedImage: BufferedImage, point: Point

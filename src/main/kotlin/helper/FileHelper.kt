@@ -2,6 +2,7 @@ package helper
 
 import java.awt.image.BufferedImage
 import java.io.File
+import java.io.IOException
 import javax.imageio.ImageIO
 
 fun File.convertIntoBufferImage(): BufferedImage {
@@ -13,6 +14,15 @@ fun File.convertIntoBufferImage(): BufferedImage {
     g.drawImage(myInitialImage, 0, 0, null)
     g.dispose()
     return newImage
+}
+
+fun BufferedImage.save(fileName: String){
+    try {
+        val outputfile = File(fileName)
+        ImageIO.write(this, "png", outputfile)
+    } catch (e: IOException) {
+        // handle exception
+    }
 }
 
 fun Map<String, Int>.sortByValue(): Map<String, Int> {

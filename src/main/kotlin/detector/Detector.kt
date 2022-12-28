@@ -16,6 +16,12 @@ interface Detector {
      * */
     fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean
 
+    /**
+     * @return true if screen has skipable notification (e.g. lvl 0,5,10, prestige 1,2,3)
+     * @return false otherwise
+     * */
+    fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean
+
     fun analyzeBloodPointsAmount() {
         //todo implement in 2024
     }

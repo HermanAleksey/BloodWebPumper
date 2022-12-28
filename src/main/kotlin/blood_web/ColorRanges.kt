@@ -10,6 +10,17 @@ enum class ColorRanges(
     val minBlue: Int,
     val maxBlue: Int,
 ) {
+    //when user have to click somewhere to skip
+    //0,5,10,15 lvl's and prestige 1,2,3
+    NOTIFICATION_RED(
+        minRed = 100,
+        maxRed = 180,
+        minGreen = 0,
+        maxGreen = 10,
+        minBlue = 0,
+        maxBlue = 10,
+    ),
+
     AVAILABLE_NODE(
         minRed = 120,
         maxRed = 156,

@@ -5,6 +5,9 @@ import blood_web.ColorRanges
 import blood_web.Node
 import java.awt.Color
 import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
+
 
 class AdvancedDetector : Detector {
 
@@ -19,9 +22,24 @@ class AdvancedDetector : Detector {
         println(node)
     }
 
+    var i = 0
     override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
+        i++
+//        bufferedImage.getSubimage()
+        //check for skipable notification
+
+        println("TEAGG $i: ${getPixelsOfColorAmount(bufferedImage)}")
+
+
         return false
         TODO("Not yet implemented")
+    }
+
+    //@return true if screen has skipable notification (lvl 0,5,10, prestige 1,2,3)
+    //@return false otherwise
+    override fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean {
+        val notificationRedPx = getPixelsOfColorAmount(bufferedImage).state.notificationRedPx
+        return (notificationRedPx > 20_000)
     }
 
     //fills info about node state and quality, if possible
@@ -63,6 +81,8 @@ class AdvancedDetector : Detector {
         var purplePx = 0
         var redPx = 0
         var eventPx = 0
+
+        var notificationRedPx = 0
 
         val colorToAmountMap = hashMapOf<String, Int>()
         for (i in 0 until bufferedImage.width) {
@@ -128,13 +148,19 @@ class AdvancedDetector : Detector {
                         green = color.green,
                         blue = color.blue
                     ) -> eventPx++
+
+                    ColorRanges.NOTIFICATION_RED.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> notificationRedPx++
                 }
             }
         }
 
         return ColorDistribution(
             ColorDistribution.State(
-                availablePx, lockedPx, boughtPx
+                availablePx, lockedPx, boughtPx, notificationRedPx
             ),
             ColorDistribution.Quality(
                 brownPx, yellowPx, greenPx, purplePx, redPx
@@ -152,6 +178,8 @@ class AdvancedDetector : Detector {
             val lockedPx: Int,
             val boughtPx: Int,
             //unavailable px can't be counted
+
+            val notificationRedPx: Int,
         )
 
         data class Quality(
