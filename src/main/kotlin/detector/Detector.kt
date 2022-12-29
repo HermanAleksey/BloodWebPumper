@@ -1,5 +1,6 @@
 package detector
 
+import blood_web.BloodWebPageState
 import blood_web.Node
 import java.awt.image.BufferedImage
 
@@ -10,17 +11,7 @@ interface Detector {
      * */
     fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage)
 
-    /**
-     * @return true if center - is prestige level
-     * @return false otherwise
-     * */
-    fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean
-
-    /**
-     * @return true if screen has skipable notification (e.g. lvl 0,5,10, prestige 1,2,3)
-     * @return false otherwise
-     * */
-    fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean
+    fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState
 
     fun analyzeBloodPointsAmount() {
         //todo implement in 2024

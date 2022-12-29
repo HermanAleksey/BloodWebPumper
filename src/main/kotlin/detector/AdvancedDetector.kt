@@ -2,6 +2,7 @@ package detector
 
 import Constants
 import Constants.NODE_SIZE_PX
+import blood_web.BloodWebPageState
 import blood_web.ColorRanges
 import blood_web.Node
 import java.awt.Color
@@ -9,6 +10,19 @@ import java.awt.image.BufferedImage
 
 
 class AdvancedDetector : Detector {
+
+    override fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState {
+        val isPrestigeLevelState = checkPrestigeLevelState(bufferedImage)
+        if (isPrestigeLevelState)
+            return BloodWebPageState.PRESTIGE
+        else {
+            val isSkipableNotification = checkSkipableNotificationState(bufferedImage)
+            if (isSkipableNotification)
+                return BloodWebPageState.NOTIFICATION
+        }
+
+        return BloodWebPageState.LEVEL
+    }
 
     override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) = with(node) {
         val nodeBufferedImage = bufferedImage.getSubimage(
@@ -21,7 +35,7 @@ class AdvancedDetector : Detector {
         println(node)
     }
 
-    override fun analyzeCenterOfBloodWeb(bufferedImage: BufferedImage): Boolean {
+    private fun checkPrestigeLevelState(bufferedImage: BufferedImage): Boolean {
         val centerNodeImage = bufferedImage.getSubimage(
             Constants.BLOOD_WEB_CENTER_X - NODE_SIZE_PX / 2,
             Constants.BLOOD_WEB_CENTER_Y - NODE_SIZE_PX / 2,
@@ -31,28 +45,28 @@ class AdvancedDetector : Detector {
         val whitePrestigePx = getPixelsOfColorAmount(centerNodeImage).state.prestigeWhitePx
 
 
-        return (whitePrestigePx > 150)
+        return (whitePrestigePx > THRESHOLD_OF_WHITE_PRESTIGE_PX)
     }
 
-    override fun checkSkipableNotification(bufferedImage: BufferedImage): Boolean {
+    private fun checkSkipableNotificationState(bufferedImage: BufferedImage): Boolean {
         val notificationRedPx = getPixelsOfColorAmount(bufferedImage).state.notificationRedPx
-        return (notificationRedPx > 20_000)
+        return (notificationRedPx > THRESHOLD_OF_RED_NOTIFICATION_PX)
     }
 
     //fills info about node state and quality, if possible
     private fun checkNodeState(node: Node, bufferedImage: BufferedImage) {
         getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
-                state.availablePx > 400 -> Node.State.AVAILABLE
-                state.lockedPx > 600 -> Node.State.LOCKED
-                state.boughtPx > 600 -> Node.State.BOUGHT
+                state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> Node.State.AVAILABLE
+                state.lockedPx > THRESHOLD_OF_LOCKED_PX -> Node.State.LOCKED
+                state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> Node.State.BOUGHT
                 else -> Node.State.UNAVAILABLE
             }
             val quality = when {
-                quality.redPx > 200 -> Node.Quality.IRIDESCENT
-                quality.purplePx > 80 -> Node.Quality.PURPLE
-                quality.greenPx > 100 -> Node.Quality.GREEN
-                quality.yellowPx > 200 -> Node.Quality.YELLOW
+                quality.redPx > THRESHOLD_OF_RED_PX -> Node.Quality.IRIDESCENT
+                quality.purplePx > THRESHOLD_OF_PURPLE_PX -> Node.Quality.PURPLE
+                quality.greenPx > THRESHOLD_OF_GREEN_PX -> Node.Quality.GREEN
+                quality.yellowPx > THRESHOLD_OF_YELLOW_PX -> Node.Quality.YELLOW
 //                quality.brownPx > 0 -> "brown"
                 else -> Node.Quality.BROWN
             }
@@ -196,5 +210,19 @@ class AdvancedDetector : Detector {
             //todo perhaps do event as brown
 //            val eventPx: Int,
         )
+    }
+
+    companion object {
+        const val THRESHOLD_OF_WHITE_PRESTIGE_PX = 150
+        const val THRESHOLD_OF_RED_NOTIFICATION_PX = 20_000
+
+        const val THRESHOLD_OF_AVAILABLE_PX = 400
+        const val THRESHOLD_OF_LOCKED_PX = 600
+        const val THRESHOLD_OF_BOUGHT_PX = 600
+
+        const val THRESHOLD_OF_RED_PX = 200
+        const val THRESHOLD_OF_PURPLE_PX = 80
+        const val THRESHOLD_OF_GREEN_PX = 100
+        const val THRESHOLD_OF_YELLOW_PX = 200
     }
 }

@@ -1,9 +1,6 @@
 package execution_mode
 
-import blood_web.BloodWeb
-import blood_web.Node
-import blood_web.Presets
-import blood_web.parseIntoNode
+import blood_web.*
 import detector.Detector
 import helper.sendLog
 import kotlinx.coroutines.delay
@@ -41,19 +38,20 @@ class SimpleExecutionMode(
 
     private suspend fun pumpOneBloodWebLevel() {
         val bloodWebScreenShot = clickHelper.takeScreenShot()
-        val isPrestigeLevel = detector.analyzeCenterOfBloodWeb(bloodWebScreenShot)
-        sendLog("Is prestige level: $isPrestigeLevel")
-
-        if (isPrestigeLevel) {
-            clickHelper.upgradeAndSkipPrestigeLevel()
-        } else {
-            val isSkipableNotification = detector.checkSkipableNotification(bloodWebScreenShot)
-            sendLog("IsSkipableNotification: $isSkipableNotification")
-            if (isSkipableNotification)
-                clickHelper.skipPrestigeRewardsPopUp()
-            else {
-                BloodWeb.BloodWebCircle.values().forEach {
-                    pumpOneCircleOfBloodWeb(it)
+        detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
+            when (pageState) {
+                BloodWebPageState.NOTIFICATION -> {
+                    sendLog("Is skipable notification level")
+                    clickHelper.skipPrestigeRewardsPopUp()
+                }
+                BloodWebPageState.PRESTIGE -> {
+                    sendLog("Is prestige level")
+                    clickHelper.upgradeAndSkipPrestigeLevel()
+                }
+                BloodWebPageState.LEVEL -> {
+                    BloodWeb.BloodWebCircle.values().forEach {
+                        pumpOneCircleOfBloodWeb(it)
+                    }
                 }
             }
         }
