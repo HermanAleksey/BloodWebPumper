@@ -2,6 +2,7 @@ package execution_mode
 
 import blood_web.*
 import detector.Detector
+import helper.save
 import helper.sendLog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
@@ -37,16 +38,16 @@ class SimpleExecutionMode(
     }
 
     private suspend fun pumpOneBloodWebLevel() {
-        val bloodWebScreenShot = clickHelper.takeScreenShot()
+        val bloodWebScreenShot = takeScreenShot()
         detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
             when (pageState) {
                 BloodWebPageState.NOTIFICATION -> {
                     sendLog("Is skipable notification level")
-                    clickHelper.skipPrestigeRewardsPopUp()
+                    clickHelper.skipNotification()
                 }
                 BloodWebPageState.PRESTIGE -> {
                     sendLog("Is prestige level")
-                    clickHelper.upgradeAndSkipPrestigeLevel()
+                    clickHelper.upgradePrestigeLevel()
                 }
                 BloodWebPageState.LEVEL -> {
                     BloodWeb.BloodWebCircle.values().forEach {
@@ -58,10 +59,10 @@ class SimpleExecutionMode(
     }
 
     private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) = runBlocking {
-        val bloodWebScreenShot = clickHelper.takeScreenShot()
+        val bloodWebScreenShot = takeScreenShot()
         if (takeScreenShots)
-            clickHelper.saveScreenShot(
-                screenShot = bloodWebScreenShot,
+            bloodWebScreenShot.save(
+                fileName = "BloodWebScreenShot.png",
             )
 
         checkPerksInCircle(

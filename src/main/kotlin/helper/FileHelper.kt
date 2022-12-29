@@ -1,9 +1,24 @@
 package helper
 
+import Constants
+import java.awt.Rectangle
+import java.awt.Robot
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.IOException
 import javax.imageio.ImageIO
+import javax.swing.JFileChooser
+
+
+fun Robot.takeScreenShot(
+    x: Int,
+    y: Int,
+    width: Int,
+    height: Int,
+): BufferedImage {
+    val rect = Rectangle(x, y, width, height)
+    return this.createScreenCapture(rect)
+}
 
 fun File.convertIntoBufferImage(): BufferedImage {
     val myInitialImage: BufferedImage = ImageIO.read(this)
@@ -16,10 +31,13 @@ fun File.convertIntoBufferImage(): BufferedImage {
     return newImage
 }
 
-fun BufferedImage.save(fileName: String){
+fun BufferedImage.save(fileName: String) {
     try {
-        val outputfile = File(fileName)
-        ImageIO.write(this, "png", outputfile)
+        val docsDirectory = JFileChooser().fileSystemView.defaultDirectory.toString()
+        val fileSeparator = System.getProperty(Constants.FILE_SEPARATOR_PROPERTY)
+        val absoluteFilePath = docsDirectory + fileSeparator + fileName
+        val file = File(absoluteFilePath)
+        ImageIO.write(this, "png", file)
     } catch (e: IOException) {
         // handle exception
     }

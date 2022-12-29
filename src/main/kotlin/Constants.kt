@@ -19,4 +19,6 @@ object Constants {
 
     const val SCREEN_SHOT_WIDTH = 1200
     const val SCREEN_SHOT_HEIGHT = 1000
+
+    const val APP_NAME = "BloodWeb Auto-leveling"
 }

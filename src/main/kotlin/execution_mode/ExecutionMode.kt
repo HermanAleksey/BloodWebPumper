@@ -4,15 +4,19 @@ import Constants.IN_BETWEEN_MOVEMENT_DURATION
 import Constants.NEW_LEVEL_ANIMATION_DURATION
 import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
+import Constants.SCREEN_SHOT_HEIGHT
+import Constants.SCREEN_SHOT_WIDTH
 import detector.AdvancedDetector
 import detector.Detector
 import helper.ClickHelper
 import helper.Command
+import helper.takeScreenShot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.awt.Robot
+import java.awt.image.BufferedImage
 
 sealed class ExecutionMode(
     protected val detector: Detector,
@@ -49,6 +53,15 @@ sealed class ExecutionMode(
             executionScope.cancel()
             e.printStackTrace()
         }
+    }
+
+    fun takeScreenShot(
+        x: Int = 0,
+        y: Int = 0,
+        width: Int = SCREEN_SHOT_WIDTH,
+        height: Int = SCREEN_SHOT_HEIGHT,
+    ): BufferedImage {
+       return robot.takeScreenShot(x, y, width, height)
     }
 
     abstract suspend fun pumpBloodWeb()
