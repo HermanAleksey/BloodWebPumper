@@ -1,14 +1,12 @@
 package presentation.compose.control_panel
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import helper.Command
 
@@ -19,10 +17,9 @@ fun ControlPanel(
     levelsToUpgrade: Int,
     setLevelsToUpgrade: (Int) -> Unit
 ) {
-
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.spacedBy(48.dp)
     ) {
         Box(
             modifier = Modifier.fillMaxWidth(),
@@ -33,8 +30,11 @@ fun ControlPanel(
                 style = TextStyle(fontSize = 24.sp)
             )
         }
+
         ModesSelect(setSelectedMode)
+
         LevelSelect(levelsToUpgrade, setLevelsToUpgrade)
+
         HelperCard()
     }
 }

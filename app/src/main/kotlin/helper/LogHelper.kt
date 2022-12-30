@@ -6,3 +6,7 @@ val executionLogs = MutableStateFlow("")
 suspend fun sendLog(log: String) {
     executionLogs.emit(executionLogs.value + "\n" + log)
 }
+
+suspend fun clearLog() {
+    executionLogs.emit("")
+}

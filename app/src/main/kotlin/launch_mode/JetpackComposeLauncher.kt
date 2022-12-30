@@ -22,7 +22,6 @@ import presentation.compose.LogsField
 import presentation.compose.control_panel.ControlPanel
 
 class JetpackComposeLauncher : AppLauncher {
-
     override fun run() {
         application {
             Window(
