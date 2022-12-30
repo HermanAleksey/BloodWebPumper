@@ -21,4 +21,5 @@ object Constants {
     const val SCREEN_SHOT_HEIGHT = 1000
 
     const val APP_NAME = "BloodWeb Auto-leveling"
+    const val APP_ICON_PATH = "/scenes/drawables/bubba.jpg"
 }

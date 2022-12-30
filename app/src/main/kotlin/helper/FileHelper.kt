@@ -9,7 +9,6 @@ import java.io.IOException
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 
-
 fun Robot.takeScreenShot(
     x: Int,
     y: Int,

@@ -1,6 +1,7 @@
 package launch_mode
 
 import Constants
+import Constants.APP_ICON_PATH
 import Constants.EXECUTOR_KEY
 import Constants.STOP_KEY
 import controller.MainController
@@ -47,7 +48,7 @@ class JavaFxLauncher : AppLauncher, Application() {
                 scene = mainScene
                 title = Constants.APP_NAME
                 isResizable = false
-                icons.add(Image(javaClass.getResourceAsStream("/scenes/drawables/bubba.jpg")))
+                icons.add(Image(javaClass.getResourceAsStream(APP_ICON_PATH)))
 
                 show()
             }

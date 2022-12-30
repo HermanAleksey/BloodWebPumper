@@ -1,6 +1,7 @@
 import kotlinx.coroutines.flow.MutableStateFlow
 import launch_mode.AppLauncher
 import launch_mode.JavaFxLauncher
+import launch_mode.JetpackComposeLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -10,7 +11,7 @@ val executionLogs =  MutableStateFlow("")
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = JavaFxLauncher()
+    val appLauncher: AppLauncher = JetpackComposeLauncher()
     appLauncher.run()
 }
 
