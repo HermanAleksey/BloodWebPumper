@@ -4,9 +4,10 @@ import Constants
 import Constants.APP_ICON_PATH
 import Constants.EXECUTOR_KEY
 import Constants.STOP_KEY
-import controller.MainController
+import presentation.controller.MainController
 import execution_mode.ExecutionMode
 import helper.Command
+import helper.executionLogs
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
@@ -18,7 +19,6 @@ import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.jnativehook.keyboard.NativeKeyListener
-import executionLogs
 
 
 class JavaFxLauncher : AppLauncher, Application() {
@@ -56,7 +56,7 @@ class JavaFxLauncher : AppLauncher, Application() {
             try {
                 launch(Dispatchers.IO) {
                     executionLogs.collect {
-                        mainController.appendLogText(it)
+                        mainController.setText(it)
                     }
                 }
 

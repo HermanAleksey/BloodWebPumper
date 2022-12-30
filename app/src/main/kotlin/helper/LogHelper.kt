@@ -1,7 +1,8 @@
 package helper
 
-import executionLogs
+import kotlinx.coroutines.flow.MutableStateFlow
 
+val executionLogs = MutableStateFlow("")
 suspend fun sendLog(log: String) {
-    executionLogs.emit(log)
+    executionLogs.emit(executionLogs.value + "\n" + log)
 }

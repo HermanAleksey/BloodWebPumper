@@ -1,4 +1,4 @@
-package controller
+package presentation.controller
 
 import javafx.fxml.FXML
 import javafx.scene.control.*
@@ -32,5 +32,9 @@ class MainController {
 
     fun appendLogText(text: String) {
         textAreaLogs.appendText("$text\n")
+    }
+
+    fun setText(text: String) {
+        textAreaLogs.text = "$text\n"
     }
 }
