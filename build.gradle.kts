@@ -4,29 +4,29 @@ plugins {
     kotlin("jvm") version "1.6.20"
     id ("java")
     `java-library`
-    id ("application")
-    id ("org.openjfx.javafxplugin") version "0.0.13"
-}
 
+}
 
 group = "com.justparokq"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath(kotlin("gradle-plugin", version = "1.6.21"))
+    }
 }
 
-dependencies {
-    implementation("com.1stleg:jnativehook:2.1.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.6.4")
-//    implementation("net.sourceforge.tess4j:tess4j:5.4.0")
-    implementation("org.apache.commons:commons-math3:3.6.1")
-}
-
-javafx {
-    modules("javafx.controls", "javafx.fxml")
-    version = "17"
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven("https://github.com/JetBrains/compose-jb")
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    }
 }
 
 tasks.test {

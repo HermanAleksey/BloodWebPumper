@@ -2,7 +2,6 @@ package detector
 
 import blood_web.BloodWebPageState
 import blood_web.Node
-import java.awt.Point
 import java.awt.image.BufferedImage
 
 class TestDetector: Detector {
