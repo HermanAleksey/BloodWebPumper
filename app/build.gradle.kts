@@ -5,11 +5,11 @@ plugins {
     id("org.jetbrains.compose") version "1.2.0-alpha01-dev686"
 
 //    id ("application")
-    id ("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 group = "com.justparokq"
-version = "1.0-SNAPSHOT"
+version = "1.1-COMPOSE"
 
 repositories {
     mavenCentral()
@@ -29,8 +29,22 @@ javafx {
     version = "17"
 }
 
-compose.desktop.application.mainClass = "com.justparokq.MainKt"
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+    }
+}
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }

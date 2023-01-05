@@ -29,7 +29,7 @@ class JetpackComposeLauncher : AppLauncher {
                 state = WindowState(width = 1000.dp, height = 700.dp),
                 resizable = false,
                 title = Constants.APP_NAME,
-                icon = painterResource(APP_ICON_PATH)
+//                icon = painterResource(APP_ICON_PATH)
             ) {
                 MaterialTheme {
                     App()
