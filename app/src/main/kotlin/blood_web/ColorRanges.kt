@@ -21,13 +21,26 @@ enum class ColorRanges(
         maxBlue = 10,
     ),
 
-    PRESTIGE_WHITE(
+    //Prestige and pictures on available perks
+    WHITE(
         minRed = 240,
         maxRed = 255,
         minGreen = 240,
         maxGreen = 255,
         minBlue = 240,
         maxBlue = 255,
+    ),
+
+    //white color on unavailable perks
+    //used in order to check if node exist or empty
+    //if bitmap doesn't have white - don't have node.
+    UNAVAILABLE_WHITE(
+        minRed = 136,
+        maxRed = 174,
+        minGreen = 132,
+        maxGreen = 166,
+        minBlue = 139,
+        maxBlue = 158,
     ),
 
     AVAILABLE_NODE(
@@ -57,18 +70,6 @@ enum class ColorRanges(
         maxBlue = 20,
     ),
 
-    //работает через раз :)
-    //Могут быть кейсы где взятый принимается за него.
-    //Нужно проверять на него в последнюю очередь
-    UNAVAILABLE_NODE(
-        minRed = 45,
-        maxRed = 53,
-        minGreen = 45,
-        maxGreen = 54,
-        minBlue = 56,
-        maxBlue = 63,
-    ),
-
     //todo don't work; use else branch is option
     BROWN(
         minRed = 0,
@@ -84,17 +85,17 @@ enum class ColorRanges(
         maxRed = 120,
         minGreen = 60,
         maxGreen = 120,
-        minBlue = 25,
+        minBlue = 16,
         maxBlue = 40,
     ),
 
     GREEN(
         minRed = 13,
         maxRed = 25,
-        minGreen = 50,
+        minGreen = 47,
         maxGreen = 75,
         minBlue = 14,
-        maxBlue = 24,
+        maxBlue = 30,
     ),
 
     //locked = 40-44,18-25,48-52
@@ -103,7 +104,7 @@ enum class ColorRanges(
         maxRed = 70,
         minGreen = 20,
         maxGreen = 35,
-        minBlue = 70,
+        minBlue = 55,
         maxBlue = 100,
     ),
 
@@ -123,15 +124,6 @@ enum class ColorRanges(
         maxGreen = 0,
         minBlue = 0,
         maxBlue = 0,
-    ),
-
-    WHITE(
-        minRed = 245,
-        maxRed = 255,
-        minGreen = 245,
-        maxGreen = 255,
-        minBlue = 245,
-        maxBlue = 255,
     );
 
     fun isColorInRange(blue: Int, green: Int, red: Int): Boolean {
@@ -141,12 +133,4 @@ enum class ColorRanges(
 
         return colorRedState && colorGreenState && colorBlueState
     }
-}
-
-fun Color.isInRange(range: ColorRanges): Boolean {
-    val colorRedState = this.red in range.minRed..range.maxRed
-    val colorGreenState = this.green in range.minGreen..range.maxGreen
-    val colorBlueState = this.blue in range.minBlue..range.maxBlue
-
-    return colorRedState && colorGreenState && colorBlueState
 }
