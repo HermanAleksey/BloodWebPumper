@@ -1,5 +1,7 @@
 import launch_mode.AppLauncher
+import launch_mode.GraphTestConsoleLauncher
 import launch_mode.JavaFxLauncher
+import launch_mode.JetpackComposeLauncher
 import org.jnativehook.GlobalScreen
 import java.util.logging.Level
 import java.util.logging.Logger
