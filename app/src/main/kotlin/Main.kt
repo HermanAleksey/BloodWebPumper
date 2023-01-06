@@ -8,7 +8,7 @@ import java.util.logging.Logger
 
 fun main() {
     turnOffLogs()
-    val appLauncher: AppLauncher = JavaFxLauncher()
+    val appLauncher: AppLauncher = GraphTestConsoleLauncher()
     appLauncher.run()
 }
 

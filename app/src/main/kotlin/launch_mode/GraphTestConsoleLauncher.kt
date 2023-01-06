@@ -2,6 +2,7 @@ package launch_mode
 
 import blood_web.BloodWeb
 import blood_web.Node
+import blood_web.createFullGraph
 import com.mxgraph.layout.mxCircleLayout
 import com.mxgraph.layout.mxIGraphLayout
 import com.mxgraph.util.mxCellRenderer
@@ -40,12 +41,10 @@ class GraphTestConsoleLauncher : AppLauncher {
         val imgFile = File("resources/graph.png")
         imgFile.createNewFile()
 
-        val nodeGraph = createStringGraph()
+        val nodeGraph = createFullGraph()
 
+        nodeGraph.edgeSet().forEach{ println(it) }
 
-        // note undirected edges are printed as: {<v1>,<v2>}
-        println("-- toString output")
-        System.out.println(nodeGraph.toString())
         println()
         println("-- visualisation")
         val graphAdapter = JGraphXAdapter<Node, DefaultEdge>(nodeGraph)

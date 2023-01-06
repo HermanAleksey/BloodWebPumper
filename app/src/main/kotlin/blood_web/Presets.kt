@@ -1,5 +1,10 @@
 package blood_web
 
+import androidx.compose.ui.text.font.createFontFamilyResolver
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.graph.SimpleGraph
+import org.jgrapht.traverse.DepthFirstIterator
 import java.awt.Point
 
 //positions of top-center point of each possible perk
@@ -43,4 +48,49 @@ class Presets {
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 11) to Point(367, 371),//11
         Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER, 12) to Point(497, 240),//12
     )
+}
+
+fun createFullGraph(): Graph<Node, DefaultEdge> {
+    val graph: Graph<Node, DefaultEdge> = SimpleGraph<Node, DefaultEdge>(DefaultEdge::class.java)
+    Presets().innerPoints.forEach {point ->
+        val node = point.parseIntoNode()
+        graph.addVertex(node)
+    }
+    Presets().secondaryPoints.forEach {point ->
+        val node = point.parseIntoNode()
+        graph.addVertex(node)
+    }
+    Presets().outerPoints.forEach {point ->
+        val node = point.parseIntoNode()
+        graph.addVertex(node)
+    }
+
+    val vertexesSet = graph.vertexSet()
+
+    Presets().innerPoints.forEach { point ->
+        val node1 = point.parseIntoNode()
+
+        for (i in 0..3) {
+            var index = (node1.orderedNumber.position * 2 + 12 - 3 + i - 1) % 12 //
+            var preset = Presets().secondaryPoints[index]
+            graph.addEdge(
+                vertexesSet.find { it == node1 },
+                vertexesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+        }
+    }
+
+
+
+    Presets().secondaryPoints.forEach {point ->
+        val node1 = point.parseIntoNode()
+
+        for (i in 0..1) {
+            var index = (node1.orderedNumber.position - 1 + 12 + i) % 12 //
+            var preset = Presets().outerPoints[index]
+            graph.addEdge(vertexesSet.find { it == node1 }, vertexesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+        }
+
+    }
+
+    return graph;
 }

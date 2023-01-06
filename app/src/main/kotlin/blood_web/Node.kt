@@ -18,7 +18,18 @@ data class Node(
     )
 
     override fun toString(): String {
-        return "Node(orderedNumber:$orderedNumber, topCenter=Point(${topCenterCoord.x},${topCenterCoord.y}), state=$state, quality=$quality)"
+        return "Node($orderedNumber)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is Node) return false
+        if (this.orderedNumber != other.orderedNumber)
+            return false
+        if (this.topCenterCoord != other.topCenterCoord)
+            return false
+        if (this.state != other.state)
+            return false
+        return this.quality == other.quality
     }
 
     fun toLogString() = "Node(orderedNumber:$orderedNumber, state=$state, quality=$quality)"
@@ -26,7 +37,11 @@ data class Node(
     data class OrderedNumber(
         val circle: BloodWeb.BloodWebCircle,
         val position: Int,
-    )
+    ){
+        override fun toString(): String {
+            return "$circle: $position"
+        }
+    }
 
     enum class State {
         AVAILABLE,
