@@ -58,9 +58,10 @@ class AdvancedDetector : Detector {
         getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
                 state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> Node.State.AVAILABLE
+                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> Node.State.UNAVAILABLE
                 state.lockedPx > THRESHOLD_OF_LOCKED_PX -> Node.State.LOCKED
                 state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> Node.State.BOUGHT
-                else -> Node.State.UNAVAILABLE
+                else -> Node.State.EMPTY
             }
             val quality = when {
                 quality.redPx > THRESHOLD_OF_RED_PX -> Node.Quality.IRIDESCENT
@@ -70,8 +71,6 @@ class AdvancedDetector : Detector {
 //                quality.brownPx > 0 -> "brown"
                 else -> Node.Quality.BROWN
             }
-
-            println(this.quality)
 
             node.apply {
                 this.state = state
@@ -95,6 +94,7 @@ class AdvancedDetector : Detector {
 
         var notificationRedPx = 0
         var prestigeWhite = 0
+        var unavailableWhite = 0
 
         val colorToAmountMap = hashMapOf<String, Int>()
         for (i in 0 until bufferedImage.width) {
@@ -167,18 +167,24 @@ class AdvancedDetector : Detector {
                         blue = color.blue
                     ) -> notificationRedPx++
 
-                    ColorRanges.PRESTIGE_WHITE.isColorInRange(
+                    ColorRanges.WHITE.isColorInRange(
                         red = color.red,
                         green = color.green,
                         blue = color.blue
                     ) -> prestigeWhite++
+
+                    ColorRanges.UNAVAILABLE_WHITE.isColorInRange(
+                        red = color.red,
+                        green = color.green,
+                        blue = color.blue
+                    ) -> unavailableWhite++
                 }
             }
         }
 
         return ColorDistribution(
             ColorDistribution.State(
-                availablePx, lockedPx, boughtPx, notificationRedPx, prestigeWhite
+                availablePx, lockedPx, boughtPx, notificationRedPx, prestigeWhite, unavailableWhite,
             ),
             ColorDistribution.Quality(
                 brownPx, yellowPx, greenPx, purplePx, redPx
@@ -195,10 +201,10 @@ class AdvancedDetector : Detector {
             val availablePx: Int,
             val lockedPx: Int,
             val boughtPx: Int,
-            //unavailable px can't be counted
 
             val notificationRedPx: Int,
             val prestigeWhitePx: Int,
+            val unavailableWhitePx: Int,
         )
 
         data class Quality(
@@ -219,6 +225,8 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_AVAILABLE_PX = 400
         const val THRESHOLD_OF_LOCKED_PX = 600
         const val THRESHOLD_OF_BOUGHT_PX = 600
+        //if bitmap have less than this white pixels - node is empty
+        const val THRESHOLD_OF_UNAVAILABLE_PX = 42
 
         const val THRESHOLD_OF_RED_PX = 200
         const val THRESHOLD_OF_PURPLE_PX = 80
