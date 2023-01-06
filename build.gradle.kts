@@ -1,14 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.20"
+    kotlin("jvm")
     id ("java")
-    `java-library`
-
 }
-
-group = "com.justparokq"
-version = "1.0-SNAPSHOT"
 
 buildscript {
     repositories {
@@ -26,6 +21,7 @@ allprojects {
         mavenCentral()
         maven("https://github.com/JetBrains/compose-jb")
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        google()
     }
 }
 
