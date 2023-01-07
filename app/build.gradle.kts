@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.*
+
 plugins {
     kotlin("jvm")
     id("java")
@@ -26,12 +28,33 @@ javafx {
 compose.desktop {
     application {
         mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            //can include only necessary modules via         modules("java.sql")
+            includeAllModules = true
+
+            val majorVersion = 1
+            val minorVersion = 0
+            val patchVersion = 0
+            packageVersion = "$majorVersion.$minorVersion.$patchVersion"
+
+            javaHome = System.getenv("JAVA_HOME")
+
+            outputBaseDir.set(project.buildDir.resolve("composeOutput"))
+
+            packageName = "BloodWebPumper"
+            description = "App to waste time more efficiently"
+            copyright = "©2023 AkakiDev team. All rights reserved."
+
+            windows {
+                iconFile.set(project.file("/src/main/resources/scenes/drawables/bubba.ico"))
+
+            }
+            //tutorial to configuration and tasks running
+            //https://github.com/JetBrains/compose-jb/tree/master/tutorials/Native_distributions_and_local_execution#minification--obfuscation
+        }
     }
-//    nativeDistributions {
-//        targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.AppImage, TargetFormat.Exe)
-//        packageName = "compose"
-//        packageVersion = "1.0.0"
-//    }
 }
 
 tasks.getByName<Test>("test") {
@@ -46,15 +69,4 @@ tasks.jar {
         from(zipTree(file.absoluteFile))
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.register<Jar>("uberJar") {
-    archiveClassifier.set("uber")
-
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
 }
