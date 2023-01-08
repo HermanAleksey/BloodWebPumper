@@ -24,19 +24,22 @@ object AppConfig {
     const val outputDirectory = "composeOutput"
 }
 
+object LibVersion {
+    const val jnativehookVersion = "2.1.0"
+    const val coroutinesVersion = "1.6.4"
+    const val commonsMath3Version = "3.6.1"
+}
+
 group = "com.justparokq"
 version = AppConfig.versionName
 
 dependencies {
     implementation(compose.desktop.currentOs)
 
-    val jnativehookVersion = "2.1.0"
-    val coroutinesVersion = "1.6.4"
-    val commonsMath3Version = "3.6.1"
-    implementation("com.1stleg:jnativehook:$jnativehookVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutinesVersion")
-    implementation("org.apache.commons:commons-math3:$commonsMath3Version")
+    implementation("com.1stleg:jnativehook:${LibVersion.jnativehookVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${LibVersion.coroutinesVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:${LibVersion.coroutinesVersion}")
+    implementation("org.apache.commons:commons-math3:${LibVersion.commonsMath3Version}")
 }
 
 javafx {
@@ -50,7 +53,8 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            //can include only necessary modules via         modules("java.sql")
+            //can include only necessary modules via
+            modules("com.1stleg:jnativehook:${LibVersion.jnativehookVersion}")
             includeAllModules = true
 
 
