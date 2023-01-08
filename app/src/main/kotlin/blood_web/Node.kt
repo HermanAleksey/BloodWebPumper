@@ -23,9 +23,16 @@ data class Node(
 
     override fun equals(other: Any?): Boolean {
         if (other !is Node) return false
+        var isEqual = false
         if (this.orderedNumber != other.orderedNumber)
-            return false
-        return (this.topCenterCoord == other.topCenterCoord)
+            isEqual = false
+        isEqual = (this.topCenterCoord == other.topCenterCoord)
+//        println("$this eq $other: $isEqual")
+        return isEqual
+    }
+
+    override fun hashCode(): Int {
+        return this.orderedNumber.hashCode() + this.topCenterCoord.hashCode()
     }
 
     fun toLogString() = "Node(orderedNumber:$orderedNumber, state=$state, quality=$quality)"

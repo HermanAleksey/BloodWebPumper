@@ -79,10 +79,13 @@ class SecondGraderExecutor(
             node.state == Node.State.EMPTY || node.state == Node.State.LOCKED
         }.forEach { vertex ->
 //            vertices.remove(vertex)
+//            sendLog(vertex.toString())
             val isEqual = graph.removeVertex(vertex)
             sendLog("$vertex is removed $isEqual")
+            sendLog("and graph contain vertex: ${graph.containsVertex(vertex)}")
         }
-        drawGraph()
+        graph.vertexSet().forEach{ println(it) }
+//        drawGraph()
     }
 
     private suspend fun drawGraph(){
