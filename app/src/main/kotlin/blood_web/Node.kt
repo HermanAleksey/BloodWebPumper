@@ -51,7 +51,13 @@ data class Node(
         UNAVAILABLE,
         LOCKED,
         BOUGHT,
-        EMPTY
+        EMPTY;
+
+        //return true if node is still can be picked
+        fun isOpen() = this == AVAILABLE || this == UNAVAILABLE
+
+        //return true if node already can't be picked
+        fun isClosed() = this == LOCKED || this == BOUGHT || this == EMPTY
     }
 
     enum class Quality {
