@@ -43,7 +43,15 @@ class GraphTestConsoleLauncher : AppLauncher {
 
         val nodeGraph = createFullGraph()
 
-        nodeGraph.edgeSet().forEach{ println(it) }
+//
+//        val bloodWebScreenShot = takeScreenShot()
+//
+//        graph.vertexSet().forEach(){node ->
+//            detector.processNodeStateQuality(node, bloodWebScreenShot)
+//        }
+
+        nodeGraph.vertexSet().first().quality = Node.Quality.IRIDESCENT
+//        nodeGraph.edgeSet().forEach{ println(it) }
 
         println()
         println("-- visualisation")

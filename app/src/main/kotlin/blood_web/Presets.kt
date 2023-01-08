@@ -63,7 +63,7 @@ fun createFullGraph(): Graph<Node, DefaultEdge> {
         graph.addVertex(node)
     }
 
-    val vertexesSet = graph.vertexSet()
+    val verticesSet = graph.vertexSet()
 
     Presets().innerPoints.forEach { point ->
         val node1 = point.parseIntoNode()
@@ -72,8 +72,8 @@ fun createFullGraph(): Graph<Node, DefaultEdge> {
             val index = (node1.orderedNumber.position * 2 + 12 - 3 + i - 1) % 12 //
             val preset = Presets().middlePoints[index]
             graph.addEdge(
-                vertexesSet.find { it == node1 },
-                vertexesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+                verticesSet.find { it == node1 },
+                verticesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
         }
     }
 
@@ -85,7 +85,7 @@ fun createFullGraph(): Graph<Node, DefaultEdge> {
         for (i in 0..1) {
             val index = (node1.orderedNumber.position - 1 + 12 + i) % 12 //
             val preset = Presets().outerPoints[index]
-            graph.addEdge(vertexesSet.find { it == node1 }, vertexesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+            graph.addEdge(verticesSet.find { it == node1 }, verticesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
         }
 
     }

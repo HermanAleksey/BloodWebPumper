@@ -76,8 +76,8 @@ class SimpleExecutionMode(
 
             nodes.filter { node ->
                 node.state == Node.State.AVAILABLE
-            }.forEach { perk ->
-                clickHelper.performClickOnNode(perk)
+            }.forEach { node ->
+                clickHelper.performClickOnNode(node)
             }
         }
     }

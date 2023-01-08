@@ -1,6 +1,5 @@
 package presentation.compose.control_panel
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -8,7 +7,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import helper.Command
 
@@ -35,8 +33,8 @@ fun ModesSelect(
                 setSelectedMode(Command.Mode.SIMPLE)
                 simpleButtonSelected = true
             }
-            Command.Mode.CHEAPEST_FIRST -> {
-                setSelectedMode(Command.Mode.CHEAPEST_FIRST)
+            Command.Mode.RAREST_FIRST -> {
+                setSelectedMode(Command.Mode.RAREST_FIRST)
                 ecoButtonSelected = true
             }
         }
@@ -71,7 +69,7 @@ fun ModesSelect(
             Button(
                 enabled = !ecoButtonSelected,
                 onClick = {
-                    selectOption(Command.Mode.CHEAPEST_FIRST)
+                    selectOption(Command.Mode.RAREST_FIRST)
                 }
             ) {
                 Text("Eco")

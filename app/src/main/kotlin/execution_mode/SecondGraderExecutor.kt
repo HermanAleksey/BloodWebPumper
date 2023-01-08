@@ -1,14 +1,17 @@
 package execution_mode
 
 import blood_web.*
+import com.mxgraph.layout.mxCircleLayout
+import com.mxgraph.layout.mxIGraphLayout
+import com.mxgraph.util.mxCellRenderer
 import detector.Detector
-import helper.save
 import helper.sendLog
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import org.jgrapht.Graph
-import org.jgrapht.graph.DefaultEdge
+import org.jgrapht.ext.JGraphXAdapter
+import java.awt.Color
 import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.ImageIO
 
 class SecondGraderExecutor(
     delayNewLevelAnimation: Long,
@@ -26,21 +29,22 @@ class SecondGraderExecutor(
 ) {
 
     private val takeScreenShots = false
-    val graph = createFullGraph();
+    private val graph = createFullGraph();
 
 
     override suspend fun pumpBloodWeb() {
-        sendLog("Running SimpleExecutionMode")
+        sendLog("Вызов pumpBloodWeb")
         for (currentLevel in 1..levels) {
             sendLog("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
             clickHelper.moveOutCursor()
         }
-        sendLog("SimpleExecutionMode completed")
+        sendLog("SecondGraderExecutor completed")
     }
 
     private suspend fun pumpOneBloodWebLevel() {
+        sendLog("Вызов pumpOneBloodWebLevel")
         val bloodWebScreenShot = takeScreenShot()
         detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
             when (pageState) {
@@ -53,39 +57,55 @@ class SecondGraderExecutor(
                     clickHelper.upgradePrestigeLevel()
                 }
                 BloodWebPageState.LEVEL -> {
-                    BloodWeb.BloodWebCircle.values().forEach {
-                        pumpOneCircleOfBloodWeb(it)
-                    }
+                    updateGraph()
+                    levelToTarget(findExpensiveNode())
                 }
             }
         }
     }
 
-    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) = runBlocking {
+    private suspend fun updateGraph() {
         val bloodWebScreenShot = takeScreenShot()
-        if (takeScreenShots)
-            bloodWebScreenShot.save(
-                fileName = "BloodWebScreenShot.png",
-            )
+        sendLog("Вызов updateGraph")
 
-        checkPerksInCircle(
-            circle = circle,
-            bloodWebScreenShot
-        ).let { nodes ->
-            sendLog("Pumping $circle")
-            nodes.forEach {
-                sendLog(it.toLogString())
-            }
-
-            nodes.filter { node ->
-                node.state == Node.State.EMPTY
-            }.forEach { perk ->
-                graph.removeVertex(perk)
-            }
+        var vertices = graph.vertexSet()
+        vertices.forEach(){node ->
+            detector.processNodeStateQuality(node, bloodWebScreenShot)
         }
 
+
+
+        vertices.filter {node ->
+            node.state == Node.State.EMPTY || node.state == Node.State.LOCKED
+        }.forEach { vertex ->
+//            vertices.remove(vertex)
+            val isEqual = graph.removeVertex(vertex)
+            sendLog("$vertex is removed $isEqual")
+        }
+        drawGraph()
+    }
+
+    private suspend fun drawGraph(){
+        sendLog("Вызов drawGraph")
+
+        val imgFile = File("resources/graph1.png")
+        imgFile.createNewFile()
+        val graphAdapter = JGraphXAdapter(graph)
+
+        val layout: mxIGraphLayout = mxCircleLayout(graphAdapter)
+
+        layout.execute(graphAdapter.defaultParent)
+
+        val image: BufferedImage = mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
+
+        ImageIO.write(image, "PNG", imgFile)
+    }
+
+
+    private suspend fun findExpensiveNode(): Node{
+        sendLog("Вызов findExpensiveNode")
         val vertexSet = graph.vertexSet()
-        val targetPerk = vertexSet.find { node ->
+        return (vertexSet.find { node ->
             node.quality == Node.Quality.IRIDESCENT
         }?:vertexSet.find { node ->
             node.quality == Node.Quality.PURPLE
@@ -93,10 +113,38 @@ class SecondGraderExecutor(
             node.quality == Node.Quality.GREEN
         }?:vertexSet.find { node ->
             node.quality == Node.Quality.YELLOW
-        }?:vertexSet.first()
+        }?:vertexSet.first()).apply { sendLog("Target Node: $this") }
     }
 
-    private fun checkPerksInCircle(
+    private suspend fun changeTargetNode(oldTargetNode: Node): Node? {
+        sendLog("Вызов changeTargetNode")
+        val adjacentEdges = graph.edgesOf(oldTargetNode)
+        adjacentEdges.forEach{
+            val v = graph.getEdgeSource(it)
+            if (v.state == Node.State.AVAILABLE){
+                return v
+            }
+        }
+        
+        adjacentEdges.forEach{
+            return graph.getEdgeSource(it)
+        }
+        
+        return null
+    }
+
+    private suspend fun levelUpNode(node: Node){
+        sendLog("Вызов levelUpNode")
+        node.state?.let {
+            when (it) {
+                Node.State.AVAILABLE -> clickHelper.performClickOnNode(node)
+                Node.State.UNAVAILABLE, Node.State.LOCKED, Node.State.BOUGHT, Node.State.EMPTY -> 
+                    changeTargetNode(node)?.let {newTargetNode -> levelUpNode(newTargetNode) }                    
+            }
+        }
+    }
+
+    private fun setNodesParametersInCircle(
         circle: BloodWeb.BloodWebCircle,
         bufferedImage: BufferedImage
     ): List<Node> {
@@ -119,28 +167,12 @@ class SecondGraderExecutor(
     }
 
     private suspend fun levelToTarget(
-        graph: Graph<Node, DefaultEdge>,
-        targetNode: Node
+                targetNode: Node
     ) {
-        val bloodWebScreenShot = takeScreenShot()
-
-        when (targetNode.orderedNumber.circle) {
-            BloodWeb.BloodWebCircle.INNER -> {
-                clickHelper.performClickOnNode(targetNode)
-            }
-            BloodWeb.BloodWebCircle.MIDDLE -> {
-                val innerMiddleEdges = graph.edgesOf(targetNode)
-                var innerVertexes: Set<Node> = emptySet()
-                innerMiddleEdges.forEach{innerVertexes.plus(graph.getEdgeSource(it))}
-
-                val availableNode = innerVertexes.first { node ->
-                    node.state == Node.State.AVAILABLE
-                }
-                clickHelper.performClickOnNode(availableNode)
-            }
-            BloodWeb.BloodWebCircle.OUTER -> {
-
-            }
+        sendLog("Вызов levelToTarget")
+        while (targetNode.state != Node.State.BOUGHT || targetNode.state != Node.State.LOCKED) {
+            levelUpNode(targetNode)
+            updateGraph()
         }
     }
 }

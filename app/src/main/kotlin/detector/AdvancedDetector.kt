@@ -32,7 +32,6 @@ class AdvancedDetector : Detector {
             NODE_SIZE_PX
         )
         checkNodeState(node, nodeBufferedImage)
-        println(node)
     }
 
     private fun checkPrestigeLevelState(bufferedImage: BufferedImage): Boolean {

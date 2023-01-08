@@ -76,8 +76,8 @@ class JavaFxLauncher : AppLauncher, Application() {
                                     when ((mainController.runningModeGroup.selectedToggle as? RadioButton)?.id) {
                                         mainController.rbModeTest.id -> 0
                                         mainController.rbModeSimple.id -> 1
-                                        mainController.rbModeEco.id -> 2
-                                        mainController.rbModeNonEco.id -> 3
+                                        mainController.rbModeNonEco.id -> 2
+                                        mainController.rbModeEco.id -> 3
                                         else -> 0
                                     }
                                 val mode = Command.Mode.values().find {

@@ -18,18 +18,14 @@ data class Node(
     )
 
     override fun toString(): String {
-        return "Node($orderedNumber)"
+        return "Node($orderedNumber), $state, $quality"
     }
 
     override fun equals(other: Any?): Boolean {
         if (other !is Node) return false
         if (this.orderedNumber != other.orderedNumber)
             return false
-        if (this.topCenterCoord != other.topCenterCoord)
-            return false
-        if (this.state != other.state)
-            return false
-        return this.quality == other.quality
+        return (this.topCenterCoord == other.topCenterCoord)
     }
 
     fun toLogString() = "Node(orderedNumber:$orderedNumber, state=$state, quality=$quality)"
