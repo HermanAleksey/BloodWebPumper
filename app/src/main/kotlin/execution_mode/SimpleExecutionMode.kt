@@ -77,7 +77,7 @@ class SimpleExecutionMode(
             nodes.filter { node ->
                 node.state == Node.State.AVAILABLE
             }.forEach { perk ->
-                clickHelper.performClickOnPerk(perk)
+                clickHelper.performClickOnNode(perk)
             }
         }
     }
@@ -91,7 +91,7 @@ class SimpleExecutionMode(
     ): List<Node> {
         val presets = when (circle) {
             BloodWeb.BloodWebCircle.INNER -> Presets().innerPoints
-            BloodWeb.BloodWebCircle.SECONDARY -> Presets().secondaryPoints
+            BloodWeb.BloodWebCircle.MIDDLE -> Presets().middlePoints
             BloodWeb.BloodWebCircle.OUTER -> Presets().outerPoints
         }
         val availableNodes = mutableListOf<Node>()

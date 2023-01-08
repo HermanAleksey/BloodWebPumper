@@ -69,7 +69,7 @@ class GraphTestConsoleLauncher : AppLauncher {
         val g: Graph<Node, DefaultEdge> = SimpleGraph<Node, DefaultEdge>(DefaultEdge::class.java)
         val v1 = Node(Node.OrderedNumber(BloodWeb.BloodWebCircle.INNER,1), Point(0, 0))
         val v2 = Node(Node.OrderedNumber(BloodWeb.BloodWebCircle.INNER,2), Point(0, 0))
-        val v3 = Node(Node.OrderedNumber(BloodWeb.BloodWebCircle.SECONDARY,1), Point(0, 0))
+        val v3 = Node(Node.OrderedNumber(BloodWeb.BloodWebCircle.MIDDLE,1), Point(0, 0))
         val v4 = Node(Node.OrderedNumber(BloodWeb.BloodWebCircle.OUTER,1), Point(0, 0))
 
         // add the vertices

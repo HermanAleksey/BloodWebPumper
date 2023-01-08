@@ -16,7 +16,7 @@ class ClickHelper(
     private val prestigeLevelUpDuration: Long,
 ) {
 
-    suspend fun performClickOnPerk(
+    suspend fun performClickOnNode(
         node: Node,
         mask: Int = InputEvent.BUTTON1_DOWN_MASK,
     ) = with(robot) {

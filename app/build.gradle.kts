@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.*
+
 plugins {
     kotlin("jvm")
     id("java")
@@ -6,20 +8,40 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
+object AppConfig {
+    private const val majorVersion = 1
+    private const val minorVersion = 0
+    private const val patchVersion = 0
+    const val versionName = "$majorVersion.$minorVersion.$patchVersion"
+
+    const val packageName = "BloodWebPumper"
+    const val description = "App to waste time more efficiently"
+    const val copyright = "©2023 AkakiDev team. All rights reserved."
+    const val appIconPath = "/src/main/resources/scenes/drawables/bubba.ico"
+
+    const val MAIN_CLASS = "MainKt"
+    const val JAVA_HOME = "JAVA_HOME"
+    const val outputDirectory = "composeOutput"
+}
+
 group = "com.justparokq"
-version = "1.1-COMPOSE"
+version = AppConfig.versionName
 
 dependencies {
-    implementation("com.1stleg:jnativehook:2.1.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.6.4")
-    implementation("org.apache.commons:commons-math3:3.6.1")
-
-    implementation("org.jgrapht:jgrapht-core:1.5.1")
-    implementation("org.jgrapht:jgrapht-io:1.5.1")
-    implementation("org.jgrapht:jgrapht-ext:1.5.1")
-
     implementation(compose.desktop.currentOs)
+
+    val jnativehookVersion = "2.1.0"
+    val coroutinesVersion = "1.6.4"
+    val commonsMath3Version = "3.6.1"
+    implementation("com.1stleg:jnativehook:$jnativehookVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:$coroutinesVersion")
+    implementation("org.apache.commons:commons-math3:$commonsMath3Version")
+
+    val jgraphtVersion = "1.5.1"
+    implementation("org.jgrapht:jgrapht-core:$jgraphtVersion")
+    implementation("org.jgrapht:jgrapht-io:$jgraphtVersion")
+    implementation("org.jgrapht:jgrapht-ext:$jgraphtVersion")
 }
 
 javafx {
@@ -29,13 +51,31 @@ javafx {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = AppConfig.MAIN_CLASS
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            //can include only necessary modules via         modules("java.sql")
+            includeAllModules = true
+
+
+            packageVersion = AppConfig.versionName
+
+            javaHome = System.getenv(AppConfig.JAVA_HOME)
+
+            outputBaseDir.set(project.buildDir.resolve(AppConfig.outputDirectory))
+
+            packageName = AppConfig.packageName
+            description = AppConfig.description
+            copyright = AppConfig.copyright
+
+            windows {
+                iconFile.set(project.file(AppConfig.appIconPath))
+            }
+            //tutorial to configuration and tasks running
+            //https://github.com/JetBrains/compose-jb/tree/master/tutorials/Native_distributions_and_local_execution#minification--obfuscation
+        }
     }
-//    nativeDistributions {
-//        targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.AppImage, TargetFormat.Exe)
-//        packageName = "compose"
-//        packageVersion = "1.0.0"
-//    }
 }
 
 tasks.getByName<Test>("test") {
@@ -44,21 +84,10 @@ tasks.getByName<Test>("test") {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "MainKt"
+        attributes["Main-Class"] = AppConfig.MAIN_CLASS
     }
     configurations["compileClasspath"].forEach { file: File ->
         from(zipTree(file.absoluteFile))
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.register<Jar>("uberJar") {
-    archiveClassifier.set("uber")
-
-    from(sourceSets.main.get().output)
-
-    dependsOn(configurations.runtimeClasspath)
-    from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-    })
 }
