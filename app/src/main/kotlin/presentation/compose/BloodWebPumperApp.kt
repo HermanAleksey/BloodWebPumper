@@ -10,12 +10,11 @@ import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
 import org.jnativehook.keyboard.NativeKeyListener
-import presentation.compose.main_screen.MainScreenViewModel
+import presentation.compose.main_screen.MainViewModel
 import presentation.compose.main_screen.control_panel.ControlPanel
 
 @Composable
-fun BloodWebPumperApp(viewModel: MainScreenViewModel) {
-
+fun BloodWebPumperApp(viewModel: MainViewModel) {
     LaunchedEffect(Unit) {
         println("Start hook")
         try {

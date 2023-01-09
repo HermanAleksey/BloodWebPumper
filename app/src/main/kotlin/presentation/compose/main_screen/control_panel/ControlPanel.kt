@@ -3,19 +3,18 @@ package presentation.compose.main_screen.control_panel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import presentation.compose.main_screen.MainScreenViewModel
+import presentation.compose.main_screen.MainViewModel
 
 @Composable
 fun ControlPanel(
     modifier: Modifier = Modifier,
-    viewModel: MainScreenViewModel,
+    viewModel: MainViewModel,
 ) {
     val levelsToUpgrade = viewModel.levelsToPumpAmount.collectAsState()
 
@@ -46,19 +45,26 @@ fun ControlPanel(
 
         HelperCard()
 
-        Row {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             Button(onClick = {
                 viewModel.onCloseLogsClick()
             }) {
                 Text("Close logs")
             }
 
-            Spacer(modifier = Modifier.width(48.dp))
-
             Button(onClick = {
                 viewModel.onOpenLogsClick()
             }) {
                 Text("Open logs")
+            }
+
+            Button(onClick = {
+                viewModel.onHelpClick()
+            }) {
+                Text("Help")
             }
         }
     }

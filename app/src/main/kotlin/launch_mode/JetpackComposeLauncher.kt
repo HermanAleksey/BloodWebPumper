@@ -10,12 +10,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
 import presentation.compose.BloodWebPumperApp
-import presentation.compose.main_screen.MainScreenViewModel
+import presentation.compose.main_screen.HelpWindow
+import presentation.compose.main_screen.MainViewModel
 
 class JetpackComposeLauncher : AppLauncher {
     override fun run() {
         application {
-            val viewModel = remember { MainScreenViewModel() }
+            val viewModel = remember { MainViewModel() }
             val windowsWidthDp = viewModel.windowWidth.collectAsState(1000)
             Window(
                 onCloseRequest = ::exitApplication,
@@ -29,6 +30,8 @@ class JetpackComposeLauncher : AppLauncher {
                     BloodWebPumperApp(viewModel)
                 }
             }
+
+            HelpWindow(viewModel)
         }
     }
 }

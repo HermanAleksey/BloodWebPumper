@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 
-class MainScreenViewModel {
+class MainViewModel {
 
     private val _logFieldIsVisible: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val logFieldIsVisible = _logFieldIsVisible.asStateFlow()
@@ -20,6 +20,10 @@ class MainScreenViewModel {
 
     private val _levelsToPumpAmount: MutableStateFlow<Int> = MutableStateFlow(0)
     val levelsToPumpAmount = _levelsToPumpAmount.asStateFlow()
+
+    private val _helpWindowIsVisible = MutableStateFlow(false)
+    val helpWindowIsVisible = _helpWindowIsVisible.asStateFlow()
+
 
     fun onCloseLogsClick() {
         _logFieldIsVisible.value = false
@@ -37,7 +41,7 @@ class MainScreenViewModel {
         executor?.run()
     }
 
-    fun onStopExecutionKeyPressed(){
+    fun onStopExecutionKeyPressed() {
         executor?.stop()
         executor = null
     }
@@ -48,5 +52,13 @@ class MainScreenViewModel {
 
     fun onLevelToPumpUpdated(value: Int) {
         _levelsToPumpAmount.value = value
+    }
+
+    fun onHelpClick() {
+        _helpWindowIsVisible.value = true
+    }
+
+    fun onHelpWindowCloseClick() {
+        _helpWindowIsVisible.value = false
     }
 }
