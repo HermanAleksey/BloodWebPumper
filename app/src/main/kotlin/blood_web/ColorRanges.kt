@@ -36,9 +36,9 @@ enum class ColorRanges(
     //if bitmap doesn't have white - don't have node.
     UNAVAILABLE_WHITE(
         minRed = 136,
-        maxRed = 174,
+        maxRed = 195,
         minGreen = 132,
-        maxGreen = 166,
+        maxGreen = 180,
         minBlue = 139,
         maxBlue = 158,
     ),
