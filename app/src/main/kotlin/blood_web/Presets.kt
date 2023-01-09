@@ -8,6 +8,8 @@ import java.awt.Point
 //positions of top-center point of each possible perk
 class Presets {
 
+    fun getAllPoints() = innerPoints + middlePoints + outerPoints
+
     val innerPoints = arrayOf(
         Node.OrderedNumber(BloodWeb.BloodWebCircle.INNER, 1) to Point(677, 422),//1
         Node.OrderedNumber(BloodWeb.BloodWebCircle.INNER, 2) to Point(783, 483),//2
@@ -50,15 +52,7 @@ class Presets {
 
 fun createFullGraph(): Graph<Node, DefaultEdge> {
     val graph: Graph<Node, DefaultEdge> = SimpleGraph(DefaultEdge::class.java)
-    Presets().innerPoints.forEach {point ->
-        val node = point.parseIntoNode()
-        graph.addVertex(node)
-    }
-    Presets().middlePoints.forEach { point ->
-        val node = point.parseIntoNode()
-        graph.addVertex(node)
-    }
-    Presets().outerPoints.forEach {point ->
+    Presets().getAllPoints().forEach { point ->
         val node = point.parseIntoNode()
         graph.addVertex(node)
     }
@@ -73,19 +67,25 @@ fun createFullGraph(): Graph<Node, DefaultEdge> {
             val preset = Presets().middlePoints[index]
             graph.addEdge(
                 verticesSet.find { it == node1 },
-                verticesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+                verticesSet.find { node2 ->
+                    node2 == Node(preset.first, preset.second)
+                }
+            )
         }
     }
-
-
 
     Presets().middlePoints.forEach { point ->
         val node1 = point.parseIntoNode()
 
         for (i in 0..1) {
-            val index = (node1.orderedNumber.position - 1 + 12 + i) % 12 //
+            val index = (node1.orderedNumber.position - 1 + 12 + i) % 12
             val preset = Presets().outerPoints[index]
-            graph.addEdge(verticesSet.find { it == node1 }, verticesSet.find { node2 -> node2 == Node(preset.first, preset.second) })
+            graph.addEdge(
+                verticesSet.find { it == node1 },
+                verticesSet.find { node2 ->
+                    node2 == Node(preset.first, preset.second)
+                }
+            )
         }
 
     }

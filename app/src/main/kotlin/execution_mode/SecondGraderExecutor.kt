@@ -1,20 +1,13 @@
 package execution_mode
 
-import blood_web.*
-import com.mxgraph.layout.mxCircleLayout
-import com.mxgraph.layout.mxIGraphLayout
-import com.mxgraph.util.mxCellRenderer
+import blood_web.BloodWebPageState
+import blood_web.Node
+import blood_web.createFullGraph
 import detector.Detector
 import helper.sendLog
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jgrapht.ext.JGraphXAdapter
-import java.awt.Color
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 
 class SecondGraderExecutor(
     delayNewLevelAnimation: Long,
@@ -31,7 +24,7 @@ class SecondGraderExecutor(
     detector = detector
 ) {
 
-    private var graph = createFullGraph();
+    private var graph = createFullGraph()
 
     override suspend fun pumpBloodWeb() {
         sendLog("Вызов pumpBloodWeb")
@@ -70,58 +63,20 @@ class SecondGraderExecutor(
         val bloodWebScreenShot = takeScreenShot()
         sendLog("Вызов updateGraph")
 
-        val vertices = graph.vertexSet()
-        vertices.forEach { node ->
-            detector.processNodeStateQuality(node, bloodWebScreenShot)
+        with(graph.vertexSet()) {
+            forEach { node ->
+                detector.processNodeStateQuality(node, bloodWebScreenShot)
+            }
+
+            filter { node ->
+                //true if node.state is closed or null
+                node.isInaccessible()
+            }.forEach { unavailableVertexes ->
+                graph.removeVertex(unavailableVertexes)
+//                sendLog("$unavailableVertexes is removed $isEqual")
+//                sendLog("and graph contain vertex: ${graph.containsVertex(unavailableVertexes)}")
+            }
         }
-
-        vertices.filter { node ->
-            //true if node.state is closed or null
-            node.isInaccessible()
-        }.forEach { unavailableVertexes ->
-//            vertices.remove(vertex)
-//            sendLog(vertex.toString())
-            val isEqual = graph.removeVertex(unavailableVertexes)
-            sendLog("$unavailableVertexes is removed $isEqual")
-            sendLog("and graph contain vertex: ${graph.containsVertex(unavailableVertexes)}")
-        }
-        graph.vertexSet().forEach { println(it) }
-//        drawGraph()
-    }
-
-    private suspend fun drawGraph() = withContext(Dispatchers.IO) {
-        launch{
-            sendLog("Вызов drawGraph")
-
-            val imgFile = File("resources/graph1.png")
-            imgFile.createNewFile()
-            val graphAdapter = JGraphXAdapter(graph)
-
-            val layout: mxIGraphLayout = mxCircleLayout(graphAdapter)
-
-            layout.execute(graphAdapter.defaultParent)
-
-            val image: BufferedImage =
-                mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
-
-
-            ImageIO.write(image, "PNG", imgFile)
-        }
-    }
-
-
-    private suspend fun findMostExpensiveNode(): Node {
-        sendLog("Вызов findExpensiveNode")
-        val vertexSet = graph.vertexSet()
-        return (vertexSet.find { node ->
-            node.quality == Node.Quality.IRIDESCENT
-        } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.PURPLE
-        } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.GREEN
-        } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.YELLOW
-        } ?: vertexSet.first()).apply { sendLog("Target Node: $this") }
     }
 
     private suspend fun levelUpBranchToTargetNode(node: Node) {
@@ -148,12 +103,9 @@ class SecondGraderExecutor(
             }
         }
 
-        adjacentEdges.forEach {
-            return changeTargetNode(graph.getEdgeSource(it))
-        }
-
-        sendLog("Null Pointer in changeTargetNode()")
-        throw NullPointerException()
+        return changeTargetNode(
+            graph.getEdgeSource(adjacentEdges.first())
+        )
     }
 
     private suspend fun levelEverything() {
@@ -163,11 +115,27 @@ class SecondGraderExecutor(
         var isLevelFinished = false
 
         while (!isLevelFinished) {
-            levelUpBranchToTargetNode(findMostExpensiveNode())
+            val targetNode = graph.getMostExpensiveNode()
+            levelUpBranchToTargetNode(targetNode)
             updateGraph()
-            vertices.any{
+            vertices.any {
                 it.isAccessible()
             }.let { isLevelFinished = !it }
         }
+    }
+}
+
+private suspend fun Graph<Node, DefaultEdge>.getMostExpensiveNode(): Node {
+    val vertexSet = this.vertexSet()
+    return (vertexSet.find { node ->
+        node.quality == Node.Quality.IRIDESCENT
+    } ?: vertexSet.find { node ->
+        node.quality == Node.Quality.PURPLE
+    } ?: vertexSet.find { node ->
+        node.quality == Node.Quality.GREEN
+    } ?: vertexSet.find { node ->
+        node.quality == Node.Quality.YELLOW
+    } ?: vertexSet.first()).apply {
+        sendLog("Target Node: $this")
     }
 }

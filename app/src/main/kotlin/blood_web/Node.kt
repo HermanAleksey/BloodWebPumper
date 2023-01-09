@@ -23,12 +23,9 @@ data class Node(
 
     override fun equals(other: Any?): Boolean {
         if (other !is Node) return false
-        var isEqual = false
         if (this.orderedNumber != other.orderedNumber)
-            isEqual = false
-        isEqual = (this.topCenterCoord == other.topCenterCoord)
-//        println("$this eq $other: $isEqual")
-        return isEqual
+            return false
+        return this.topCenterCoord == other.topCenterCoord
     }
 
     override fun hashCode(): Int {
@@ -40,7 +37,7 @@ data class Node(
     data class OrderedNumber(
         val circle: BloodWeb.BloodWebCircle,
         val position: Int,
-    ){
+    ) {
         override fun toString(): String {
             return "$circle: $position"
         }
@@ -50,7 +47,8 @@ data class Node(
     fun isAccessible() = this.state == State.AVAILABLE || this.state == State.UNAVAILABLE
 
     //return true if node already can't be picked
-    fun isInaccessible() = this.state == State.LOCKED || this.state == State.BOUGHT || this.state == State.EMPTY || this.state == null
+    fun isInaccessible() =
+        this.state == State.LOCKED || this.state == State.BOUGHT || this.state == State.EMPTY || this.state == null
 
     enum class State {
         AVAILABLE,
@@ -69,7 +67,7 @@ data class Node(
     }
 }
 
-fun Pair<Node.OrderedNumber, Point>.parseIntoNode()= Node(
+fun Pair<Node.OrderedNumber, Point>.parseIntoNode() = Node(
     orderedNumber = this.first,
     topCenterCoord = this.second,
     state = null,
