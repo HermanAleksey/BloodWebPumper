@@ -2,10 +2,8 @@ import org.jetbrains.compose.desktop.application.dsl.*
 
 plugins {
     kotlin("jvm")
-    id("java")
+//    id("java")
     id("org.jetbrains.compose")
-
-    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 object AppConfig {
@@ -44,11 +42,6 @@ dependencies {
     implementation("org.jgrapht:jgrapht-core:${LibVersion.jgraphtVersion}")
     implementation("org.jgrapht:jgrapht-io:${LibVersion.jgraphtVersion}")
     implementation("org.jgrapht:jgrapht-ext:${LibVersion.jgraphtVersion}")
-}
-
-javafx {
-    modules("javafx.controls", "javafx.fxml")
-    version = "17"
 }
 
 compose.desktop {
