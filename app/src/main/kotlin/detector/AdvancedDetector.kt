@@ -57,9 +57,9 @@ class AdvancedDetector : Detector {
         getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
                 state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> Node.State.AVAILABLE
-                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> Node.State.UNAVAILABLE
-                state.lockedPx > THRESHOLD_OF_LOCKED_PX -> Node.State.LOCKED
                 state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> Node.State.BOUGHT
+                state.lockedPx > THRESHOLD_OF_LOCKED_PX -> Node.State.LOCKED
+                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> Node.State.UNAVAILABLE
                 else -> Node.State.EMPTY
             }
             val quality = when {
