@@ -1,4 +1,4 @@
-package presentation.compose.control_panel
+package presentation.compose.main_screen.control_panel
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import helper.Command
-
 
 @Composable
 fun ModesSelect(
