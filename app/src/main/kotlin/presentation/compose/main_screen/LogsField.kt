@@ -15,6 +15,13 @@ import androidx.compose.ui.unit.dp
 import helper.clearLog
 import helper.executionLogs
 import kotlinx.coroutines.launch
+import java.awt.Toolkit
+import java.awt.datatransfer.Clipboard
+
+import java.awt.datatransfer.StringSelection
+
+
+
 
 @Composable
 fun LogsField(modifier: Modifier = Modifier) {
@@ -49,14 +56,33 @@ fun LogsField(modifier: Modifier = Modifier) {
             }
         }
 
-        Button(
-            onClick = {
-                scope.launch {
-                    clearLog()
+        Row (modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    scope.launch {
+                        clearLog()
+                    }
                 }
+            ) {
+                Text("Clear log")
             }
-        ) {
-            Text("Clear log")
+            Spacer(modifier = Modifier.width(48.dp))
+            Button(
+                onClick = {
+                    scope.launch {
+                        logs.value.copyToClipboard()
+                    }
+                }
+            ) {
+                Text("Copy log")
+            }
         }
+
     }
+}
+
+fun String.copyToClipboard(){
+    val selection = StringSelection(this)
+    val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
+    clipboard.setContents(selection, selection)
 }
