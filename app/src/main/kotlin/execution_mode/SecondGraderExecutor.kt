@@ -8,6 +8,7 @@ import detector.Detector
 import helper.sendLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jgrapht.ext.JGraphXAdapter
 import java.awt.Color
@@ -30,7 +31,7 @@ class SecondGraderExecutor(
     detector = detector
 ) {
 
-    private val graph = createFullGraph();
+    private var graph = createFullGraph();
 
     override suspend fun pumpBloodWeb() {
         sendLog("Вызов pumpBloodWeb")
@@ -57,8 +58,9 @@ class SecondGraderExecutor(
                     clickHelper.upgradePrestigeLevel()
                 }
                 BloodWebPageState.LEVEL -> {
+                    graph = createFullGraph()
                     updateGraph()
-                    levelToTarget(findMostExpensiveNode())
+                    levelEverything()
                 }
             }
         }
@@ -75,7 +77,7 @@ class SecondGraderExecutor(
 
         vertices.filter { node ->
             //true if node.state is closed or null
-            node.state?.isClosed() ?: true
+            node.isInaccessible()
         }.forEach { unavailableVertexes ->
 //            vertices.remove(vertex)
 //            sendLog(vertex.toString())
@@ -88,21 +90,23 @@ class SecondGraderExecutor(
     }
 
     private suspend fun drawGraph() = withContext(Dispatchers.IO) {
-        sendLog("Вызов drawGraph")
+        launch{
+            sendLog("Вызов drawGraph")
 
-        val imgFile = File("resources/graph1.png")
-        imgFile.createNewFile()
-        val graphAdapter = JGraphXAdapter(graph)
+            val imgFile = File("resources/graph1.png")
+            imgFile.createNewFile()
+            val graphAdapter = JGraphXAdapter(graph)
 
-        val layout: mxIGraphLayout = mxCircleLayout(graphAdapter)
+            val layout: mxIGraphLayout = mxCircleLayout(graphAdapter)
 
-        layout.execute(graphAdapter.defaultParent)
+            layout.execute(graphAdapter.defaultParent)
 
-        val image: BufferedImage =
-            mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
+            val image: BufferedImage =
+                mxCellRenderer.createBufferedImage(graphAdapter, null, 2.0, Color.WHITE, true, null)
 
 
-        ImageIO.write(image, "PNG", imgFile)
+            ImageIO.write(image, "PNG", imgFile)
+        }
     }
 
 
@@ -125,6 +129,7 @@ class SecondGraderExecutor(
         node.state?.let {
             if (it == Node.State.AVAILABLE) {
                 clickHelper.performClickOnNode(node)
+                updateGraph()
             } else {
                 changeTargetNode(node)?.let { newTargetNode ->
                     levelUpBranchToTargetNode(newTargetNode)
@@ -144,41 +149,25 @@ class SecondGraderExecutor(
         }
 
         adjacentEdges.forEach {
-            return graph.getEdgeSource(it)
+            return changeTargetNode(graph.getEdgeSource(it))
         }
 
-        return null
+        sendLog("Null Pointer in changeTargetNode()")
+        throw NullPointerException()
     }
 
-    private fun setNodesParametersInCircle(
-        circle: BloodWeb.BloodWebCircle,
-        bufferedImage: BufferedImage
-    ): List<Node> {
-        val presets = when (circle) {
-            BloodWeb.BloodWebCircle.INNER -> Presets().innerPoints
-            BloodWeb.BloodWebCircle.MIDDLE -> Presets().middlePoints
-            BloodWeb.BloodWebCircle.OUTER -> Presets().outerPoints
-        }
-        val availableNodes = mutableListOf<Node>()
+    private suspend fun levelEverything() {
+        sendLog("Вызов levelEverything")
 
-        presets.forEach { point ->
-            val node = point.parseIntoNode()
-            detector.processNodeStateQuality(node, bufferedImage).let {
-                availableNodes.add(
-                    node
-                )
-            }
-        }
-        return availableNodes
-    }
+        val vertices = graph.vertexSet()
+        var isLevelFinished = false
 
-    private suspend fun levelToTarget(
-        targetNode: Node
-    ) {
-        sendLog("Вызов levelToTarget")
-        while (targetNode.state != Node.State.BOUGHT || targetNode.state != Node.State.LOCKED) {
-            levelUpBranchToTargetNode(targetNode)
+        while (!isLevelFinished) {
+            levelUpBranchToTargetNode(findMostExpensiveNode())
             updateGraph()
+            vertices.any{
+                it.isAccessible()
+            }.let { isLevelFinished = !it }
         }
     }
 }

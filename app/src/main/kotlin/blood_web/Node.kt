@@ -46,18 +46,18 @@ data class Node(
         }
     }
 
+    //return true if node is still can be picked
+    fun isAccessible() = this.state == State.AVAILABLE || this.state == State.UNAVAILABLE
+
+    //return true if node already can't be picked
+    fun isInaccessible() = this.state == State.LOCKED || this.state == State.BOUGHT || this.state == State.EMPTY || this.state == null
+
     enum class State {
         AVAILABLE,
         UNAVAILABLE,
         LOCKED,
         BOUGHT,
         EMPTY;
-
-        //return true if node is still can be picked
-        fun isOpen() = this == AVAILABLE || this == UNAVAILABLE
-
-        //return true if node already can't be picked
-        fun isClosed() = this == LOCKED || this == BOUGHT || this == EMPTY
     }
 
     enum class Quality {
