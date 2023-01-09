@@ -90,7 +90,13 @@ sealed class ExecutionMode(
                     prestigeLevelUpDuration = prestigeLevelUpDuration,
                     detector = AdvancedDetector(),
                 )
-                else -> TestExecutionMode()
+                else -> TestExecutionMode(
+                    delayNewLevelAnimation = delayNewLevelAnimation,
+                    perkSelectionDuration = perkSelectionDuration,
+                    movementDuration = movementDuration,
+                    prestigeLevelUpDuration = prestigeLevelUpDuration,
+                    detector = AdvancedDetector(),
+                )
             }
         }
     }
