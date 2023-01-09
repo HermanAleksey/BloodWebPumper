@@ -16,7 +16,7 @@ class MainScreenViewModel {
     }
 
     private val _selectedExecutionMode: MutableStateFlow<Command.Mode> = MutableStateFlow(Command.Mode.TEST)
-    val selectedExecutionMode = _selectedExecutionMode.asStateFlow()
+    private val selectedExecutionMode = _selectedExecutionMode.asStateFlow()
 
     private val _levelsToPumpAmount: MutableStateFlow<Int> = MutableStateFlow(0)
     val levelsToPumpAmount = _levelsToPumpAmount.asStateFlow()

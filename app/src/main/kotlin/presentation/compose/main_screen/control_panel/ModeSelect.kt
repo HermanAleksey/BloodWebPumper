@@ -16,12 +16,12 @@ fun ModesSelect(
 ) {
     var testButtonSelected by remember { mutableStateOf(true) }
     var simpleButtonSelected by remember { mutableStateOf(false) }
-    var ecoButtonSelected by remember { mutableStateOf(false) }
+    var rarestButtonSelected by remember { mutableStateOf(false) }
 
     val selectOption: (Command.Mode) -> Unit = { option ->
         testButtonSelected = false
         simpleButtonSelected = false
-        ecoButtonSelected = false
+        rarestButtonSelected = false
 
         when (option) {
             Command.Mode.TEST -> {
@@ -34,7 +34,7 @@ fun ModesSelect(
             }
             Command.Mode.RAREST_FIRST -> {
                 setSelectedMode(Command.Mode.RAREST_FIRST)
-                ecoButtonSelected = true
+                rarestButtonSelected = true
             }
         }
     }
@@ -66,12 +66,12 @@ fun ModesSelect(
                 Text("Simple")
             }
             Button(
-                enabled = !ecoButtonSelected,
+                enabled = !rarestButtonSelected,
                 onClick = {
                     selectOption(Command.Mode.RAREST_FIRST)
                 }
             ) {
-                Text("Eco")
+                Text("Rarest")
             }
         }
     }

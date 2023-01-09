@@ -29,6 +29,8 @@ class SecondGraderExecutor(
     override suspend fun pumpBloodWeb() {
         sendLog("Вызов pumpBloodWeb")
         for (currentLevel in 1..levels) {
+            if (isExecutionWasStopped()) return
+
             sendLog("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
@@ -59,6 +61,38 @@ class SecondGraderExecutor(
         }
     }
 
+    private suspend fun levelEverything() {
+        sendLog("Вызов levelEverything")
+
+        val vertices = graph.vertexSet()
+        var isLevelFinished = false
+
+        while (!isLevelFinished) {
+            val targetNode = graph.getMostExpensiveNode()
+            levelUpBranchToTargetNode(targetNode)
+            updateGraph()
+            vertices.any {
+                it.isAccessible()
+            }.let { isLevelFinished = !it }
+        }
+    }
+
+    private suspend fun levelUpBranchToTargetNode(node: Node) {
+        sendLog("Вызов levelUpNode")
+        node.state?.let {
+            if (isExecutionWasStopped()) return
+
+            if (it == Node.State.AVAILABLE) {
+                clickHelper.performClickOnNode(node)
+                updateGraph()
+            } else {
+                changeTargetNode(node)?.let { newTargetNode ->
+                    levelUpBranchToTargetNode(newTargetNode)
+                }
+            }
+        }
+    }
+
     private suspend fun updateGraph() {
         val bloodWebScreenShot = takeScreenShot()
         sendLog("Вызов updateGraph")
@@ -79,20 +113,6 @@ class SecondGraderExecutor(
         }
     }
 
-    private suspend fun levelUpBranchToTargetNode(node: Node) {
-        sendLog("Вызов levelUpNode")
-        node.state?.let {
-            if (it == Node.State.AVAILABLE) {
-                clickHelper.performClickOnNode(node)
-                updateGraph()
-            } else {
-                changeTargetNode(node)?.let { newTargetNode ->
-                    levelUpBranchToTargetNode(newTargetNode)
-                }
-            }
-        }
-    }
-
     private suspend fun changeTargetNode(oldTargetNode: Node): Node? {
         sendLog("Вызов changeTargetNode")
         val adjacentEdges = graph.edgesOf(oldTargetNode)
@@ -106,22 +126,6 @@ class SecondGraderExecutor(
         return changeTargetNode(
             graph.getEdgeSource(adjacentEdges.first())
         )
-    }
-
-    private suspend fun levelEverything() {
-        sendLog("Вызов levelEverything")
-
-        val vertices = graph.vertexSet()
-        var isLevelFinished = false
-
-        while (!isLevelFinished) {
-            val targetNode = graph.getMostExpensiveNode()
-            levelUpBranchToTargetNode(targetNode)
-            updateGraph()
-            vertices.any {
-                it.isAccessible()
-            }.let { isLevelFinished = !it }
-        }
     }
 }
 

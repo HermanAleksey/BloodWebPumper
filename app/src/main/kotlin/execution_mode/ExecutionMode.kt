@@ -11,10 +11,7 @@ import detector.Detector
 import helper.ClickHelper
 import helper.Command
 import helper.takeScreenShot
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.awt.Robot
 import java.awt.image.BufferedImage
 
@@ -34,15 +31,9 @@ sealed class ExecutionMode(
         prestigeLevelUpDuration = prestigeLevelUpDuration
     )
 
-    private var executionScope = CoroutineScope(Dispatchers.Main)
+    private var executionScope = CoroutineScope(Dispatchers.Default)
 
-    fun stop() {
-        try {
-            executionScope.cancel()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-    }
+    protected fun isExecutionWasStopped() = !executionScope.isActive
 
     fun run() {
         try {
@@ -51,6 +42,14 @@ sealed class ExecutionMode(
             }
         } catch (e: java.lang.Exception) {
             executionScope.cancel()
+            e.printStackTrace()
+        }
+    }
+
+    fun stop() {
+        try {
+            executionScope.cancel()
+        } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
     }

@@ -5,7 +5,6 @@ import detector.Detector
 import helper.save
 import helper.sendLog
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 import java.awt.image.BufferedImage
 
 
@@ -29,6 +28,8 @@ class SimpleExecutionMode(
     override suspend fun pumpBloodWeb() {
         sendLog("Running SimpleExecutionMode")
         for (currentLevel in 1..levels) {
+            if (isExecutionWasStopped()) return
+
             sendLog("Pumping level #$currentLevel")
             pumpOneBloodWebLevel()
             delay(delayNewLevelAnimation)
@@ -38,6 +39,8 @@ class SimpleExecutionMode(
     }
 
     private suspend fun pumpOneBloodWebLevel() {
+        if (isExecutionWasStopped()) return
+
         val bloodWebScreenShot = takeScreenShot()
         detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
             when (pageState) {
@@ -58,7 +61,9 @@ class SimpleExecutionMode(
         }
     }
 
-    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) = runBlocking {
+    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) {
+        if (isExecutionWasStopped()) return
+
         val bloodWebScreenShot = takeScreenShot()
         if (takeScreenShots)
             bloodWebScreenShot.save(
@@ -77,6 +82,8 @@ class SimpleExecutionMode(
             nodes.filter { node ->
                 node.state == Node.State.AVAILABLE
             }.forEach { node ->
+                if (isExecutionWasStopped()) return
+
                 clickHelper.performClickOnNode(node)
             }
         }
