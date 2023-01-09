@@ -55,16 +55,16 @@ sealed class ExecutionMode(
         }
     }
 
-    fun takeScreenShot(
+    protected fun takeScreenShot(
         x: Int = 0,
         y: Int = 0,
         width: Int = SCREEN_SHOT_WIDTH,
         height: Int = SCREEN_SHOT_HEIGHT,
     ): BufferedImage {
-       return robot.takeScreenShot(x, y, width, height)
+        return robot.takeScreenShot(x, y, width, height)
     }
 
-    abstract suspend fun pumpBloodWeb()
+    protected abstract suspend fun pumpBloodWeb()
 
     companion object {
         fun fromCommand(

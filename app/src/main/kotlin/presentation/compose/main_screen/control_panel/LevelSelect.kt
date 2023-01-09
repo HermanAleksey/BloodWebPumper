@@ -10,7 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LevelSelect(levelsToUpgrade: Int, setLevelsToUpgrade: (Int) -> Unit) {
+fun LevelSelect(
+    levelsToUpgrade: Int,
+    setLevelsToUpgrade: (Int) -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth()
             .height(100.dp),

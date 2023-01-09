@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import execution_mode.ExecutionMode
-import helper.Command
 import org.jnativehook.GlobalScreen
 import org.jnativehook.NativeHookException
 import org.jnativehook.keyboard.NativeKeyEvent
@@ -17,14 +15,6 @@ import presentation.compose.main_screen.control_panel.ControlPanel
 
 @Composable
 fun BloodWebPumperApp(viewModel: MainScreenViewModel) {
-    val (selectedMode, setSelectedMode) = remember { mutableStateOf(Command.Mode.TEST) }
-    val (levelsToUpgrade, setLevelsToUpgrade) = remember { mutableStateOf(0) }
-    var executor: ExecutionMode? by remember { mutableStateOf(null) }
-    var executeCommand by remember { mutableStateOf(Command(Command.Mode.TEST, 0)) }
-
-    LaunchedEffect(key1 = selectedMode, key2 = levelsToUpgrade) {
-        executeCommand = Command(selectedMode, levelsToUpgrade)
-    }
 
     LaunchedEffect(Unit) {
         println("Start hook")
@@ -39,16 +29,10 @@ fun BloodWebPumperApp(viewModel: MainScreenViewModel) {
 
                     when (keyText) {
                         EXECUTOR_KEY -> {
-                            executeCommand.let {
-                                println("Execute command: $it")
-                                executor = ExecutionMode.fromCommand(command = it)
-                                executor?.run()
-                            }
+                            viewModel.onExecutorKeyPressed()
                         }
-
                         STOP_KEY -> {
-                            executor?.stop()
-                            executor = null
+                            viewModel.onStopExecutionKeyPressed()
                         }
                     }
                 }
@@ -67,7 +51,7 @@ fun BloodWebPumperApp(viewModel: MainScreenViewModel) {
         }
     }
 
-    val logsFieldIsVisible  = viewModel.logFieldIsVisible.collectAsState()//by remember { mutableStateOf(false) }
+    val logsFieldIsVisible  = viewModel.logFieldIsVisible.collectAsState()
 
     Row(
         modifier = Modifier
@@ -85,9 +69,6 @@ fun BloodWebPumperApp(viewModel: MainScreenViewModel) {
         ControlPanel(
             modifier = Modifier.fillMaxSize(),
             viewModel = viewModel,
-            setSelectedMode,
-            levelsToUpgrade,
-            setLevelsToUpgrade
         )
     }
 }
