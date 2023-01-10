@@ -9,7 +9,7 @@ import kotlinx.coroutines.delay
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-class SecondGraderExecutor(
+abstract class GraphExecutionMode(
     delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
@@ -23,8 +23,9 @@ class SecondGraderExecutor(
     prestigeLevelUpDuration = prestigeLevelUpDuration,
     detector = detector
 ) {
-
     private var graph = createFullGraph()
+
+    abstract suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node
 
     override suspend fun pumpBloodWeb() {
         sendLog("Вызов pumpBloodWeb")
@@ -68,7 +69,7 @@ class SecondGraderExecutor(
         var isLevelFinished = false
 
         while (!isLevelFinished) {
-            val targetNode = graph.getMostExpensiveNode()
+            val targetNode = getTargetNodeFromGraph(graph)
             levelUpBranchToTargetNode(targetNode)
             updateGraph()
             vertices.any {
@@ -126,20 +127,5 @@ class SecondGraderExecutor(
         return changeTargetNode(
             graph.getEdgeSource(adjacentEdges.first())
         )
-    }
-}
-
-private suspend fun Graph<Node, DefaultEdge>.getMostExpensiveNode(): Node {
-    val vertexSet = this.vertexSet()
-    return (vertexSet.find { node ->
-        node.quality == Node.Quality.IRIDESCENT
-    } ?: vertexSet.find { node ->
-        node.quality == Node.Quality.PURPLE
-    } ?: vertexSet.find { node ->
-        node.quality == Node.Quality.GREEN
-    } ?: vertexSet.find { node ->
-        node.quality == Node.Quality.YELLOW
-    } ?: vertexSet.first()).apply {
-        sendLog("Target Node: $this")
     }
 }

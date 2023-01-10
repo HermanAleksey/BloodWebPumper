@@ -82,7 +82,15 @@ sealed class ExecutionMode(
                     prestigeLevelUpDuration = prestigeLevelUpDuration,
                     detector = AdvancedDetector(),
                 )
-                Command.Mode.RAREST_FIRST -> SecondGraderExecutor(
+                Command.Mode.RAREST_FIRST -> MostExpensiveExecutor(
+                    levels = command.levels,
+                    delayNewLevelAnimation = delayNewLevelAnimation,
+                    perkSelectionDuration = perkSelectionDuration,
+                    movementDuration = movementDuration,
+                    prestigeLevelUpDuration = prestigeLevelUpDuration,
+                    detector = AdvancedDetector(),
+                )
+                Command.Mode.NEW_EXECUTOR -> MostExpensiveExecutor(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,
