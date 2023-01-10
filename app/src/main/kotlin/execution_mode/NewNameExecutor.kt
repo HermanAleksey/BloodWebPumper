@@ -23,17 +23,17 @@ class NewNameExecutor(
 ) {
 
     override suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node {
-//        val vertexSet = graph.vertexSet()
-//        return (vertexSet.find { node ->
-//            node.quality == Node.Quality.IRIDESCENT
-//        } ?: vertexSet.find { node ->
-//            node.quality == Node.Quality.PURPLE
-//        } ?: vertexSet.find { node ->
-//            node.quality == Node.Quality.GREEN
-//        } ?: vertexSet.find { node ->
-//            node.quality == Node.Quality.YELLOW
-//        } ?: vertexSet.first()).apply {
-//            sendLog("Target Node: $this")
-//        }
+        val vertexSet = graph.vertexSet()
+        return (vertexSet.find { node ->
+            node.quality == Node.Quality.IRIDESCENT
+        } ?: vertexSet.find { node ->
+            node.quality == Node.Quality.PURPLE
+        } ?: vertexSet.find { node ->
+            node.quality == Node.Quality.GREEN
+        } ?: vertexSet.find { node ->
+            node.quality == Node.Quality.YELLOW
+        } ?: vertexSet.first()).apply {
+            sendLog("Target Node: $this")
+        }
     }
 }

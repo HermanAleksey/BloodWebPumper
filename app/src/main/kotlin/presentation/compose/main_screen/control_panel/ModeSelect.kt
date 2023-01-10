@@ -41,7 +41,7 @@ fun ModesSelect(
             }
             Command.Mode.NEW_EXECUTOR -> {
                 setSelectedMode(Command.Mode.NEW_EXECUTOR)
-                rarestButtonSelected = true
+                newExecutorButtonSelected = true
             }
         }
     }
