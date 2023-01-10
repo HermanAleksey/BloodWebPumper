@@ -13,50 +13,16 @@ class SecondGraderExecutor(
     movementDuration: Long,
     prestigeLevelUpDuration: Long,
     detector: Detector,
-    private val levels: Int
+    levels: Int
 ) : ExecutionMode(
     delayNewLevelAnimation = delayNewLevelAnimation,
     perkSelectionDuration = perkSelectionDuration,
     movementDuration = movementDuration,
     prestigeLevelUpDuration = prestigeLevelUpDuration,
-    detector = detector
+    detector = detector,
+    levels = levels
 ) {
-
-    override suspend fun pumpBloodWeb() {
-        sendLog("Вызов pumpBloodWeb")
-        for (currentLevel in 1..levels) {
-            if (isExecutionWasStopped()) return
-
-            sendLog("Pumping level #$currentLevel")
-            pumpOneBloodWebLevel()
-            delay(delayNewLevelAnimation)
-            clickHelper.moveOutCursor()
-        }
-        sendLog("SecondGraderExecutor completed")
-    }
-
-    private suspend fun pumpOneBloodWebLevel() {
-        sendLog("Вызов pumpOneBloodWebLevel")
-        val bloodWebScreenShot = takeScreenShot()
-        detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
-            when (pageState) {
-                BloodWebPageState.NOTIFICATION -> {
-                    sendLog("Is skipable notification level")
-                    clickHelper.skipNotification()
-                }
-                BloodWebPageState.PRESTIGE -> {
-                    sendLog("Is prestige level")
-                    clickHelper.upgradePrestigeLevel()
-                }
-                BloodWebPageState.LEVEL -> {
-                    sendLog("Вызов pumpOneLevel")
-                    pumpOneLevel()
-                }
-            }
-        }
-    }
-
-    private suspend fun pumpOneLevel() {
+    override suspend fun pumpOneLevelOfBloodWeb() {
         var isLevelFinished = false
 
         //cycle to upgrade one full level of BW

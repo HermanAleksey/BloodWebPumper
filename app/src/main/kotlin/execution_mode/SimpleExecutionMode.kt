@@ -14,50 +14,21 @@ class SimpleExecutionMode(
     movementDuration: Long,
     prestigeLevelUpDuration: Long,
     detector: Detector,
-    private val levels: Int
+    levels: Int
 ) : ExecutionMode(
     delayNewLevelAnimation = delayNewLevelAnimation,
     perkSelectionDuration = perkSelectionDuration,
     movementDuration = movementDuration,
     prestigeLevelUpDuration = prestigeLevelUpDuration,
-    detector = detector
+    detector = detector,
+    levels = levels
 ) {
 
     private val takeScreenShots = false
 
-    override suspend fun pumpBloodWeb() {
-        sendLog("Running SimpleExecutionMode")
-        for (currentLevel in 1..levels) {
-            if (isExecutionWasStopped()) return
-
-            sendLog("Pumping level #$currentLevel")
-            pumpOneBloodWebLevel()
-            delay(delayNewLevelAnimation)
-            clickHelper.moveOutCursor()
-        }
-        sendLog("SimpleExecutionMode completed")
-    }
-
-    private suspend fun pumpOneBloodWebLevel() {
-        if (isExecutionWasStopped()) return
-
-        val bloodWebScreenShot = takeScreenShot()
-        detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
-            when (pageState) {
-                BloodWebPageState.NOTIFICATION -> {
-                    sendLog("Is skipable notification level")
-                    clickHelper.skipNotification()
-                }
-                BloodWebPageState.PRESTIGE -> {
-                    sendLog("Is prestige level")
-                    clickHelper.upgradePrestigeLevel()
-                }
-                BloodWebPageState.LEVEL -> {
-                    BloodWeb.BloodWebCircle.values().forEach {
-                        pumpOneCircleOfBloodWeb(it)
-                    }
-                }
-            }
+    override suspend fun pumpOneLevelOfBloodWeb() {
+        BloodWeb.BloodWebCircle.values().forEach {
+            pumpOneCircleOfBloodWeb(it)
         }
     }
 

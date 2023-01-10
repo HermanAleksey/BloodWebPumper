@@ -6,16 +6,19 @@ import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
 import Constants.SCREEN_SHOT_HEIGHT
 import Constants.SCREEN_SHOT_WIDTH
+import blood_web.BloodWebPageState
 import detector.AdvancedDetector
 import detector.Detector
 import helper.ClickHelper
 import helper.Command
+import helper.sendLog
 import helper.takeScreenShot
 import kotlinx.coroutines.*
 import java.awt.Robot
 import java.awt.image.BufferedImage
 
 sealed class ExecutionMode(
+    protected val levels: Int,
     protected val detector: Detector,
     protected val delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
@@ -62,8 +65,41 @@ sealed class ExecutionMode(
     ): BufferedImage {
         return robot.takeScreenShot(x, y, width, height)
     }
+    
+    private suspend fun pumpBloodWeb() {
+        sendLog("Running ${this.javaClass.simpleName} mode")
+        for (currentLevel in 1..levels) {
+            if (isExecutionWasStopped()) return
 
-    protected abstract suspend fun pumpBloodWeb()
+            pumpOneBloodWebState()
+            delay(delayNewLevelAnimation)
+            clickHelper.moveOutCursor()
+        }
+        sendLog("Execution completed")
+    }
+
+    private suspend fun pumpOneBloodWebState() {
+        sendLog("Pumping one BloodWeb state...")
+        if (isExecutionWasStopped()) return
+
+        val bloodWebScreenShot = takeScreenShot()
+        detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
+            sendLog("Current state is: ${pageState.name}")
+            when (pageState) {
+                BloodWebPageState.NOTIFICATION -> {
+                    clickHelper.skipNotification()
+                }
+                BloodWebPageState.PRESTIGE -> {
+                    clickHelper.upgradePrestigeLevel()
+                }
+                BloodWebPageState.LEVEL -> {
+                    pumpOneLevelOfBloodWeb()
+                }
+            }
+        }
+    }
+    
+    abstract suspend fun pumpOneLevelOfBloodWeb()
 
     companion object {
         fun fromCommand(

@@ -16,11 +16,12 @@ class TestExecutionMode(
     perkSelectionDuration = perkSelectionDuration,
     movementDuration = movementDuration,
     prestigeLevelUpDuration = prestigeLevelUpDuration,
-    detector = detector
+    detector = detector,
+    levels = 1
 ) {
 
-    override suspend fun pumpBloodWeb() {
-        sendLog("Analyzing current blood web state")
+    override suspend fun pumpOneLevelOfBloodWeb() {
+        sendLog("Test: Analyzing current blood web state")
         val bloodWebScreenShot = takeScreenShot()
         val availableNodes = mutableListOf<InfoNode>()
 
