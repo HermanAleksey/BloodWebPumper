@@ -7,6 +7,6 @@ data class Command(
 ) {
     enum class Mode(val number: Int) {
         //todo @Kagetana name it
-        TEST(0), SIMPLE(1), RAREST_FIRST(2), NEW_EXECUTOR(3)
+        TEST(0), SIMPLE(1), RAREST_FIRST(2), FURTHEST(3)
     }
 }

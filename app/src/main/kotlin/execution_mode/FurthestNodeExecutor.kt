@@ -1,12 +1,13 @@
 package execution_mode
 
+import blood_web.BloodWeb
 import blood_web.Node
 import detector.Detector
 import helper.sendLog
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
-class NewNameExecutor(
+class FurthestNodeExecutor(
     delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
@@ -25,14 +26,14 @@ class NewNameExecutor(
     override suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node {
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
-            node.quality == Node.Quality.IRIDESCENT
+            node.orderedNumber.circle == BloodWeb.BloodWebCircle.OUTER &&
+                    node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.PURPLE
+            node.orderedNumber.circle == BloodWeb.BloodWebCircle.MIDDLE &&
+                    node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.GREEN
-        } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.YELLOW
-        } ?: vertexSet.first()).apply {
+            node.isAccessible()
+        } ?: throw Exception("Can't find furthest node")).apply {
             sendLog("Target Node: $this")
         }
     }

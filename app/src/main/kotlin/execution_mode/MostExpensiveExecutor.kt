@@ -25,14 +25,20 @@ class MostExpensiveExecutor(
     override suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node {
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
-            node.quality == Node.Quality.IRIDESCENT
+            node.quality == Node.Quality.IRIDESCENT &&
+                    node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.PURPLE
+            node.quality == Node.Quality.PURPLE &&
+                    node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.GREEN
+            node.quality == Node.Quality.GREEN &&
+                    node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.YELLOW
-        } ?: vertexSet.first()).apply {
+            node.quality == Node.Quality.YELLOW &&
+                    node.isAccessible()
+        } ?: vertexSet.find { node ->
+            node.isAccessible()
+        } ?: throw Exception("Can't find most expensive node")).apply {
             sendLog("Target Node: $this")
         }
     }

@@ -90,7 +90,7 @@ sealed class ExecutionMode(
                     prestigeLevelUpDuration = prestigeLevelUpDuration,
                     detector = AdvancedDetector(),
                 )
-                Command.Mode.NEW_EXECUTOR -> MostExpensiveExecutor(
+                Command.Mode.FURTHEST -> FurthestNodeExecutor(
                     levels = command.levels,
                     delayNewLevelAnimation = delayNewLevelAnimation,
                     perkSelectionDuration = perkSelectionDuration,
