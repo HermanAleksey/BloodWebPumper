@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.map
 
 class MainViewModel {
 
-    private val _logFieldIsVisible: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    private val _logFieldIsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val logFieldIsVisible = _logFieldIsVisible.asStateFlow()
 
     val windowWidth = _logFieldIsVisible.map { visible ->
