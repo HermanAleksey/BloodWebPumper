@@ -39,8 +39,8 @@ fun ModesSelect(
                 setSelectedMode(Command.Mode.RAREST_FIRST)
                 rarestButtonSelected = true
             }
-            Command.Mode.NEW_EXECUTOR -> {
-                setSelectedMode(Command.Mode.NEW_EXECUTOR)
+            Command.Mode.FURTHEST -> {
+                setSelectedMode(Command.Mode.FURTHEST)
                 newExecutorButtonSelected = true
             }
         }
@@ -83,10 +83,10 @@ fun ModesSelect(
             Button(
                 enabled = !newExecutorButtonSelected,
                 onClick = {
-                    selectOption(Command.Mode.NEW_EXECUTOR)
+                    selectOption(Command.Mode.FURTHEST)
                 }
             ) {
-                Text("NewOne")
+                Text("Furthest")
             }
         }
     }
