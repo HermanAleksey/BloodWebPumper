@@ -105,14 +105,17 @@ fun List<InfoNode>.createGraph(): Graph<InfoNode, DefaultEdge> {
 
     middleNodes.forEach { middleNode ->
         for (i in 0..1) {
-            val index = (middleNode.orderedNumber.position - 1 + 12 + i) % 12
+            val index = ((middleNode.orderedNumber.position + 12 + i) % 12).let {
+                if (it == 0) 12 else it
+            }
             val outerNode = outerNodes.find {
                 it.orderedNumber.position == index
             }
+            println("connect: indexOuter:$index,  indexMiddle:${middleNode.orderedNumber.position}")
 
-            if (verticesSet.contains(middleNode) && verticesSet.contains(outerNode)) {
+            if (verticesSet.contains(outerNode)) {
                 graph.addEdge(
-                    verticesSet.find { it == middleNode },
+                    middleNode,
                     verticesSet.find { it == outerNode }
                 )
             }

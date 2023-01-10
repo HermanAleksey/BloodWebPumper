@@ -55,6 +55,7 @@ abstract class GraphExecutionMode(
         if (targetNode.state == InfoNode.State.AVAILABLE) {
             clickHelper.performClickOnNode(targetNode)
         } else {
+            sendLog(graph.vertexSet().toString())
             //else we are trying to pump neighbor of the target Node
             levelUpBranchToTargetNode(
                 graph,
@@ -69,6 +70,7 @@ abstract class GraphExecutionMode(
     ): InfoNode {
         sendLog("Вызов changeTargetNode")
         val adjacentEdges = graph.edgesOf(oldTargetNode)
+        println("adjacentEdges: $adjacentEdges")
         adjacentEdges.forEach {
             val v = graph.getEdgeSource(it)
             if (v.state == InfoNode.State.AVAILABLE) {
