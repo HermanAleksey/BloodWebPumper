@@ -6,7 +6,6 @@ data class Command(
     val levels: Int,
 ) {
     enum class Mode(val number: Int) {
-        //todo @Kagetana name it
         TEST(0), SIMPLE(1), RAREST_FIRST(2), FURTHEST(3)
     }
 }

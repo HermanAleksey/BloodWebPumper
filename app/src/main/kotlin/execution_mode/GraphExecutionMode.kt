@@ -106,18 +106,3 @@ abstract class GraphExecutionMode(
         }
     }
 }
-
-private suspend fun Graph<InfoNode, DefaultEdge>.getMostExpensiveNode(): InfoNode {
-    val vertexSet = this.vertexSet()
-    return (vertexSet.find { infoNode ->
-        infoNode.quality == InfoNode.Quality.IRIDESCENT
-    } ?: vertexSet.find { node ->
-        node.quality == InfoNode.Quality.PURPLE
-    } ?: vertexSet.find { node ->
-        node.quality == InfoNode.Quality.GREEN
-    } ?: vertexSet.find { node ->
-        node.quality == InfoNode.Quality.YELLOW
-    } ?: vertexSet.first()).apply {
-        sendLog("Target Node: $this")
-    }
-}
