@@ -1,5 +1,6 @@
 package execution_mode
 
+import blood_web.InfoNode
 import blood_web.Node
 import detector.Detector
 import helper.sendLog
@@ -22,19 +23,19 @@ class MostExpensiveExecutor(
     levels = levels
 ) {
 
-    override suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node {
+    override suspend fun getTargetNode(graph: Graph<InfoNode, DefaultEdge>): InfoNode {
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
-            node.quality == Node.Quality.IRIDESCENT &&
+            node.quality == InfoNode.Quality.IRIDESCENT &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.PURPLE &&
+            node.quality == InfoNode.Quality.PURPLE &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.GREEN &&
+            node.quality == InfoNode.Quality.GREEN &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.quality == Node.Quality.YELLOW &&
+            node.quality == InfoNode.Quality.YELLOW &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
             node.isAccessible()

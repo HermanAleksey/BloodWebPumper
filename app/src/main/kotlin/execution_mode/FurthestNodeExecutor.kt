@@ -1,6 +1,7 @@
 package execution_mode
 
 import blood_web.BloodWeb
+import blood_web.InfoNode
 import blood_web.Node
 import detector.Detector
 import helper.sendLog
@@ -22,8 +23,7 @@ class FurthestNodeExecutor(
     detector = detector,
     levels = levels
 ) {
-
-    override suspend fun getTargetNodeFromGraph(graph: Graph<Node, DefaultEdge>): Node {
+    override suspend fun getTargetNode(graph: Graph<InfoNode, DefaultEdge>): InfoNode {
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
             node.orderedNumber.circle == BloodWeb.BloodWebCircle.OUTER &&

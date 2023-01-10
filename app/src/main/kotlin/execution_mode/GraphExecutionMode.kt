@@ -6,8 +6,7 @@ import helper.sendLog
 import kotlinx.coroutines.delay
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
-
-class SecondGraderExecutor(
+abstract class GraphExecutionMode(
     delayNewLevelAnimation: Long,
     perkSelectionDuration: Long,
     movementDuration: Long,
@@ -22,6 +21,9 @@ class SecondGraderExecutor(
     detector = detector,
     levels = levels
 ) {
+
+    abstract suspend fun getTargetNode(graph: Graph<InfoNode, DefaultEdge>): InfoNode
+
     override suspend fun pumpOneLevelOfBloodWeb() {
         var isLevelFinished = false
 
@@ -29,7 +31,7 @@ class SecondGraderExecutor(
         while (!isLevelFinished) {
             //take screenshot and pump one route to the target perk
             val graph = getCurrentBloodWebAsGraph()
-            val targetNode = graph.getMostExpensiveNode()
+            val targetNode = getTargetNode(graph)
             levelUpBranchToTargetNode(graph, targetNode)
 
             //take new screenshot and check if graph still has available perks to pump

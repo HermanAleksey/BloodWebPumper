@@ -17,7 +17,7 @@ import kotlinx.coroutines.*
 import java.awt.Robot
 import java.awt.image.BufferedImage
 
-sealed class ExecutionMode(
+abstract class ExecutionMode(
     protected val levels: Int,
     protected val detector: Detector,
     protected val delayNewLevelAnimation: Long,
