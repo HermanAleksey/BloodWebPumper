@@ -17,7 +17,7 @@ class JetpackComposeLauncher : AppLauncher {
     override fun run() {
         application {
             val viewModel = remember { MainViewModel() }
-            val windowsWidthDp = viewModel.windowWidth.collectAsState(1000)
+            val windowsWidthDp = viewModel.windowWidth.collectAsState(450)
             Window(
                 onCloseRequest = ::exitApplication,
                 state = WindowState(width = windowsWidthDp.value.dp, height = 700.dp),

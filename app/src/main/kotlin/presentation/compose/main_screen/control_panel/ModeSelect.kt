@@ -14,14 +14,17 @@ import helper.Command
 fun ModesSelect(
     setSelectedMode: (Command.Mode) -> Unit
 ) {
+    //todo rename
     var testButtonSelected by remember { mutableStateOf(true) }
     var simpleButtonSelected by remember { mutableStateOf(false) }
     var rarestButtonSelected by remember { mutableStateOf(false) }
+    var newExecutorButtonSelected by remember { mutableStateOf(false) }
 
     val selectOption: (Command.Mode) -> Unit = { option ->
         testButtonSelected = false
         simpleButtonSelected = false
         rarestButtonSelected = false
+        newExecutorButtonSelected = false
 
         when (option) {
             Command.Mode.TEST -> {
@@ -35,6 +38,10 @@ fun ModesSelect(
             Command.Mode.RAREST_FIRST -> {
                 setSelectedMode(Command.Mode.RAREST_FIRST)
                 rarestButtonSelected = true
+            }
+            Command.Mode.FURTHEST -> {
+                setSelectedMode(Command.Mode.FURTHEST)
+                newExecutorButtonSelected = true
             }
         }
     }
@@ -72,6 +79,14 @@ fun ModesSelect(
                 }
             ) {
                 Text("Rarest")
+            }
+            Button(
+                enabled = !newExecutorButtonSelected,
+                onClick = {
+                    selectOption(Command.Mode.FURTHEST)
+                }
+            ) {
+                Text("Furthest")
             }
         }
     }
