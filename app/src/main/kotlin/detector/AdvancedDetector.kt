@@ -231,7 +231,7 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_BOUGHT_PX = 600
 
         //if bitmap have less than this white pixels - node is empty
-        const val THRESHOLD_OF_UNAVAILABLE_PX = 42
+        const val THRESHOLD_OF_UNAVAILABLE_PX = 30
 
         const val THRESHOLD_OF_RED_PX = 200
         const val THRESHOLD_OF_PURPLE_PX = 80
