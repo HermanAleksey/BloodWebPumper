@@ -42,6 +42,9 @@ dependencies {
     implementation("org.jgrapht:jgrapht-core:${LibVersion.jgraphtVersion}")
     implementation("org.jgrapht:jgrapht-io:${LibVersion.jgraphtVersion}")
     implementation("org.jgrapht:jgrapht-ext:${LibVersion.jgraphtVersion}")
+
+    implementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.1.51")
 }
 
 compose.desktop {

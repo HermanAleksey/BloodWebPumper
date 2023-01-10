@@ -73,18 +73,18 @@ class SimpleExecutionMode(
         checkPerksInCircle(
             circle = circle,
             bloodWebScreenShot
-        ).let { nodes ->
+        ).let { infoNodes ->
             sendLog("Pumping $circle")
-            nodes.forEach {
-                sendLog(it.toLogString())
+            infoNodes.forEach {
+                sendLog(it.toString())
             }
 
-            nodes.filter { node ->
-                node.state == Node.State.AVAILABLE
-            }.forEach { node ->
+            infoNodes.filter { infoNode ->
+                infoNode.state == InfoNode.State.AVAILABLE
+            }.forEach { infoNode ->
                 if (isExecutionWasStopped()) return
 
-                clickHelper.performClickOnNode(node)
+                clickHelper.performClickOnNode(infoNode)
             }
         }
     }
@@ -95,19 +95,21 @@ class SimpleExecutionMode(
     private fun checkPerksInCircle(
         circle: BloodWeb.BloodWebCircle,
         bufferedImage: BufferedImage
-    ): List<Node> {
+    ): List<InfoNode> {
         val presets = when (circle) {
-            BloodWeb.BloodWebCircle.INNER -> Presets().innerPoints
-            BloodWeb.BloodWebCircle.MIDDLE -> Presets().middlePoints
-            BloodWeb.BloodWebCircle.OUTER -> Presets().outerPoints
+            BloodWeb.BloodWebCircle.INNER -> Presets().innerNodes
+            BloodWeb.BloodWebCircle.MIDDLE -> Presets().middleNodes
+            BloodWeb.BloodWebCircle.OUTER -> Presets().outerNodes
         }
-        val availableNodes = mutableListOf<Node>()
+        val availableNodes = mutableListOf<InfoNode>()
 
-        presets.forEach { point ->
-            val node = point.parseIntoNode()
+        presets.forEach { node ->
             detector.processNodeStateQuality(node, bufferedImage).let {
                 availableNodes.add(
-                    node
+                    node.toInfoNode(
+                        state = it.state,
+                        quality = it.quality
+                    )
                 )
             }
         }

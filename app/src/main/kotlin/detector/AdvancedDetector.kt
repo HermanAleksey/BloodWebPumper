@@ -4,12 +4,18 @@ import Constants
 import Constants.NODE_SIZE_PX
 import blood_web.BloodWebPageState
 import blood_web.ColorRanges
+import blood_web.InfoNode
 import blood_web.Node
 import java.awt.Color
 import java.awt.image.BufferedImage
 
 
 class AdvancedDetector : Detector {
+
+    data class NodeStateQuality(
+        val state: InfoNode.State,
+        val quality: InfoNode.Quality,
+    )
 
     override fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState {
         val isPrestigeLevelState = checkPrestigeLevelState(bufferedImage)
@@ -24,14 +30,17 @@ class AdvancedDetector : Detector {
         return BloodWebPageState.LEVEL
     }
 
-    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) = with(node) {
+    override fun processNodeStateQuality(
+        node: Node,
+        bufferedImage: BufferedImage
+    ): NodeStateQuality {
         val nodeBufferedImage = bufferedImage.getSubimage(
-            topLeftCoordinates.x,
-            topLeftCoordinates.y,
+            node.topLeftCoordinates.x,
+            node.topLeftCoordinates.y,
             NODE_SIZE_PX,
             NODE_SIZE_PX
         )
-        checkNodeState(node, nodeBufferedImage)
+        return checkNodeState(nodeBufferedImage)
     }
 
     private fun checkPrestigeLevelState(bufferedImage: BufferedImage): Boolean {
@@ -53,28 +62,24 @@ class AdvancedDetector : Detector {
     }
 
     //fills info about node state and quality, if possible
-    private fun checkNodeState(node: Node, bufferedImage: BufferedImage) {
+    private fun checkNodeState(bufferedImage: BufferedImage): NodeStateQuality {
         getPixelsOfColorAmount(bufferedImage).apply {
             val state = when {
-                state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> Node.State.AVAILABLE
-                state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> Node.State.BOUGHT
-                state.lockedPx > THRESHOLD_OF_LOCKED_PX -> Node.State.LOCKED
-                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> Node.State.UNAVAILABLE
-                else -> Node.State.EMPTY
+                state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> InfoNode.State.AVAILABLE
+                state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> InfoNode.State.BOUGHT
+                state.lockedPx > THRESHOLD_OF_LOCKED_PX -> InfoNode.State.LOCKED
+                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> InfoNode.State.UNAVAILABLE
+                else -> InfoNode.State.EMPTY
             }
             val quality = when {
-                quality.redPx > THRESHOLD_OF_RED_PX -> Node.Quality.IRIDESCENT
-                quality.purplePx > THRESHOLD_OF_PURPLE_PX -> Node.Quality.PURPLE
-                quality.greenPx > THRESHOLD_OF_GREEN_PX -> Node.Quality.GREEN
-                quality.yellowPx > THRESHOLD_OF_YELLOW_PX -> Node.Quality.YELLOW
-//                quality.brownPx > 0 -> "brown"
-                else -> Node.Quality.BROWN
+                quality.redPx > THRESHOLD_OF_RED_PX -> InfoNode.Quality.IRIDESCENT
+                quality.purplePx > THRESHOLD_OF_PURPLE_PX -> InfoNode.Quality.PURPLE
+                quality.greenPx > THRESHOLD_OF_GREEN_PX -> InfoNode.Quality.GREEN
+                quality.yellowPx > THRESHOLD_OF_YELLOW_PX -> InfoNode.Quality.YELLOW
+                else -> InfoNode.Quality.BROWN
             }
 
-            node.apply {
-                this.state = state
-                this.quality = quality
-            }
+            return NodeStateQuality(state = state, quality = quality)
         }
     }
 
@@ -224,6 +229,7 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_AVAILABLE_PX = 400
         const val THRESHOLD_OF_LOCKED_PX = 600
         const val THRESHOLD_OF_BOUGHT_PX = 600
+
         //if bitmap have less than this white pixels - node is empty
         const val THRESHOLD_OF_UNAVAILABLE_PX = 42
 

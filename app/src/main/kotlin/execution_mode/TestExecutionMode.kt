@@ -1,8 +1,7 @@
 package execution_mode
 
-import blood_web.Node
+import blood_web.InfoNode
 import blood_web.Presets
-import blood_web.parseIntoNode
 import detector.Detector
 import helper.sendLog
 
@@ -23,21 +22,23 @@ class TestExecutionMode(
     override suspend fun pumpBloodWeb() {
         sendLog("Analyzing current blood web state")
         val bloodWebScreenShot = takeScreenShot()
-        val availableNodes = mutableListOf<Node>()
+        val availableNodes = mutableListOf<InfoNode>()
 
-        Presets().getAllPoints().forEach { point ->
-            val node = point.parseIntoNode()
+        Presets().getAllNodes().forEach { node ->
             detector.processNodeStateQuality(node, bloodWebScreenShot).let {
                 availableNodes.add(
-                    node
+                    node.toInfoNode(
+                        state = it.state,
+                        quality = it.quality
+                    )
                 )
             }
         }
 
         availableNodes.filter {
-            it.state != Node.State.EMPTY
+            it.state != InfoNode.State.EMPTY
         }.forEach {
-            sendLog(it.toLogString())
+            sendLog(it.toString())
         }
         sendLog("End of test run")
     }

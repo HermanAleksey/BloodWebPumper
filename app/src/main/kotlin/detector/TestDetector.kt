@@ -5,7 +5,7 @@ import blood_web.Node
 import java.awt.image.BufferedImage
 
 class TestDetector: Detector {
-    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage) {
+    override fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage): AdvancedDetector.NodeStateQuality {
         TODO("Not yet implemented")
     }
 

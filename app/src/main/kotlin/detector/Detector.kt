@@ -7,9 +7,10 @@ import java.awt.image.BufferedImage
 interface Detector {
 
     /**
-     * Takes [node] and apple [Node.State] and [Node.Quality] params to it
+     * Takes [node] and screenshot of screen as[bufferedImage]
+     * @return State and Quality of this node
      * */
-    fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage)
+    fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage): AdvancedDetector.NodeStateQuality
 
     fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState
 
