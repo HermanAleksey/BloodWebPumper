@@ -3,7 +3,6 @@ package execution_mode
 import blood_web.*
 import detector.Detector
 import helper.sendLog
-import kotlinx.coroutines.delay
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 abstract class GraphExecutionMode(
@@ -30,9 +29,8 @@ abstract class GraphExecutionMode(
         //cycle to upgrade one full level of BW
         while (!isLevelFinished) {
             //take screenshot and pump one route to the target perk
-            val graph = getCurrentBloodWebAsGraph()
-            val targetNode = getTargetNode(graph)
-            levelUpBranchToTargetNode(graph, targetNode)
+            val targetNode = getTargetNode(getCurrentBloodWebAsGraph())
+            levelUpBranchToTargetNode(targetNode)
 
             //take new screenshot and check if graph still has available perks to pump
             //if it has -> while goes for next iteration
@@ -45,7 +43,6 @@ abstract class GraphExecutionMode(
     }
 
     private suspend fun levelUpBranchToTargetNode(
-        graph: Graph<InfoNode, DefaultEdge>,
         targetNode: InfoNode
     ) {
         sendLog("Call levelUpNode: aiming for $targetNode")
@@ -55,11 +52,11 @@ abstract class GraphExecutionMode(
         if (targetNode.state == InfoNode.State.AVAILABLE) {
             clickHelper.performClickOnNode(targetNode)
         } else {
-            sendLog(graph.vertexSet().toString())
+            val currentGraph = getCurrentBloodWebAsGraph()
+            println(currentGraph.vertexSet())
             //else we are trying to pump neighbor of the target Node
             levelUpBranchToTargetNode(
-                graph,
-                changeTargetNode(graph, targetNode)
+                changeTargetNode(currentGraph, targetNode)
             )
         }
     }
@@ -72,9 +69,9 @@ abstract class GraphExecutionMode(
         val adjacentEdges = graph.edgesOf(oldTargetNode)
         println("adjacentEdges: $adjacentEdges")
         adjacentEdges.forEach {
-            val v = graph.getEdgeSource(it)
-            if (v.state == InfoNode.State.AVAILABLE) {
-                return v
+            val infoNode = graph.getEdgeSource(it)
+            if (infoNode.state == InfoNode.State.AVAILABLE) {
+                return infoNode
             }
         }
 
