@@ -27,9 +27,11 @@ class FurthestNodeExecutor(
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
             node.orderedNumber.circle == BloodWeb.BloodWebCircle.OUTER &&
+                    node.quality != InfoNode.Quality.BROWN &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
             node.orderedNumber.circle == BloodWeb.BloodWebCircle.MIDDLE &&
+                    node.quality != InfoNode.Quality.BROWN &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
             node.isAccessible()
