@@ -1,6 +1,8 @@
 import blood_web.*
 import detector.Detector
 import helper.convertIntoBufferImage
+import org.jgrapht.Graph
+import org.jgrapht.graph.DefaultEdge
 import java.awt.Point
 import java.awt.image.BufferedImage
 import java.io.File
@@ -56,4 +58,8 @@ fun InfoNode.isEqualsNode(infoNode: InfoNode): Boolean {
             return false
 
     return true
+}
+
+fun List<InfoNode>.printLog() {
+    println(this.joinToString(separator = "\n"))
 }

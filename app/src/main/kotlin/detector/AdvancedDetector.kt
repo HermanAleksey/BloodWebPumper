@@ -61,9 +61,12 @@ class AdvancedDetector : Detector {
         return (notificationRedPx > THRESHOLD_OF_RED_NOTIFICATION_PX)
     }
 
+    var i = 0
     //fills info about node state and quality, if possible
     private fun checkNodeState(bufferedImage: BufferedImage): NodeStateQuality {
         getPixelsOfColorAmount(bufferedImage).apply {
+            i++
+            println("$i = $this")
             val state = when {
                 state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> InfoNode.State.AVAILABLE
                 state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> InfoNode.State.BOUGHT
@@ -226,9 +229,9 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_WHITE_PRESTIGE_PX = 150
         const val THRESHOLD_OF_RED_NOTIFICATION_PX = 20_000
 
-        const val THRESHOLD_OF_AVAILABLE_PX = 400
+        const val THRESHOLD_OF_AVAILABLE_PX = 200
         const val THRESHOLD_OF_LOCKED_PX = 600
-        const val THRESHOLD_OF_BOUGHT_PX = 600
+        const val THRESHOLD_OF_BOUGHT_PX = 420
 
         //if bitmap have less than this white pixels - node is empty
         const val THRESHOLD_OF_UNAVAILABLE_PX = 30
