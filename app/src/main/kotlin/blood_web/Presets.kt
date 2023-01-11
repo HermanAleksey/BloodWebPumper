@@ -67,26 +67,6 @@ fun List<InfoNode>.createGraph(): Graph<InfoNode, DefaultEdge> {
         it.orderedNumber.circle == BloodWeb.BloodWebCircle.OUTER
     }
 
-    //all inner circle Nodes connected with each-other
-    innerNodes.forEach { innerNode ->
-        val previousNeighbor = verticesSet.find {
-            innerNode.orderedNumber.position + 10 == it.orderedNumber.position + 10 + 1
-        }
-        val nextNeighbor = verticesSet.find {
-            innerNode.orderedNumber.position + 10 == it.orderedNumber.position + 10 - 1
-        }
-        if (previousNeighbor != null)
-            graph.addEdge(
-                innerNode,
-                previousNeighbor
-            )
-        if (nextNeighbor != null)
-            graph.addEdge(
-                innerNode,
-                nextNeighbor
-            )
-    }
-
     innerNodes.forEach { innerNode ->
         for (i in 0..3) {
             val index = ((innerNode.orderedNumber.position * 2 + 12 - 3 + i) % 12).let {
@@ -95,7 +75,6 @@ fun List<InfoNode>.createGraph(): Graph<InfoNode, DefaultEdge> {
             val middleNode = middleNodes.find {
                 it.orderedNumber.position == index
             }
-            println("connect: indexMiddle:$index,  indexInner:${innerNode.orderedNumber.position}")
 
             if (verticesSet.contains(middleNode)) {
                 graph.addEdge(
@@ -114,7 +93,6 @@ fun List<InfoNode>.createGraph(): Graph<InfoNode, DefaultEdge> {
             val outerNode = outerNodes.find {
                 it.orderedNumber.position == index
             }
-            println("connect: indexOuter:$index,  indexMiddle:${middleNode.orderedNumber.position}")
 
             if (verticesSet.contains(outerNode)) {
                 graph.addEdge(

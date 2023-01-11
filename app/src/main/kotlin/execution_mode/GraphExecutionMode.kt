@@ -67,7 +67,7 @@ abstract class GraphExecutionMode(
     ): InfoNode {
         sendLog("Вызов changeTargetNode")
         val adjacentEdges = graph.edgesOf(oldTargetNode)
-        println("adjacentEdges: $adjacentEdges")
+        println("adjacentEdges: ${adjacentEdges}")
         adjacentEdges.forEach {
             val infoNode = graph.getEdgeSource(it)
             if (infoNode.state == InfoNode.State.AVAILABLE) {
