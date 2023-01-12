@@ -1,8 +1,11 @@
 package execution_mode
 
-import blood_web.*
+
 import detector.Detector
 import helper.sendLog
+import model.InfoNode
+import model.Presets
+import model.createGraph
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 abstract class GraphExecutionMode(

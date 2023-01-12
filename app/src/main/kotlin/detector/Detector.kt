@@ -1,7 +1,7 @@
 package detector
 
-import blood_web.BloodWebPageState
-import blood_web.Node
+import model.BloodWebPageState
+import model.Node
 import java.awt.image.BufferedImage
 
 interface Detector {

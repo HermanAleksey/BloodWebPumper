@@ -1,7 +1,7 @@
 package execution_mode
 
-import blood_web.InfoNode
-import blood_web.Presets
+import model.InfoNode
+import model.Presets
 import detector.Detector
 import helper.sendLog
 

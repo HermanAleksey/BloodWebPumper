@@ -3,7 +3,7 @@ package helper
 import Constants
 import Constants.PRESTIGE_REWARD_FADE_IN_DURATION
 import Constants.PRESTIGE_REWARD_FADE_OUT_DURATION
-import blood_web.Node
+import model.Node
 import kotlinx.coroutines.delay
 import java.awt.Robot
 import java.awt.event.InputEvent

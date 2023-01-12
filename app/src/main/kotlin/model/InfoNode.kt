@@ -1,4 +1,4 @@
-package blood_web
+package model
 
 import java.awt.Point
 

@@ -1,4 +1,4 @@
-package blood_web
+package model
 
 import Constants.NODE_SIZE_PX
 import java.awt.Point

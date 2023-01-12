@@ -1,9 +1,12 @@
 package detector
 
 import NodeHelper
-import blood_web.*
 import generateListOfPerksFromImage
 import isEqualsNode
+import model.BloodWeb
+import model.BloodWebPageState
+import model.InfoNode
+import model.Presets
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

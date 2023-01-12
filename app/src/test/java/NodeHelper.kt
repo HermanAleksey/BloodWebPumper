@@ -1,6 +1,10 @@
-import blood_web.*
+
 import detector.Detector
 import helper.convertIntoBufferImage
+import model.BloodWeb
+import model.InfoNode
+import model.Node
+import model.Presets
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 import java.awt.Point

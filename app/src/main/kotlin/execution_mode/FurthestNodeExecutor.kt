@@ -1,10 +1,9 @@
 package execution_mode
 
-import blood_web.BloodWeb
-import blood_web.InfoNode
-import blood_web.Node
 import detector.Detector
 import helper.sendLog
+import model.BloodWeb
+import model.InfoNode
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge
 
