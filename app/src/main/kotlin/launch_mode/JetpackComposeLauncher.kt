@@ -9,14 +9,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
-import presentation.compose.BloodWebPumperApp
-import presentation.compose.main_screen.HelpWindow
-import presentation.compose.main_screen.MainViewModel
+import presentation.compose.main_screen.MainWindow
+import presentation.compose.HelpWindow
+import presentation.compose.AppViewModel
 
 class JetpackComposeLauncher : AppLauncher {
     override fun run() {
         application {
-            val viewModel = remember { MainViewModel() }
+            val viewModel = remember { AppViewModel() }
             val windowsWidthDp = viewModel.windowWidth.collectAsState(450)
             Window(
                 onCloseRequest = ::exitApplication,
@@ -27,7 +27,7 @@ class JetpackComposeLauncher : AppLauncher {
 //                undecorated = true,/ remove line on top of app with close and hide options
             ) {
                 MaterialTheme {
-                    BloodWebPumperApp(viewModel)
+                    MainWindow(viewModel)
                 }
             }
 

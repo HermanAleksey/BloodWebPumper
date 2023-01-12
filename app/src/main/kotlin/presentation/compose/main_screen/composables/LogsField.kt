@@ -1,4 +1,4 @@
-package presentation.compose
+package presentation.compose.main_screen.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

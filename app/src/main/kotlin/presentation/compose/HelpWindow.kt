@@ -1,4 +1,4 @@
-package presentation.compose.main_screen
+package presentation.compose
 
 import Constants.APP_ICON_PATH
 import androidx.compose.material.Text
@@ -10,7 +10,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 
 @Composable
-fun HelpWindow(viewModel: MainViewModel) {
+fun HelpWindow(viewModel: AppViewModel) {
     val helpWindowIsVisible = viewModel.helpWindowIsVisible.collectAsState()
     if (helpWindowIsVisible.value) {
         Window(

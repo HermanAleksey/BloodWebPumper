@@ -1,4 +1,4 @@
-package presentation.compose.main_screen
+package presentation.compose
 
 import execution_mode.ExecutionMode
 import helper.Command
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 
-class MainViewModel {
+class AppViewModel {
 
     private val _logFieldIsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val logFieldIsVisible = _logFieldIsVisible.asStateFlow()

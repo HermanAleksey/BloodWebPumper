@@ -1,4 +1,4 @@
-package presentation.compose.main_screen.control_panel
+package presentation.compose.main_screen.composables.control_panel
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
