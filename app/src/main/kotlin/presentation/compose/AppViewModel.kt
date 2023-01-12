@@ -22,11 +22,11 @@ class AppViewModel {
     private val _logFieldIsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val logFieldIsVisible = _logFieldIsVisible.asStateFlow()
 
-    private val _windowWidth: MutableStateFlow<Int> = MutableStateFlow(450)
+    private val _windowWidth: MutableStateFlow<Int> = MutableStateFlow(WINDOW_WIDTH_WITHOUT_LOGS)
     val windowWidth = _windowWidth.asStateFlow()
 
     private val _selectedExecutionMode: MutableStateFlow<Command.Mode> = MutableStateFlow(Command.Mode.TEST)
-    private val selectedExecutionMode = _selectedExecutionMode.asStateFlow()
+    val selectedExecutionMode = _selectedExecutionMode.asStateFlow()
 
     private val _levelsToPumpAmount: MutableStateFlow<Int> = MutableStateFlow(0)
     val levelsToPumpAmount = _levelsToPumpAmount.asStateFlow()
@@ -57,7 +57,9 @@ class AppViewModel {
     private fun setLogsVisibility(visible: Boolean) {
         appScope.launch {
             _logFieldIsVisible.value = visible
-            _windowWidth.value = if (visible) 1000 else 450
+            _windowWidth.value = if (visible)
+                FULL_WINDOW_WIDTH
+            else WINDOW_WIDTH_WITHOUT_LOGS
         }
     }
 
@@ -74,10 +76,6 @@ class AppViewModel {
         executor = null
     }
 
-    fun onExecutionModeSelected(mode: Command.Mode) {
-        _selectedExecutionMode.value = mode
-    }
-
     fun onLevelToPumpUpdated(value: Int) {
         _levelsToPumpAmount.value = value
     }
@@ -88,5 +86,14 @@ class AppViewModel {
 
     fun onHelpWindowCloseClick() {
         _helpWindowIsVisible.value = false
+    }
+
+    fun onExecutionModeSelected(mode: Command.Mode) {
+        _selectedExecutionMode.value = mode
+    }
+
+    companion object {
+        private const val FULL_WINDOW_WIDTH = 1000
+        private const val WINDOW_WIDTH_WITHOUT_LOGS = 450
     }
 }

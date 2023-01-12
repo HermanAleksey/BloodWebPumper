@@ -12,40 +12,9 @@ import model.Command
 
 @Composable
 fun ModesSelect(
-    setSelectedMode: (Command.Mode) -> Unit
+    selectedMode: Command.Mode,
+    onModeSelected: (Command.Mode) -> Unit,
 ) {
-    //todo rename
-    var testButtonSelected by remember { mutableStateOf(true) }
-    var simpleButtonSelected by remember { mutableStateOf(false) }
-    var rarestButtonSelected by remember { mutableStateOf(false) }
-    var newExecutorButtonSelected by remember { mutableStateOf(false) }
-
-    val selectOption: (Command.Mode) -> Unit = { option ->
-        testButtonSelected = false
-        simpleButtonSelected = false
-        rarestButtonSelected = false
-        newExecutorButtonSelected = false
-
-        when (option) {
-            Command.Mode.TEST -> {
-                setSelectedMode(Command.Mode.TEST)
-                testButtonSelected = true
-            }
-            Command.Mode.SIMPLE -> {
-                setSelectedMode(Command.Mode.SIMPLE)
-                simpleButtonSelected = true
-            }
-            Command.Mode.RAREST_FIRST -> {
-                setSelectedMode(Command.Mode.RAREST_FIRST)
-                rarestButtonSelected = true
-            }
-            Command.Mode.FURTHEST -> {
-                setSelectedMode(Command.Mode.FURTHEST)
-                newExecutorButtonSelected = true
-            }
-        }
-    }
-
     Card(
         modifier = Modifier.fillMaxWidth()
             .height(100.dp),
@@ -57,33 +26,33 @@ fun ModesSelect(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                enabled = !testButtonSelected,
+                enabled = selectedMode == Command.Mode.TEST,
                 onClick = {
-                    selectOption(Command.Mode.TEST)
+                    onModeSelected(Command.Mode.TEST)
                 }
             ) {
                 Text("Test")
             }
             Button(
-                enabled = !simpleButtonSelected,
+                enabled = selectedMode == Command.Mode.SIMPLE,
                 onClick = {
-                    selectOption(Command.Mode.SIMPLE)
+                    onModeSelected(Command.Mode.SIMPLE)
                 }
             ) {
                 Text("Simple")
             }
             Button(
-                enabled = !rarestButtonSelected,
+                enabled = selectedMode == Command.Mode.RAREST_FIRST,
                 onClick = {
-                    selectOption(Command.Mode.RAREST_FIRST)
+                    onModeSelected(Command.Mode.RAREST_FIRST)
                 }
             ) {
                 Text("Rarest")
             }
             Button(
-                enabled = !newExecutorButtonSelected,
+                enabled = selectedMode == Command.Mode.FURTHEST,
                 onClick = {
-                    selectOption(Command.Mode.FURTHEST)
+                    onModeSelected(Command.Mode.FURTHEST)
                 }
             ) {
                 Text("Furthest")

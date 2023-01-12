@@ -17,6 +17,7 @@ fun ControlPanel(
     viewModel: AppViewModel,
 ) {
     val levelsToUpgrade = viewModel.levelsToPumpAmount.collectAsState()
+    val selectedExecutionMode = viewModel.selectedExecutionMode.collectAsState()
 
     Column(
         modifier = modifier,
@@ -32,9 +33,12 @@ fun ControlPanel(
             )
         }
 
-        ModesSelect(setSelectedMode = {
-            viewModel.onExecutionModeSelected(it)
-        })
+        ModesSelect(
+            onModeSelected = {
+                  viewModel.onExecutionModeSelected(it)
+            },
+            selectedMode = selectedExecutionMode.value
+        )
 
         LevelSelect(
             levelsToUpgrade = levelsToUpgrade.value,
