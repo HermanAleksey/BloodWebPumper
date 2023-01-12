@@ -38,8 +38,7 @@ class AppViewModel {
         appScope.launch {
             withContext(Dispatchers.IO) {
                 preferences.getPreferences().let {
-                    _logFieldIsVisible.value = it.isLogsOpen
-
+                    setLogsVisibility(it.isLogsOpen)
                     _selectedExecutionMode.value = it.selectedMode
                     _levelsToPumpAmount.value = it.levelsToUpgradeAmount
                 }
@@ -57,10 +56,8 @@ class AppViewModel {
 
     private fun setLogsVisibility(visible: Boolean) {
         appScope.launch {
-            withContext(Dispatchers.Main) {
-                _logFieldIsVisible.value = visible
-                _windowWidth.value = if (visible) 1000 else 450
-            }
+            _logFieldIsVisible.value = visible
+            _windowWidth.value = if (visible) 1000 else 450
         }
     }
 
