@@ -1,10 +1,11 @@
 package execution_mode
 
-import blood_web.*
 import detector.Detector
 import helper.save
 import helper.sendLog
-import kotlinx.coroutines.delay
+import model.BloodWeb
+import model.InfoNode
+import model.Presets
 import java.awt.image.BufferedImage
 
 

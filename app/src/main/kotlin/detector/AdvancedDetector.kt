@@ -2,10 +2,10 @@ package detector
 
 import Constants
 import Constants.NODE_SIZE_PX
-import blood_web.BloodWebPageState
-import blood_web.ColorRanges
-import blood_web.InfoNode
-import blood_web.Node
+import model.BloodWebPageState
+import model.ColorRanges
+import model.InfoNode
+import model.Node
 import java.awt.Color
 import java.awt.image.BufferedImage
 

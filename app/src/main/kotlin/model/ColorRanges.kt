@@ -1,6 +1,4 @@
-package blood_web
-
-import java.awt.Color
+package model
 
 enum class ColorRanges(
     val minRed: Int,

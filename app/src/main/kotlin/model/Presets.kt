@@ -1,4 +1,4 @@
-package blood_web
+package model
 
 import org.jgrapht.Graph
 import org.jgrapht.graph.DefaultEdge

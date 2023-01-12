@@ -6,11 +6,11 @@ import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
 import Constants.SCREEN_SHOT_HEIGHT
 import Constants.SCREEN_SHOT_WIDTH
-import blood_web.BloodWebPageState
+import model.BloodWebPageState
 import detector.AdvancedDetector
 import detector.Detector
 import helper.ClickHelper
-import helper.Command
+import model.Command
 import helper.sendLog
 import helper.takeScreenShot
 import kotlinx.coroutines.*

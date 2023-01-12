@@ -1,7 +1,7 @@
 package presentation.compose
 
 import execution_mode.ExecutionMode
-import helper.Command
+import model.Command
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map

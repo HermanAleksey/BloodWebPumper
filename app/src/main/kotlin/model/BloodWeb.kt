@@ -1,4 +1,4 @@
-package blood_web
+package model
 
 class BloodWeb {
     enum class BloodWebCircle {

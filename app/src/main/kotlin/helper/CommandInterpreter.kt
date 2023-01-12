@@ -1,5 +1,7 @@
 package helper
 
+import model.Command
+
 class CommandInterpreter {
 
     fun processStringCommand(commandLine: String): Command? {
