@@ -30,20 +30,7 @@ class JetpackComposeLauncher : AppLauncher {
             )
 
             if (isMainWindowVisible) {
-                val width = viewModel.windowWidth.collectAsState()
-
-                Window(
-                    onCloseRequest = ::exitApplication,
-                    state = WindowState(width = width.value.dp, height = 700.dp),
-                    resizable = false,
-                    title = Constants.APP_NAME,
-                    icon = painterResource(APP_ICON_PATH),
-                    visible = isMainWindowVisible
-                ) {
-                    MaterialTheme {
-                        MainWindow(viewModel)
-                    }
-                }
+                MainWindow(viewModel, ::exitApplication)
             }
 
             HelpWindow(viewModel)

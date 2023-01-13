@@ -23,16 +23,6 @@ fun ControlPanel(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(48.dp)
     ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "BloodWeb upgrade",
-                style = TextStyle(fontSize = 24.sp)
-            )
-        }
-
         ModesSelect(
             onModeSelected = {
                   viewModel.onExecutionModeSelected(it)

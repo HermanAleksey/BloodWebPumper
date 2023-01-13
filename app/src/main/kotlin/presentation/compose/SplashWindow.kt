@@ -28,7 +28,7 @@ fun SplashWindow(
 
     LaunchedEffect(Unit) {
         scope.launch(Dispatchers.IO) {
-            delay(1000)
+            delay(100)
             onSplashCompleted()
         }
     }

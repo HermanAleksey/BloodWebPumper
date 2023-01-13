@@ -2,6 +2,7 @@ package presentation.compose.main_screen.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Card
@@ -11,10 +12,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import helper.clearLog
 import helper.executionLogs
 import kotlinx.coroutines.launch
+import presentation.compose.Dimensions
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 
@@ -34,11 +38,15 @@ fun LogsField(modifier: Modifier = Modifier) {
         logState.scrollTo(logState.maxValue)
     }
 
+
     Column(modifier = modifier) {
         Card(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(1f)
-                .padding(bottom = 24.dp),
+                .padding(bottom = 24.dp)
+                .clip(RoundedCornerShape(Dimensions.CARD_ROUNDED_CORNER)),
+            backgroundColor = Color(137, 131, 131),
             elevation = 8.dp
         ) {
             Column(

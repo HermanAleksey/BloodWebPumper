@@ -1,13 +1,18 @@
 package presentation.compose.main_screen.composables.control_panel
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import presentation.compose.Dimensions
 
 @Composable
 fun LevelSelect(
@@ -15,8 +20,11 @@ fun LevelSelect(
     setLevelsToUpgrade: (Int) -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth()
-            .height(100.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp)
+            .clip(RoundedCornerShape(Dimensions.CARD_ROUNDED_CORNER)),
+        backgroundColor = Color(137, 131, 131),
         elevation = 8.dp
     ) {
         Row(
