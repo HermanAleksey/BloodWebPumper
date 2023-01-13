@@ -5,8 +5,6 @@ import model.BloodWeb
 import model.InfoNode
 import model.Node
 import model.Presets
-import org.jgrapht.Graph
-import org.jgrapht.graph.DefaultEdge
 import java.awt.Point
 import java.awt.image.BufferedImage
 import java.io.File
@@ -19,7 +17,7 @@ class NodeHelper {
     }
 
     fun createTestNode(
-        circle: BloodWeb.BloodWebCircle,
+        circle: BloodWeb.Circle,
         position: Int,
         state: InfoNode.State,
         quality: InfoNode.Quality,

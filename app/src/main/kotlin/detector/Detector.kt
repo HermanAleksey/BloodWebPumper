@@ -1,6 +1,6 @@
 package detector
 
-import model.BloodWebPageState
+import model.BloodWeb
 import model.Node
 import java.awt.image.BufferedImage
 
@@ -12,7 +12,7 @@ interface Detector {
      * */
     fun processNodeStateQuality(node: Node, bufferedImage: BufferedImage): AdvancedDetector.NodeStateQuality
 
-    fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState
+    fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWeb.PageState
 
     fun analyzeBloodPointsAmount() {
         //todo implement in 2024

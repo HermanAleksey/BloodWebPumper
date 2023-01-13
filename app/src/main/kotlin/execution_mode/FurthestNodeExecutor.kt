@@ -25,11 +25,11 @@ class FurthestNodeExecutor(
     override suspend fun getTargetNode(graph: Graph<InfoNode, DefaultEdge>): InfoNode {
         val vertexSet = graph.vertexSet()
         return (vertexSet.find { node ->
-            node.orderedNumber.circle == BloodWeb.BloodWebCircle.OUTER &&
+            node.orderedNumber.circle == BloodWeb.Circle.OUTER &&
                     node.quality != InfoNode.Quality.BROWN &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->
-            node.orderedNumber.circle == BloodWeb.BloodWebCircle.MIDDLE &&
+            node.orderedNumber.circle == BloodWeb.Circle.MIDDLE &&
                     node.quality != InfoNode.Quality.BROWN &&
                     node.isAccessible()
         } ?: vertexSet.find { node ->

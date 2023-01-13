@@ -2,10 +2,7 @@ package detector
 
 import Constants
 import Constants.NODE_SIZE_PX
-import model.BloodWebPageState
-import model.ColorRanges
-import model.InfoNode
-import model.Node
+import model.*
 import java.awt.Color
 import java.awt.image.BufferedImage
 
@@ -17,17 +14,17 @@ class AdvancedDetector : Detector {
         val quality: InfoNode.Quality,
     )
 
-    override fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWebPageState {
+    override fun analyzeBloodWebPageState(bufferedImage: BufferedImage): BloodWeb.PageState {
         val isPrestigeLevelState = checkPrestigeLevelState(bufferedImage)
         if (isPrestigeLevelState)
-            return BloodWebPageState.PRESTIGE
+            return BloodWeb.PageState.PRESTIGE
         else {
             val isSkipableNotification = checkSkipableNotificationState(bufferedImage)
             if (isSkipableNotification)
-                return BloodWebPageState.NOTIFICATION
+                return BloodWeb.PageState.NOTIFICATION
         }
 
-        return BloodWebPageState.LEVEL
+        return BloodWeb.PageState.LEVEL
     }
 
     override fun processNodeStateQuality(

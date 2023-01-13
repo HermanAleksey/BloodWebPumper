@@ -28,12 +28,12 @@ class SimpleExecutionMode(
     private val takeScreenShots = false
 
     override suspend fun pumpOneLevelOfBloodWeb() {
-        BloodWeb.BloodWebCircle.values().forEach {
+        BloodWeb.Circle.values().forEach {
             pumpOneCircleOfBloodWeb(it)
         }
     }
 
-    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.BloodWebCircle) {
+    private suspend fun pumpOneCircleOfBloodWeb(circle: BloodWeb.Circle) {
         if (isExecutionWasStopped()) return
 
         val bloodWebScreenShot = takeScreenShot()
@@ -65,13 +65,13 @@ class SimpleExecutionMode(
     //If perk available - add it into array
     //return array of available perks
     private fun checkPerksInCircle(
-        circle: BloodWeb.BloodWebCircle,
+        circle: BloodWeb.Circle,
         bufferedImage: BufferedImage
     ): List<InfoNode> {
         val presets = when (circle) {
-            BloodWeb.BloodWebCircle.INNER -> Presets().innerNodes
-            BloodWeb.BloodWebCircle.MIDDLE -> Presets().middleNodes
-            BloodWeb.BloodWebCircle.OUTER -> Presets().outerNodes
+            BloodWeb.Circle.INNER -> Presets().innerNodes
+            BloodWeb.Circle.MIDDLE -> Presets().middleNodes
+            BloodWeb.Circle.OUTER -> Presets().outerNodes
         }
         val availableNodes = mutableListOf<InfoNode>()
 

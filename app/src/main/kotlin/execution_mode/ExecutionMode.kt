@@ -6,14 +6,14 @@ import Constants.PERK_SELECTION_ANIMATION_DURATION
 import Constants.PRESTIGE_LEVEL_UP_DURATION
 import Constants.SCREEN_SHOT_HEIGHT
 import Constants.SCREEN_SHOT_WIDTH
-import model.BloodWebPageState
 import detector.AdvancedDetector
 import detector.Detector
 import helper.ClickHelper
-import model.Command
 import helper.sendLog
 import helper.takeScreenShot
 import kotlinx.coroutines.*
+import model.BloodWeb
+import model.Command
 import java.awt.Robot
 import java.awt.image.BufferedImage
 
@@ -86,13 +86,13 @@ abstract class ExecutionMode(
         detector.analyzeBloodWebPageState(bloodWebScreenShot).let { pageState ->
             sendLog("Current state is: ${pageState.name}")
             when (pageState) {
-                BloodWebPageState.NOTIFICATION -> {
+                BloodWeb.PageState.NOTIFICATION -> {
                     clickHelper.skipNotification()
                 }
-                BloodWebPageState.PRESTIGE -> {
+                BloodWeb.PageState.PRESTIGE -> {
                     clickHelper.upgradePrestigeLevel()
                 }
-                BloodWebPageState.LEVEL -> {
+                BloodWeb.PageState.LEVEL -> {
                     pumpOneLevelOfBloodWeb()
                 }
             }

@@ -26,7 +26,7 @@ open class Node(
     }
 
     data class OrderedNumber(
-        val circle: BloodWeb.BloodWebCircle,
+        val circle: BloodWeb.Circle,
         val position: Int,
     ) {
         override fun toString(): String {
