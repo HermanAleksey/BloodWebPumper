@@ -1,4 +1,4 @@
-package presentation.compose
+package presentation.compose.theming
 
 import androidx.compose.ui.unit.dp
 

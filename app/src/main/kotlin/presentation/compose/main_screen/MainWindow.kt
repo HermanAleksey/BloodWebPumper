@@ -5,12 +5,14 @@ import Constants.APP_ICON_PATH
 import Constants.EXECUTOR_KEY
 import Constants.STOP_KEY
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -22,6 +24,7 @@ import org.jnativehook.keyboard.NativeKeyListener
 import presentation.compose.AppViewModel
 import presentation.compose.main_screen.composables.LogsField
 import presentation.compose.main_screen.composables.control_panel.ControlPanel
+import presentation.compose.theming.Colors.BLOOD_RED
 
 @Composable
 fun MainWindow(viewModel: AppViewModel, exitApplication: () -> Unit) {
@@ -39,7 +42,23 @@ fun MainWindow(viewModel: AppViewModel, exitApplication: () -> Unit) {
             WindowDraggableArea {
                 MainToolbar(exitApplication)
             }
-            MaterialTheme {
+            MaterialTheme(
+//                colors = Colors(
+//                    primary = Color.White,
+//                    primaryVariant = Color.White,
+//                    secondary = Color.White,
+//                    secondaryVariant = Color.White,
+//                    background = BLOOD_RED,
+//                    error = Color.White,
+//                    isLight = false,
+//                    surface = BLOOD_RED,
+//                    onBackground = Color.White,
+//                    onError = Color.White,
+//                    onPrimary = Color.White,
+//                    onSecondary = Color.White,
+//                    onSurface = Color.White
+//                )
+            ) {
                 LaunchedEffect(Unit) {
                     println("Start hook")
                     try {

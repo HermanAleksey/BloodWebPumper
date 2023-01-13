@@ -1,6 +1,5 @@
 package presentation.compose.main_screen.composables.control_panel
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -12,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import presentation.compose.Dimensions
+import presentation.compose.theming.Dimensions
 
 @Composable
 fun LevelSelect(

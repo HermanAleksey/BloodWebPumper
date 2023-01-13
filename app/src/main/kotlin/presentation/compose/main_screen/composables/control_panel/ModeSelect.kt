@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.Command
-import presentation.compose.Dimensions
+import presentation.compose.theming.Dimensions
 
 @Composable
 fun ModesSelect(

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import helper.clearLog
 import helper.executionLogs
 import kotlinx.coroutines.launch
-import presentation.compose.Dimensions
+import presentation.compose.theming.Dimensions
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 
