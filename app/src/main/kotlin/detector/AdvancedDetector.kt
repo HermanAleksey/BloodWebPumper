@@ -2,8 +2,12 @@ package detector
 
 import Constants
 import Constants.NODE_SIZE_PX
-import model.*
+import model.BloodWeb
+import model.ColorRanges
+import model.InfoNode
+import model.Node
 import java.awt.Color
+import java.awt.geom.Ellipse2D
 import java.awt.image.BufferedImage
 
 
@@ -37,8 +41,16 @@ class AdvancedDetector : Detector {
             NODE_SIZE_PX,
             NODE_SIZE_PX
         )
-        return checkNodeState(nodeBufferedImage)
+        val size = nodeBufferedImage.width
+        val circleBuffer = BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB)
+        val g2 = circleBuffer.createGraphics()
+        g2.clip = Ellipse2D.Float(0f, 0f, size.toFloat(), size.toFloat())
+        g2.drawImage(nodeBufferedImage, 0, 0, size, size, null)
+        println("new")
+
+        return checkNodeState(circleBuffer)
     }
+
 
     private fun checkPrestigeLevelState(bufferedImage: BufferedImage): Boolean {
         val centerNodeImage = bufferedImage.getSubimage(
@@ -54,7 +66,14 @@ class AdvancedDetector : Detector {
     }
 
     private fun checkSkipableNotificationState(bufferedImage: BufferedImage): Boolean {
-        val notificationRedPx = getPixelsOfColorAmount(bufferedImage).state.notificationRedPx
+        val centerNodeImage = bufferedImage.getSubimage(
+            Constants.BLOOD_WEB_CENTER_X - NODE_SIZE_PX / 2,
+            Constants.BLOOD_WEB_CENTER_Y - NODE_SIZE_PX / 2,
+            NODE_SIZE_PX,
+            NODE_SIZE_PX,
+        )
+        val notificationRedPx = getPixelsOfColorAmount(centerNodeImage).state.notificationRedPx
+        println("redPx: $notificationRedPx")
         return (notificationRedPx > THRESHOLD_OF_RED_NOTIFICATION_PX)
     }
 

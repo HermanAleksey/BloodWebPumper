@@ -11,42 +11,42 @@ class Presets {
     fun getAllNodes() = innerNodes + middleNodes + outerNodes
 
     val innerNodes = arrayOf(
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 1), Point(677, 422)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 2), Point(783, 483)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 3), Point(783, 607)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 4), Point(678, 667)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 5), Point(573, 607)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 6), Point(573, 482)),
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 1), Point(677, 420)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 2), Point(783, 481)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 3), Point(783, 604)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 4), Point(678, 666)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 5), Point(573, 604)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.INNER, 6), Point(573, 480)),//proved
     )
 
     val middleNodes = arrayOf(
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 1), Point(742, 311)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 2), Point(857, 374)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 3), Point(919, 485)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 4), Point(918, 606)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 5), Point(857, 717)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 6), Point(740, 779)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 7), Point(616, 779)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 8), Point(500, 717)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 9), Point(436, 606)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 10), Point(437, 485)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 11), Point(500, 373)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 12), Point(614, 311)),
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 1), Point(741, 309)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 2), Point(856, 371)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 3), Point(919, 482)),//
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 4), Point(919, 604)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 5), Point(856, 715)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 6), Point(740, 777)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 7), Point(617, 777)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 8), Point(500, 715)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 9), Point(437, 604)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 10), Point(436, 482)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 11), Point(500, 369)),//
+        Node(Node.OrderedNumber(BloodWeb.Circle.MIDDLE, 12), Point(616, 309)),//proved
     )
 
     val outerNodes = arrayOf(
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 1), Point(677, 192)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 2), Point(859, 239)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 3), Point(990, 371)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 4), Point(1040, 546)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 5), Point(989, 719)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 6), Point(856, 850)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 7), Point(676, 898)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 8), Point(497, 852)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 9), Point(366, 719)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 10), Point(317, 545)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 11), Point(367, 371)),
-        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 12), Point(497, 240)),
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 1), Point(678, 190)),//
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 2), Point(858, 238)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 3), Point(989, 369)),//
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 4), Point(1038, 543)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 5), Point(989, 716)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 6), Point(858, 848)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 7), Point(678, 896)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 8), Point(498, 849)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 9), Point(367, 717)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 10), Point(318, 543)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 11), Point(367, 369)),//proved
+        Node(Node.OrderedNumber(BloodWeb.Circle.OUTER, 12), Point(498, 238)),//
     )
 }
 
