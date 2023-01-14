@@ -149,12 +149,11 @@ internal class AdvancedDetectorImg8Test {
                 )
             )
         )
-        println(notEmptyResults[10])
         assert(
             notEmptyResults[10].isEqualsNode(
                 helper.createTestNode(
                     circle = BloodWeb.Circle.MIDDLE,
-                    position = 5,
+                    position = 11,
                     quality = InfoNode.Quality.IRIDESCENT,
                     state = InfoNode.State.BOUGHT
                 )
@@ -204,15 +203,25 @@ internal class AdvancedDetectorImg8Test {
             notEmptyResults[15].isEqualsNode(
                 helper.createTestNode(
                     circle = BloodWeb.Circle.OUTER,
+                    position = 5,
+                    quality = InfoNode.Quality.GREEN,
+                    state = InfoNode.State.BOUGHT
+                )
+            )
+        )
+        println(notEmptyResults[16])
+        assert(
+            notEmptyResults[16].isEqualsNode(
+                helper.createTestNode(
+                    circle = BloodWeb.Circle.OUTER,
                     position = 11,
                     quality = InfoNode.Quality.YELLOW,
                     state = InfoNode.State.LOCKED
                 )
             )
         )
-
         assert(
-            notEmptyResults[16].isEqualsNode(
+            notEmptyResults[17].isEqualsNode(
                 helper.createTestNode(
                     circle = BloodWeb.Circle.OUTER,
                     position = 12,

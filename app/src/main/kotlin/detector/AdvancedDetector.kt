@@ -40,15 +40,20 @@ class AdvancedDetector : Detector {
             node.topLeftCoordinates.y,
             NODE_SIZE_PX,
             NODE_SIZE_PX
-        )
-        val size = nodeBufferedImage.width
+        ).clipCircle()
+
+        return checkNodeState(nodeBufferedImage)
+    }
+
+    private fun BufferedImage.clipCircle(): BufferedImage {
+        val size = this.width
         val circleBuffer = BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB)
         val g2 = circleBuffer.createGraphics()
         g2.clip = Ellipse2D.Float(0f, 0f, size.toFloat(), size.toFloat())
-        g2.drawImage(nodeBufferedImage, 0, 0, size, size, null)
+        g2.drawImage(this, 0, 0, size, size, null)
         println("new")
 
-        return checkNodeState(circleBuffer)
+        return circleBuffer
     }
 
 
@@ -78,27 +83,54 @@ class AdvancedDetector : Detector {
     }
 
     var i = 0
+
     //fills info about node state and quality, if possible
     private fun checkNodeState(bufferedImage: BufferedImage): NodeStateQuality {
         getPixelsOfColorAmount(bufferedImage).apply {
             i++
-            println("$i = $this")
-            val state = when {
-                state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> InfoNode.State.AVAILABLE
+            println("$i = ${this.state}")
+            println("$i = ${this.quality}")
+
+            var nodeState = when {
                 state.boughtPx > THRESHOLD_OF_BOUGHT_PX -> InfoNode.State.BOUGHT
                 state.lockedPx > THRESHOLD_OF_LOCKED_PX -> InfoNode.State.LOCKED
-                state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> InfoNode.State.UNAVAILABLE
-                else -> InfoNode.State.EMPTY
+                else -> null
             }
-            val quality = when {
+            if (nodeState != null)
+                return NodeStateQuality(nodeState, quality = InfoNode.Quality.BROWN)
+
+            var qualityState = when {
                 quality.redPx > THRESHOLD_OF_RED_PX -> InfoNode.Quality.IRIDESCENT
                 quality.purplePx > THRESHOLD_OF_PURPLE_PX -> InfoNode.Quality.PURPLE
                 quality.greenPx > THRESHOLD_OF_GREEN_PX -> InfoNode.Quality.GREEN
                 quality.yellowPx > THRESHOLD_OF_YELLOW_PX -> InfoNode.Quality.YELLOW
-                else -> InfoNode.Quality.BROWN
+                else -> null
+            }
+            if (qualityState != null) {
+                //we have colored perk for sure
+                nodeState = when {
+                    state.availablePx > THRESHOLD_OF_AVAILABLE_PX -> InfoNode.State.AVAILABLE
+                    state.unavailableWhitePx > THRESHOLD_OF_UNAVAILABLE_PX -> InfoNode.State.UNAVAILABLE
+                    else -> InfoNode.State.EMPTY
+                }
+                return NodeStateQuality(state = nodeState, quality = qualityState)
             }
 
-            return NodeStateQuality(state = state, quality = quality)
+            //here we have to define brown and event perks of available and unavailable state
+            if (quality.brownPx > THRESHOLD_OF_BROWN_PX) {
+                //enough brown pixels
+                qualityState = InfoNode.Quality.BROWN
+                nodeState = InfoNode.State.AVAILABLE
+
+                return NodeStateQuality(state = nodeState, quality = qualityState)
+            }
+            nodeState = InfoNode.State.EMPTY
+            qualityState = InfoNode.Quality.BROWN
+
+            println("state: $nodeState")
+            println("quality:$quality")
+
+            return NodeStateQuality(state = nodeState, quality = qualityState)
         }
     }
 
@@ -245,8 +277,9 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_WHITE_PRESTIGE_PX = 150
         const val THRESHOLD_OF_RED_NOTIFICATION_PX = 20_000
 
+        private const val AMOUNT_OF_CUTTER_OUT_PX = 1451
         const val THRESHOLD_OF_AVAILABLE_PX = 200
-        const val THRESHOLD_OF_LOCKED_PX = 600
+        const val THRESHOLD_OF_LOCKED_PX = AMOUNT_OF_CUTTER_OUT_PX + 600
         const val THRESHOLD_OF_BOUGHT_PX = 420
 
         //if bitmap have less than this white pixels - node is empty
@@ -256,5 +289,6 @@ class AdvancedDetector : Detector {
         const val THRESHOLD_OF_PURPLE_PX = 80
         const val THRESHOLD_OF_GREEN_PX = 100
         const val THRESHOLD_OF_YELLOW_PX = 200
+        const val THRESHOLD_OF_BROWN_PX = 100
     }
 }
