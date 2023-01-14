@@ -3,6 +3,7 @@ package presentation.compose.main_screen.composables.control_panel
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import model.Command
+import presentation.compose.theming.BLOOD_RED
 import presentation.compose.theming.Dimensions
 
 @Composable
@@ -36,7 +38,11 @@ fun ModesSelect(
                 enabled = selectedMode != Command.Mode.TEST,
                 onClick = {
                     onModeSelected(Command.Mode.TEST)
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Test")
             }
@@ -44,7 +50,11 @@ fun ModesSelect(
                 enabled = selectedMode != Command.Mode.SIMPLE,
                 onClick = {
                     onModeSelected(Command.Mode.SIMPLE)
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Simple")
             }
@@ -52,7 +62,11 @@ fun ModesSelect(
                 enabled = selectedMode != Command.Mode.RAREST_FIRST,
                 onClick = {
                     onModeSelected(Command.Mode.RAREST_FIRST)
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Rarest")
             }
@@ -60,7 +74,11 @@ fun ModesSelect(
                 enabled = selectedMode != Command.Mode.FURTHEST,
                 onClick = {
                     onModeSelected(Command.Mode.FURTHEST)
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Furthest")
             }

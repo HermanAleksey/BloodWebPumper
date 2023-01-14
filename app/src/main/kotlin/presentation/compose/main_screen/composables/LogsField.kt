@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -18,13 +19,12 @@ import androidx.compose.ui.unit.dp
 import helper.clearLog
 import helper.executionLogs
 import kotlinx.coroutines.launch
+import presentation.compose.theming.BLOOD_RED
 import presentation.compose.theming.Dimensions
 import java.awt.Toolkit
 import java.awt.datatransfer.Clipboard
 
 import java.awt.datatransfer.StringSelection
-
-
 
 
 @Composable
@@ -64,13 +64,17 @@ fun LogsField(modifier: Modifier = Modifier) {
             }
         }
 
-        Row (modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             Button(
                 onClick = {
                     scope.launch {
                         clearLog()
                     }
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Clear log")
             }
@@ -80,7 +84,11 @@ fun LogsField(modifier: Modifier = Modifier) {
                     scope.launch {
                         logs.value.copyToClipboard()
                     }
-                }
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
             ) {
                 Text("Copy log")
             }
@@ -89,7 +97,7 @@ fun LogsField(modifier: Modifier = Modifier) {
     }
 }
 
-fun String.copyToClipboard(){
+fun String.copyToClipboard() {
     val selection = StringSelection(this)
     val clipboard: Clipboard = Toolkit.getDefaultToolkit().systemClipboard
     clipboard.setContents(selection, selection)

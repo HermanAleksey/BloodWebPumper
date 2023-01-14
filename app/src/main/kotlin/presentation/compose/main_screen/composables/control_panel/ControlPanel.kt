@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import presentation.compose.AppViewModel
-import presentation.compose.theming.Colors
+import presentation.compose.theming.BLOOD_RED
 
 @Composable
 fun ControlPanel(
@@ -53,21 +53,33 @@ fun ControlPanel(
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,
-                    backgroundColor = Colors.BLOOD_RED
+                    backgroundColor = BLOOD_RED
                 )
             ) {
                 Text("Close logs")
             }
 
-            Button(onClick = {
-                viewModel.onOpenLogsClick()
-            }) {
+            Button(
+                onClick = {
+                    viewModel.onOpenLogsClick()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
+            ) {
                 Text("Open logs")
             }
 
-            Button(onClick = {
-                viewModel.onHelpClick()
-            }) {
+            Button(
+                onClick = {
+                    viewModel.onHelpClick()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = BLOOD_RED
+                )
+            ) {
                 Text("Help")
             }
         }

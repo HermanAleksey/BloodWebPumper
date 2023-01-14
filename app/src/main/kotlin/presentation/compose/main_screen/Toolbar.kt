@@ -6,6 +6,7 @@ import androidx.compose.foundation.gestures.forEachGesture
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.WindowScope
+import presentation.compose.theming.BLOOD_RED
 import presentation.compose.theming.Dimensions
 import java.awt.MouseInfo
 import java.awt.Point
@@ -49,6 +51,10 @@ fun MainToolbar(exitApplication: () -> Unit) {
             onClick = {
                 exitApplication()
             },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White,
+                backgroundColor = BLOOD_RED
+            ),
             modifier = Modifier.align(Alignment.CenterEnd)
         ) {
             Text("Close")
